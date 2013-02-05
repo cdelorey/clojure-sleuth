@@ -1,13 +1,14 @@
 # sleuth
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure clone of the ASCII murder mystery game Sleuth:
+http://en.wikipedia.org/wiki/Sleuth_(video_game)
 
 ## Usage
 
-FIXME
+
 
 ## License
 
-Copyright © 2013 FIXME
+Copyright © 2013 cdelorey
 
-Distributed under the Eclipse Public License, the same as Clojure.
+Distributed under the MIT/X11 License.
