@@ -1,4 +1,4 @@
-# sleuth
+# CLojure-Sleuth
 
 A Clojure clone of the ASCII murder mystery game Sleuth:
 http://en.wikipedia.org/wiki/Sleuth_(video_game)
@@ -11,4 +11,4 @@ http://en.wikipedia.org/wiki/Sleuth_(video_game)
 
 Copyright © 2013 cdelorey
 
-Distributed under the MIT/X11 License.
+Distributed under the Eclipse Public License.
