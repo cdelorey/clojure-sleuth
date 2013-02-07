@@ -27,8 +27,7 @@
 
 ; Instructions ------------------------------------------------------------
 (defmethod draw-ui :instructions [ui game screen]
-  (s/put-string screen 10 10 "Instructions:")
-  (s/put-string screen 10 11 "Press any key to return to menu."))
+  (s/put-string screen 0 0 (first (game :instructions))))
 
 ; Personalize -------------------------------------------------------------
 (defmethod draw-ui :personalize [ui game screen]

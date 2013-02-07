@@ -1,5 +1,5 @@
 (ns sleuth.ui.input
-  (:use [sleuth.ui.core :only [->UI]])
+  (:use [sleuth.ui.core :only [->UI instructions]])
   (:require [lanterna.screen :as s]))
 
 ; Definitions ------------------------------------------------------------
@@ -16,14 +16,19 @@
   (case input
     (\a \A) (assoc game :uis [(->UI :sleuth)])
     (\b \B) (assoc game :uis [(->UI :personalize)])
-    (\c \C) (assoc game :uis [(->UI :instructions)])
+    (\c \C) (assoc (assoc-in
+                     game [:instructions] instructions)
+                   :uis [(->UI :instructions)])
     (\q \Q) (assoc game :uis [])
     game))
 
 ; Instructions ------------------------------------------------------------
 (defmethod process-input :instructions [game input]
-  "Does nothing yet -- returns to menu screen."
-  (assoc game :uis [(->UI :menu)]))
+  "Cycle through instructions with each keypress.
+  Return to main menu when instructions are empty."
+  (if (empty? (next (game :instructions)))
+    (assoc game :uis [(->UI :menu)])
+    (assoc game :instructions (pop (game :instructions)))))
 
 ; Personalize -------------------------------------------------------------
 (defmethod process-input :personalize [game input]
