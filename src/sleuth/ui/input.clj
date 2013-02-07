@@ -17,7 +17,8 @@
     (\a \A) (assoc game :uis [(->UI :sleuth)])
     (\b \B) (assoc game :uis [(->UI :personalize)])
     (\c \C) (assoc game :uis [(->UI :instructions)])
-    (\q \Q) (assoc game :uis [])))
+    (\q \Q) (assoc game :uis [])
+    game))
 
 ; Instructions ------------------------------------------------------------
 (defmethod process-input :instructions [game input]
