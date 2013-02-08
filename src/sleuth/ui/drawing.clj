@@ -27,7 +27,7 @@
 
 ; Instructions ------------------------------------------------------------
 (defmethod draw-ui :instructions [ui game screen]
-  (s/put-string screen 0 0 (first (game :instructions))))
+  (s/put-sheet screen 5 0 (clojure.string/split (first (game :instructions)) #"\newline")))
 
 ; Personalize -------------------------------------------------------------
 (defmethod draw-ui :personalize [ui game screen]

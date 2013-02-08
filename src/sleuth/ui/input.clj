@@ -28,7 +28,7 @@
   Return to main menu when instructions are empty."
   (if (empty? (next (game :instructions)))
     (assoc game :uis [(->UI :menu)])
-    (assoc game :instructions (pop (game :instructions)))))
+    (assoc game :instructions (rest (game :instructions)))))
 
 ; Personalize -------------------------------------------------------------
 (defmethod process-input :personalize [game input]

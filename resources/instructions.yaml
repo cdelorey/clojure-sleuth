@@ -1,0 +1,160 @@
+[ 
+"        I N S T R U C T I O N S   F O R    S L E U T H\newline
+
+As you begin a game of SLEUTH a murder has just been committed.\newline
+
+Your job is  to mingle  with the houseguests and  to search the\newline
+
+contents of the house until you feel you have solved the crime.\newline
+
+Every game of SLEUTH is different so you must fully explore the\newline
+
+house each time that you play.\newline\newline
+
+
+You can  move through  the house by using the four  cursor keys\newline
+
+located   on  the  numeric  keypad.   Be  particularly  careful\newline
+
+when mocing  on the stairways  since you must change  direction\newline
+
+each time you move from one floor to another\newline\newline
+
+
+You can  search  rooms, people  and  objects  by  using  simple\newline
+
+phrases such as EXAMINE DOOR, SEARCH VICTORIA, or  LOOK AT JAR.\newline
+
+When  you want to  SEARCH or ACCUSE  a person you  only need to\newline
+
+type in  their  first name.  To get more  information from  the\newline
+
+guests you may  QUESTION  them, or ask  for their  ALIBIs.  The\newline
+
+characters  tend to be rather moody and will  not always answer\newline
+
+your  questions  the first time  around.  They are also  rather\newline
+
+restless and will be  moving around the house  during the game.",
+
+
+
+" The murder weapon will  be obvious as soon as you  EXAMINE the\newline
+
+correct object.  (Though you will  need to find  the maginfying\newline
+
+glass before you can  really conduct an  adequate search of the\newline
+
+various  objects.)  You probably  should not GET  the weapon at\newline
+
+first since the murderer is likely to become nervous if you are\newline
+
+carrying  the evidence  around with  you.  If you  accidentally\newline
+
+pick up  the object  at too early a point  in the game, you can\newline
+
+DROP the weapon.  But be  forewarned!  Once dropped there is no\newline
+
+telling where the object might end up!\newline\newline
+
+
+Finding the scene of the murder  tends to be somewhat difficult\newline
+
+since it is rarely possible to examine  every inch of the house\newline
+
+with  your magnifying  glass.  Fortunately for  you, one of the\newline
+
+keen-eyed guests  will probably notice  something amiss at some\newline
+
+point during the game. To discover the murder room you must pay\newline
+
+close attention to the behavior of the guests!\newline\newline
+
+
+The murderer will be the one person whose ALIBI contradicts the\newline
+
+alibis given  by the other houseguests.  Be  sure to keep track\newline
+
+of everyone's story\newline",
+
+
+" Once you have discovered both the murderer  and the murder room\newline
+
+you  should  hurry  back to  GET  the  murder  weapon, and then\newline
+
+move as  quickly as  possible to the  murder room,  GATHER  the\newline
+
+suspects  together, and  ACCUSE  whoever you believe  to be the\newline
+
+guilty  party.   But  be  careful!   The  murderer  is  a  very\newline
+
+suspicious  sort and  may decide  to get rid of  you before you\newline
+
+have a chance to make any accusations!\newline\newline
+
+
+Most of the strategy involved in playing  SLEUTH  you will have\newline
+
+to learn by playing the game.  Since  the  game  changes  every\newline
+
+time  that  you  play  you  should be sure to fully explore the\newline
+
+house.  Don't forget to explore  the room ehich has no  obvious\newline
+
+entrances since  the murderer often discards  the murder weapon\newline
+
+here.  Also, the murder is occasionally committed in this room.\newline
+
+The  occupants  will be moving  about the house  throughout the\newline
+
+game.  If you become confused at any time about who is actually\newline
+
+in the house, you can request a GUEST LIST.\newline\newline
+
+
+As your investigation proceeds the murderer  will begin to grow\newline
+
+suspicious and  will most likely  start  plottting your demise.\newline
+
+If you have not figured out who the  murderer is by this  point\newline
+
+in the game, your chances of survival are slim. Be careful!\newline",
+
+
+
+" To make things a little  more interesting, you can populate the\newline
+
+house  with  people  that  you  already know.  Just select the\newline
+
+Personalized  option  at  the  beginning  of the  game and the\newline
+
+computer  will prompt you  for the names of  seven people (six\newline
+
+suspects and on victim!).\newline\newline
+
+
+SLEUTH  uses a fairly limited  vocabulary, so only  one or  two\newline
+
+worlds should be  necessary to communicate  your intentions. If\newline
+
+you like, you can abbreviate  QUESTION  as  Q  and  EXAMINE  as\newline
+
+EX.  If  you are having difficulties, you can get a summary  of\newline
+
+these instructions by typing HELP. You may also QUIT or RESTART\newline
+
+at  any  time  during  the  game.  When  you  exit  from  these \newline
+
+instructions you should be all set to enter the world of SLEUTH.\newline
+
+Good luck!\newline\newline
+
+
+P.S.  You  cannot  use  the  four  cursor  keys  while  you are\newline
+
+typing in other information.  To clear  the message line on the\newline
+
+bottom of the screen simply use the  backspace key or  the  ESC\newline
+
+key.\newline"
+]

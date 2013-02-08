@@ -1,8 +1,9 @@
-(ns sleuth.ui.core)
+(ns sleuth.ui.core
+  (:require [clj-yaml.core :as yaml]))
 
 ;Definitions ------------------------------------------------------------------
 (def instructions 
-  (list "First page." "Second page." "Third page." "Fourth page."))
+  (yaml/parse-string (slurp "resources/instructions.yaml")))
 
 ;Data Structures --------------------------------------------------------------
 (defrecord UI [kind])
