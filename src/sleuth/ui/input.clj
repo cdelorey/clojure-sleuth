@@ -1,5 +1,6 @@
 (ns sleuth.ui.input
-  (:use [sleuth.ui.core :only [->UI instructions]])
+  (:use [sleuth.ui.core :only [->UI instructions]]
+        [sleuth.world :only [->World load-house]])
   (:require [lanterna.screen :as s]))
 
 ; Definitions ------------------------------------------------------------
@@ -12,9 +13,17 @@
   (assoc game :uis [(->UI :menu)]))
 
 ; Menu ------------------------------------------------------------------
+(defn new-game [game]
+  (let [new-house (rand-nth
+                    ["resources/house22.txt" "resources/house22.txt"])]
+    (-> game
+        (assoc :world 
+              (->World (load-house new-house) () {}))
+        (assoc :uis [(->UI :sleuth)]))))
+
 (defmethod process-input :menu [game input]
   (case input
-    (\a \A) (assoc game :uis [(->UI :sleuth)])
+    (\a \A) (new-game game) 
     (\b \B) (assoc game :uis [(->UI :personalize)])
     (\c \C) (assoc (assoc-in
                      game [:instructions] instructions)
@@ -37,9 +46,8 @@
 
 ; Sleuth ------------------------------------------------------------------
 (defmethod process-input :sleuth [game input]
-  "Does nothing yet -- returns to menu screen."
+  ;"Does nothing yet -- returns to menu screen."
   (assoc game :uis [(->UI :menu)]))
-
 
 ; Input processing -------------------------------------------------------
 (defn get-input [game screen]

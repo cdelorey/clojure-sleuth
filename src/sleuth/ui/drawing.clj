@@ -1,4 +1,5 @@
 (ns sleuth.ui.drawing
+  (:use [sleuth.utils :only [map2d]])
   (:require [lanterna.screen :as s]))
 
 ; Definitions -------------------------------------------------------------
@@ -27,15 +28,27 @@
 
 ; Instructions ------------------------------------------------------------
 (defmethod draw-ui :instructions [ui game screen]
-  (s/put-sheet screen 5 0 (clojure.string/split (first (game :instructions)) #"\newline")))
+  (s/put-sheet screen 5 0 (clojure.string/split 
+                            (first (game :instructions)) #"\newline")))
 
 ; Personalize -------------------------------------------------------------
 (defmethod draw-ui :personalize [ui game screen]
   (s/put-string screen 10 10 "Press any key to return to menu."))
 
-; Sleuth ------------------------------------------------------------------
+; Sleuth ------------------------------------------------------------------  
+(defn draw-house [screen tiles]
+  (doseq [y (range 0 (count tiles))
+          :let [rowtiles (tiles y)]]
+    (doseq [x (range 0 (count (tiles 0)))
+            :let [{:keys [glyph color]} (rowtiles x)]]
+      (s/put-string screen x y glyph {:fg color}))))
+
+
 (defmethod draw-ui :sleuth [ui game screen]
-  (s/put-string screen 10 10 "Press any key to return to menu."))
+  (let [world (:world game)
+        {:keys [tiles]} world]
+    (draw-house screen tiles))
+
 
 ; Game --------------------------------------------------------------------
 (defn draw-game [game screen]
