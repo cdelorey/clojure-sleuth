@@ -43,11 +43,26 @@
             :let [{:keys [glyph color]} (rowtiles x)]]
       (s/put-string screen x y glyph {:fg color}))))
 
+(defn draw-message [screen message]
+  (s/put-string screen 0 19 message {:fg :white}))
+
+(defn draw-commandline [screen commandline]
+  (s/put-string screen 0 24 (str ">" commandline) {:fg :white})
+  (s/move-cursor screen (+ (count commandline) 2) 24))
+
+(defn draw-player [screen player]
+  (let [[x y] (:location player)]
+    (println (:location player))
+    (s/put-string screen x y (:glyph player) {:fg :white})))
 
 (defmethod draw-ui :sleuth [ui game screen]
   (let [world (:world game)
-        {:keys [tiles]} world]
-    (draw-house screen tiles))
+        {:keys [tiles message commandline entities]} world
+        player (:player entities)]
+    (draw-house screen tiles)
+    (draw-message screen message)
+    (draw-commandline screen commandline)
+    (draw-player screen player)))
 
 
 ; Game --------------------------------------------------------------------

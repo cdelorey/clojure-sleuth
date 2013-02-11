@@ -1,6 +1,7 @@
 (ns sleuth.ui.input
   (:use [sleuth.ui.core :only [->UI instructions]]
-        [sleuth.world :only [->World load-house]])
+        [sleuth.world :only [->World load-house]]
+        [sleuth.entities.player :only [make-player]])
   (:require [lanterna.screen :as s]))
 
 ; Definitions ------------------------------------------------------------
@@ -15,10 +16,11 @@
 ; Menu ------------------------------------------------------------------
 (defn new-game [game]
   (let [new-house (rand-nth
-                    ["resources/house22.txt" "resources/house22.txt"])]
+                    ["resources/house22.txt" "resources/house22.txt"])
+        new-world (->World (load-house new-house) "oh hi" "what?" {})]
     (-> game
-        (assoc :world 
-              (->World (load-house new-house) () {}))
+        (assoc :world new-world)
+        (assoc-in [:world :entities :player] (make-player new-world))
         (assoc :uis [(->UI :sleuth)]))))
 
 (defmethod process-input :menu [game input]
