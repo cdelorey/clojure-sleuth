@@ -48,7 +48,7 @@
 
 (defn draw-commandline [screen commandline]
   (s/put-string screen 0 24 (str ">" commandline) {:fg :white})
-  (s/move-cursor screen (+ (count commandline) 2) 24))
+  (s/move-cursor screen (+ (count commandline) 1) 24))
 
 (defn draw-player [screen player]
   (let [[x y] (:location player)]

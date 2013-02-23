@@ -1,7 +1,8 @@
 (ns sleuth.ui.input
   (:use [sleuth.ui.core :only [->UI instructions]]
         [sleuth.world :only [->World load-house]]
-        [sleuth.entities.player :only [make-player move-player]])
+        [sleuth.entities.player :only [make-player move-player]]
+        [sleuth.commands :only [process-command]])
   (:require [lanterna.screen :as s]))
 
 ; Definitions ------------------------------------------------------------
@@ -17,7 +18,7 @@
 (defn new-game [game]
   (let [new-house (rand-nth
                     ["resources/house22.txt" "resources/house22.txt"])
-        new-world (->World (load-house new-house) "oh hi" "what?" {})]
+        new-world (->World (load-house new-house) "oh hi" "" {})]
     (-> game
         (assoc :world new-world)
         (assoc-in [:world :entities :player] (make-player new-world))
@@ -49,12 +50,36 @@
 ; Sleuth ------------------------------------------------------------------
 (defmethod process-input :sleuth [game input]
   (case input
-    :backspace (assoc game :uis [(->UI :menu)]) ; testing
+    :escape (assoc game :uis [(->UI :menu)]) ; testing
 
-    :left   (update-in game [:world] move-player :w)
-    :down   (update-in game [:world] move-player :s)
-    :up     (update-in game [:world] move-player :n)
-    :right  (update-in game [:world] move-player :e)
+    :left (-> game   
+              (update-in [:world] move-player :w)
+              (assoc-in [:world :message] ""))
+    :down (-> game
+              (update-in [:world] move-player :s)
+              (assoc-in [:world :message] ""))
+    :up (-> game
+            (update-in [:world] move-player :n)
+            (assoc-in [:world :message] ""))
+    :right (-> game
+               (update-in [:world] move-player :e)
+               (assoc-in [:world :message] ""))
+
+    :backspace (let [world (:world game)
+                     {:keys [commandline]} world]
+                 (assoc-in game [:world :commandline]
+                           (subs commandline 0 
+                                 (max (- (count commandline) 1) 0))))
+    
+    :enter (let [world (:world game)]
+             (-> game
+               (assoc-in [:world] (process-command world))
+               (assoc-in [:world :commandline] "")))
+
+    (\a \b \c \d \e \f \g \h \i \j \k \l \m \n \o \p \q \r \s \t \u \v \w \x \y \z)
+    (let [world (:world game)
+          {:keys [commandline]} world]
+      (assoc-in game [:world :commandline] (str commandline input))) 
 
     game))
 
