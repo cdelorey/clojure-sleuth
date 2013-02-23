@@ -52,7 +52,6 @@
 
 (defn draw-player [screen player]
   (let [[x y] (:location player)]
-    (println (:location player))
     (s/put-string screen x y (:glyph player) {:fg :white})))
 
 (defmethod draw-ui :sleuth [ui game screen]

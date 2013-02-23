@@ -1,7 +1,7 @@
 (ns sleuth.ui.input
   (:use [sleuth.ui.core :only [->UI instructions]]
         [sleuth.world :only [->World load-house]]
-        [sleuth.entities.player :only [make-player]])
+        [sleuth.entities.player :only [make-player move-player]])
   (:require [lanterna.screen :as s]))
 
 ; Definitions ------------------------------------------------------------
@@ -48,10 +48,18 @@
 
 ; Sleuth ------------------------------------------------------------------
 (defmethod process-input :sleuth [game input]
-  ;"Does nothing yet -- returns to menu screen."
-  (assoc game :uis [(->UI :menu)]))
+  (case input
+    :backspace (assoc game :uis [(->UI :menu)]) ; testing
+
+    :left   (update-in game [:world] move-player :w)
+    :down   (update-in game [:world] move-player :s)
+    :up     (update-in game [:world] move-player :n)
+    :right  (update-in game [:world] move-player :e)
+
+    game))
 
 ; Input processing -------------------------------------------------------
-(defn get-input [game screen]
+(defn get-input
   "Gets user's keypress."
+  [game screen]
   (assoc game :input (s/get-key-blocking screen)))

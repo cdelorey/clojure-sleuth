@@ -1,7 +1,13 @@
 (ns sleuth.utils)
 
-(defn get-lines-from-file [filename]
+(defn abs [i]
+  (if (neg? i)
+    (- i)
+    i))
+
+(defn get-lines-from-file 
   "Returns a sequence of the lines in filename."
+  [filename]
   (with-open [r (clojure.java.io/reader filename)]
     (doall (line-seq r))))
 
