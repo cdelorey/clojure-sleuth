@@ -54,16 +54,16 @@
 
     :left (-> game   
               (update-in [:world] move-player :w)
-              (assoc-in [:world :message] ""))
+              (assoc-in [:world :message] (str (get-in game [:world :entities :player :location]))))
     :down (-> game
               (update-in [:world] move-player :s)
-              (assoc-in [:world :message] ""))
+              (assoc-in [:world :message] (str (get-in game [:world :entities :player :location]))))
     :up (-> game
             (update-in [:world] move-player :n)
-            (assoc-in [:world :message] ""))
+            (assoc-in [:world :message] (str (get-in game [:world :entities :player :location]))))
     :right (-> game
                (update-in [:world] move-player :e)
-               (assoc-in [:world :message] ""))
+               (assoc-in [:world :message] (str (get-in game [:world :entities :player :location]))))
 
     :backspace (let [world (:world game)
                      {:keys [commandline]} world]
