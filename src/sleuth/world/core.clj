@@ -1,4 +1,4 @@
-(ns sleuth.world)
+(ns sleuth.world.core)
 
 ; Constants ------------------------------------------------------------------
 (def world-size [79 17])
@@ -106,7 +106,7 @@
    :antique-oil-lamp "It seems to serve no useful purpose."
    :oak-reading-stand "The oak stand is quite heavy."
    :bottle-of-vitamins "The vitamins are fortified with iron!"
-   :gold-gilt-mirror ""
+   :gold-gilt-mirror "The mirror is broken."
    :empty-pewter-mug "The mug appears to be quite old."
    :silver-bottle-opener "The bottle opener appears to get a great deal of use."
    :granite-paperweight "There is nothing special about the paperweight."

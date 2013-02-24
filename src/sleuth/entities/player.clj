@@ -3,7 +3,7 @@
         [sleuth.entities.core :only [add-aspect]]
         [sleuth.entities.aspects.mobile :only [Mobile move can-move?]]
         [sleuth.coords :only [destination-coords]]
-        [sleuth.world :only [get-entity-at]]))
+        [sleuth.world.core :only [get-entity-at]]))
 
 (defrecord Player [id glyph location])
 

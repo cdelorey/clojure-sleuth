@@ -1,6 +1,6 @@
 (ns sleuth.entities.aspects.mobile
   (:use [sleuth.entities.core :only [defaspect]]
-        [sleuth.world :only [is-empty?]]))
+        [sleuth.world.core :only [is-empty?]]))
 
 (defaspect Mobile
   (move [this dest world]

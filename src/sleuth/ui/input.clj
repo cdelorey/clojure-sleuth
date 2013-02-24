@@ -1,6 +1,6 @@
 (ns sleuth.ui.input
   (:use [sleuth.ui.core :only [->UI instructions]]
-        [sleuth.world :only [->World load-house]]
+        [sleuth.world.core :only [->World load-house]]
         [sleuth.entities.player :only [make-player move-player]]
         [sleuth.commands :only [process-command]])
   (:require [lanterna.screen :as s]))
