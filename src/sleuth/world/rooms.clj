@@ -1,4 +1,5 @@
-(ns sleuth.world.rooms)
+(ns sleuth.world.rooms
+  (require clojure.set))
 
 (defrecord Rect [x y width height])
 
@@ -126,6 +127,8 @@
    :ornate-hourglass "It is an attractive timepiece, but not very practical."
    :candelabra "This is a very ornate silver candelabra."})
 
+(def portals #{ #{[16 16] [60 16]}  #{[17 16] [61 16]} #{[18 16][62 16]} })
+
 ; Room Functions ---------------------------------------------------------------
 (defn in-rect? 
  "Return true if the given coordinates are contained in the given rect."
@@ -151,4 +154,19 @@
   "Return a room description for the coordinates [x y]"
   [[x y]]
   ((get-room-name [x y]) room-descriptions))
+
+
+; Portal Functions -----------------------------------------------------------
+(defn portal? 
+  "Return true if [x y] are contained in one of the portal sets."
+  [[x y]]
+  (if (empty? (filter #(contains? % [x y]) portals))
+    false 
+    true))
+
+(defn get-portal
+  "Given one pair of coordinates in a portal set, return the other pair."
+  [[x y]]
+  (first (clojure.set/difference
+           (some #(when (contains? % [x y]) %) portals) #{[x y]})))
 
