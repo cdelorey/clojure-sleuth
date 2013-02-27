@@ -128,3 +128,29 @@
    :ornate-hourglass "It is an attractive timepiece, but not very practical."
    :candelabra "This is a very ornate silver candelabra."})
 
+; Room Functions ---------------------------------------------------------------
+(defn in-rect? 
+ "Return true if the given coordinates are contained in the given rect."
+ [[x-coord y-coord] rect]
+  (let [{:keys [x y width height]} rect]
+    (if (and
+      (and (>= x-coord x) (< x-coord (+ x width)))
+      (and (>= y-coord y) (< y-coord (+ y height))))
+  true
+  false)))
+
+(defn get-room 
+  "Return the room containing the coordinates [x y]."
+  [[x y]]
+  (filter #(in-rect? [x y] (second %)) room-rects)) 
+
+(defn get-room-name
+  "Return the name of the room for the coordinates [x y]"
+  [[x y]]
+  (first (keys (get-room [x y]))))
+
+(defn get-room-description
+  "Return a room description for the coordinates [x y]"
+  [[x y]]
+  ((get-room-name [x y]) room-descriptions))
+
