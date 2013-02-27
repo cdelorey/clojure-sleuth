@@ -60,7 +60,7 @@
 
     :down (let [new-game (update-in game [:world] move-player :s)
                 new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :commandline] new-location) ;testing
+            (println new-location) ;testing
             (assoc-in new-game [:world :message] (get-room-description new-location)))
     
     :up (let [new-game (update-in game [:world] move-player :n)

@@ -3,7 +3,8 @@
         [sleuth.entities.core :only [add-aspect]]
         [sleuth.entities.aspects.mobile :only [Mobile move can-move?]]
         [sleuth.coords :only [destination-coords]]
-        [sleuth.world.core :only [get-entity-at]]))
+        [sleuth.world.core :only [get-entity-at]]
+        [sleuth.world.rooms :only [portal? get-portal]]))
 
 (defrecord Player [id glyph location])
 
@@ -20,6 +21,9 @@
   (let [player (get-in world [:entities :player])
         target (destination-coords (:location player) dir)
         entity-at-target (get-entity-at world target)]
+    (println (str "Location: " (:location player)))
+    (println (str "Target: " target))
     (cond
+      (portal? target) (assoc-in world [:entities :player :location] (get-portal target))
       (can-move? player target world) (move player target world)
       :else world)))

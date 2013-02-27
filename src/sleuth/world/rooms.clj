@@ -127,7 +127,13 @@
    :ornate-hourglass "It is an attractive timepiece, but not very practical."
    :candelabra "This is a very ornate silver candelabra."})
 
-(def portals #{ #{[16 16] [60 16]}  #{[17 16] [61 16]} #{[18 16][62 16]} })
+(def portals {[16 16] [60 15]
+              [17 16] [61 15]
+              [18 16] [62 15]
+              [60 16] [16 15]
+              [61 16] [17 15]
+              [62 16] [18 15]})
+
 
 ; Room Functions ---------------------------------------------------------------
 (defn in-rect? 
@@ -153,20 +159,19 @@
 (defn get-room-description
   "Return a room description for the coordinates [x y]"
   [[x y]]
+  ;(println [x y]) ;testing
   ((get-room-name [x y]) room-descriptions))
 
 
 ; Portal Functions -----------------------------------------------------------
 (defn portal? 
-  "Return true if [x y] are contained in one of the portal sets."
+  "Return true if [x y] is a key in portals."
   [[x y]]
-  (if (empty? (filter #(contains? % [x y]) portals))
-    false 
-    true))
+  (if (contains? portals [x y])
+    true
+    false))
 
 (defn get-portal
-  "Given one pair of coordinates in a portal set, return the other pair."
+  "Return the value in portals for the key [x y]"
   [[x y]]
-  (first (clojure.set/difference
-           (some #(when (contains? % [x y]) %) portals) #{[x y]})))
-
+  (get portals [x y]))
