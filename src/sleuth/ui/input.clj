@@ -52,18 +52,24 @@
   (case input
     :escape (assoc game :uis [(->UI :menu)]) ; testing
 
-    :left (-> game   
-              (update-in [:world] move-player :w)
-              (assoc-in [:world :message] (str (get-in game [:world :entities :player :location]))))
-    :down (-> game
-              (update-in [:world] move-player :s)
-              (assoc-in [:world :message] (str (get-in game [:world :entities :player :location]))))
-    :up (-> game
-            (update-in [:world] move-player :n)
-            (assoc-in [:world :message] (str (get-in game [:world :entities :player :location]))))
-    :right (-> game
-               (update-in [:world] move-player :e)
-               (assoc-in [:world :message] (str (get-in game [:world :entities :player :location]))))
+:left (let [new-game (update-in game [:world] move-player :w)
+            new-location (get-in new-game [:world :entities :player :location])]
+            (assoc-in new-game [:world :commandline] new-location)) ;testing
+            ;(assoc-in new-game [:world :message] (get-room-description new-location)))    
+    :down (let [new-game (update-in game [:world] move-player :s)
+                new-location (get-in new-game [:world :entities :player :location])]
+            (assoc-in new-game [:world :commandline] new-location)) ;testing
+            ;(assoc-in new-game [:world :message] (get-room-description new-location)))
+    
+    :up (let [new-game (update-in game [:world] move-player :n)
+              new-location (get-in new-game [:world :entities :player :location])]
+            (assoc-in new-game [:world :commandline] new-location)) ;testing
+            ;(assoc-in new-game [:world :message] (get-room-description new-location)))    
+    
+    :right (let [new-game (update-in game [:world] move-player :e)
+                 new-location (get-in new-game [:world :entities :player :location])]
+            (assoc-in new-game [:world :commandline] new-location)) ;testing
+            ;(assoc-in new-game [:world :message] (get-room-description new-location)))   
 
     :backspace (let [world (:world game)
                      {:keys [commandline]} world]
