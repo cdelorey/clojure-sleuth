@@ -1,5 +1,7 @@
 (ns sleuth.world.rooms)
 
+(defrecord Rect [x y width height])
+
 (def room-rects
   {:living-room (->Rect 1 10 14 6)
    :dining-room (->Rect 1 1 14 6)
@@ -8,7 +10,27 @@
    :pantry (->Rect 24 7 14 3)
    :conservatory (->Rect 24 11 14 5)
    :main-hall (->Rect 16 1 7 12)
-   :lower-stairs (->Rect 16 12 3 3)})
+   :main-hall2 (->Rect 20 13 3 4)
+   :lower-stairs (->Rect 16 13 3 3)
+   :master-bathroom (->Rect 41 1 14 4)
+   :library (->Rect 41 6 14 5)
+   :guest-room (->Rect 41 12 14 4)
+   :master-bedroom (->Rect 64 1 14 7)
+   :study (->Rect 64 9 14 7)
+   :upper-stairs (->Rect 60 13 3 3)
+   :upstairs-hall (->Rect 56 1 7 12)
+   :upstairs-hall2 (->Rect 56 13 3 3)
+   :doorway-living-room (->Rect 15 11 1 1)
+   :doorway-dining-room (->Rect 15 3 1 1)
+   :doorway-kitchen (->Rect 23 4 1 1)
+   :doorway-pantry (->Rect 31 6 1 1)
+   :doorway-conservatory (->Rect 23 13 1 1)
+   :doorway-master-bathroom (->Rect 55 2 1 1)
+   :doorway-library (->Rect 55 8 1 1)
+   :doorway-guest-room (->Rect 55 14 1 1)
+   :doorway-master-bedroom (->Rect 63 4 1 1)
+   :doorway-study (->Rect 63 10 1 1)})
+
 
 ;TODO: load this from a file
 (def room-descriptions
