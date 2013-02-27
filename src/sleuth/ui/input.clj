@@ -1,6 +1,7 @@
 (ns sleuth.ui.input
   (:use [sleuth.ui.core :only [->UI instructions]]
         [sleuth.world.core :only [->World load-house]]
+        [sleuth.world.rooms :only [get-room-description]]
         [sleuth.entities.player :only [make-player move-player]]
         [sleuth.commands :only [process-command]])
   (:require [lanterna.screen :as s]))
@@ -54,22 +55,23 @@
 
 :left (let [new-game (update-in game [:world] move-player :w)
             new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :commandline] new-location)) ;testing
-            ;(assoc-in new-game [:world :message] (get-room-description new-location)))    
+            (assoc-in new-game [:world :commandline] new-location) ;testing
+            (assoc-in new-game [:world :message] (get-room-description new-location)))
+
     :down (let [new-game (update-in game [:world] move-player :s)
                 new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :commandline] new-location)) ;testing
-            ;(assoc-in new-game [:world :message] (get-room-description new-location)))
+            (assoc-in new-game [:world :commandline] new-location) ;testing
+            (assoc-in new-game [:world :message] (get-room-description new-location)))
     
     :up (let [new-game (update-in game [:world] move-player :n)
               new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :commandline] new-location)) ;testing
-            ;(assoc-in new-game [:world :message] (get-room-description new-location)))    
+            (assoc-in new-game [:world :commandline] new-location) ;testing
+            (assoc-in new-game [:world :message] (get-room-description new-location)))    
     
     :right (let [new-game (update-in game [:world] move-player :e)
                  new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :commandline] new-location)) ;testing
-            ;(assoc-in new-game [:world :message] (get-room-description new-location)))   
+            (assoc-in new-game [:world :commandline] new-location) ;testing
+            (assoc-in new-game [:world :message] (get-room-description new-location)))   
 
     :backspace (let [world (:world game)
                      {:keys [commandline]} world]

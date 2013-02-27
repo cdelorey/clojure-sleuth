@@ -44,7 +44,7 @@
       (s/put-string screen x y glyph {:fg color}))))
 
 (defn draw-message [screen message]
-  (s/put-string screen 0 19 message {:fg :white}))
+  (s/put-sheet screen 0 19 (clojure.string/split message #"\n")))
 
 (defn draw-commandline [screen commandline]
   (s/put-string screen 0 24 (str ">" commandline) {:fg :white})

@@ -32,36 +32,33 @@
    :doorway-study (->Rect 63 10 1 1)})
 
 
-;TODO: load this from a file
 (def room-descriptions
-  {:living-room "You have entered the living room. A large divan sits in the middle of the room.\newline
-                Many overstuffed chairs are arranged around the edge of the room."
-   :dining-room "You are now in the dining room. A large oak table dominates the room. A silver \newline
-                serving set sits on a smaller table in one corner of the room."
-   :secret-passage "This is a secret passageway. The corridor is covered with dusty cobwebs. \newline
-                   In the dim light you can make out the traces of footprints on the dusty floor."
-   :kitchen "You are in a spacious kitchen. A large butcher block table sits in the middle \newline
-            of the room. The walls are lined with bright brass pots and pans."
-   :pantry "You are standing in a pantry. The shelves are filled with a dazzling array of \newline
-           imported delicacies. A large tin of salmon lies on the floor."
+  {:living-room "You have entered the living room. A large divan sits in the middle of the room.\nMany overstuffed chairs are arranged around the edge of the room."
+   :dining-room "You are now in the dining room. A large oak table dominates the room. A silver \nserving set sits on a smaller table in one corner of the room."
+   :secret-passage "This is a secret passageway. The corridor is covered with dusty cobwebs. \nIn the dim light you can make out the traces of footprints on the dusty floor."
+   :kitchen "You are in a spacious kitchen. A large butcher block table sits in the middle \nof the room. The walls are lined with bright brass pots and pans."
+   :pantry "You are standing in a pantry. The shelves are filled with a dazzling array of \nimported delicacies. A large tin of salmon lies on the floor."
    :conservatory "This is the conservatory. A baby grand piano sits on a mink throw rug."
-   :main-hall "You are walking down the main hall. The walls are covered with a variety of \newline
-              old master paintings."
-   :lower-stairs "You are on the lower steps of the staircase. The oak steps are highly polished \newline
-                 and somewhat slippery."
-   :upper-stairs "You are standing on the upper half of the staircase. One of the steps creaks \newline
-                 rather loudly."
-   :upstairs-hall "You are walking through the upstairs hall. Discrete oriental sil screens \newline
-                  decorate the walls."
-   :study "You are standing in a well appointed study. Many papers are strewn about. \newline
-          Unlike the other rooms in the house, the study appears very lived-in."
-   :master-bedroom "This is the master bedroom. A canopied bed dominates the room. To one side \newline
-                   of the bed is a beautifully hand-carved dresser."
+   :main-hall "You are walking down the main hall. The walls are covered with a variety of \nold master paintings."
+   :main-hall2 "You are walking down the main hall. The walls are covered with a variety of \nold master paintings."
+   :lower-stairs "You are on the lower steps of the staircase. The oak steps are highly polished \nand somewhat slippery."
+   :upper-stairs "You are standing on the upper half of the staircase. One of the steps creaks \nrather loudly."
+   :upstairs-hall "You are walking through the upstairs hall. Discrete oriental silk screens\ndecorate the walls."
+   :upstairs-hall2 "You are walking through the upstairs hall. Discrete oriental silk screens\ndecorate the walls."
+   :study "You are standing in a well appointed study. Many papers are strewn about. \nUnlike the other rooms in the house, the study appears very lived-in."
+   :master-bedroom "This is the master bedroom. A canopied bed dominates the room. To one side \nof the bed is a beautifully hand-carved dresser."
    :master-bathroom "You are standing in the master bathroom. Marble fixtures adorn the room."
-   :library "This room is a comfortably furnished library. The shelves are lined with a \newline
-            large selection of dusty books."
-   :guest-room "You are standing in the guest room. The room is decorated in a tasteful \newline
-               oriental style, but looks rather barren."})
+   :library "This room is a comfortably furnished library. The shelves are lined with a \nlarge selection of dusty books."
+   :guest-room "You are standing in the guest room. The room is decorated in a tasteful \noriental style, but looks rather barren."
+   :doorway-living-room "This doorway leads into the living room."
+   :doorway-dining-room "This doorway leads into the dining room."
+   :doorway-kitchen "This door leads into the kitchen."
+   :doorway-conservatory "This is the entrance to the conservatory."
+   :doorway-master-bathroom "This is the entrance to the bathroom."
+   :doorway-library "This door leads into the library."
+   :doorway-guest-room "This door leads into the guest room."
+   :doorway-master-bedroom "This is the entrance to the master bedroom"
+   :doorway-study "This door leads into the study."})
 
 (def room-items
     {:conservatory {:oboe "An oboe lies nestled in the throw rug."
