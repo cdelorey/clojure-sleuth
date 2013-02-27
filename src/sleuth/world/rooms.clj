@@ -23,7 +23,7 @@
    :doorway-living-room (->Rect 15 11 1 1)
    :doorway-dining-room (->Rect 15 3 1 1)
    :doorway-kitchen (->Rect 23 4 1 1)
-   :doorway-pantry (->Rect 31 6 1 1)
+   :doorway-pantry (->Rect 30 6 3 1)
    :doorway-conservatory (->Rect 23 13 1 1)
    :doorway-master-bathroom (->Rect 55 2 1 1)
    :doorway-library (->Rect 55 8 1 1)
@@ -58,7 +58,8 @@
    :doorway-library "This door leads into the library."
    :doorway-guest-room "This door leads into the guest room."
    :doorway-master-bedroom "This is the entrance to the master bedroom"
-   :doorway-study "This door leads into the study."})
+   :doorway-study "This door leads into the study."
+   :doorway-pantry "This is the entrance to the pantry."})
 
 (def room-items
     {:conservatory {:oboe "An oboe lies nestled in the throw rug."

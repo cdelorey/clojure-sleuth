@@ -14,7 +14,7 @@
 (add-aspect Player Mobile)
 
 (defn make-player [world]
-  (->Player :player "@" [42 1])) 
+  (->Player :player "@" [2 2])) 
 
 (defn move-player [world dir]
   (let [player (get-in world [:entities :player])
