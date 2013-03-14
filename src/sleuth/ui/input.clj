@@ -52,25 +52,21 @@
   (case input
     :escape (assoc game :uis [(->UI :menu)]) ; testing
 
-:left (let [new-game (update-in game [:world] move-player :w)
+    :left (let [new-game (update-in game [:world] move-player :w)
             new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :commandline] new-location) ;testing
-            (assoc-in new-game [:world :message] (get-room-description new-location)))
+            (assoc-in new-game [:world :message] (get-room-description new-location new-game)))
 
     :down (let [new-game (update-in game [:world] move-player :s)
                 new-location (get-in new-game [:world :entities :player :location])]
-            (println new-location) ;testing
-            (assoc-in new-game [:world :message] (get-room-description new-location)))
+            (assoc-in new-game [:world :message] (get-room-description new-location new-game)))
     
     :up (let [new-game (update-in game [:world] move-player :n)
               new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :commandline] new-location) ;testing
-            (assoc-in new-game [:world :message] (get-room-description new-location)))    
+            (assoc-in new-game [:world :message] (get-room-description new-location new-game)))    
     
     :right (let [new-game (update-in game [:world] move-player :e)
                  new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :commandline] new-location) ;testing
-            (assoc-in new-game [:world :message] (get-room-description new-location)))   
+            (assoc-in new-game [:world :message] (get-room-description new-location new-game)))   
 
     :backspace (let [world (:world game)
                      {:keys [commandline]} world]

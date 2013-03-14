@@ -38,7 +38,7 @@
 (defn new-world []
   (let [new-house (rand-nth ["resources/house22.txt"])
         world (->World (load-house new-house) "" "" {} {})
-        world (assoc-in world [:items] random-items)]
+        world (assoc-in world [:items] (random-items))]
     world))
     
 

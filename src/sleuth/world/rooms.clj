@@ -135,6 +135,17 @@
               [62 16] [18 15]})
 
 
+; Item Functions --------------------------------------------------------------
+(defn random-items []
+  (into {} (for [[k v] room-items]
+             [k (rand-nth (vec v))])))
+
+(defn get-item-description
+  "Returns the description of the item in room-name"
+  [room-name game]
+  (let [items (get-in game [:world :items])]
+    (second (room-name items))))
+
 ; Room Functions ---------------------------------------------------------------
 (defn in-rect? 
  "Return true if the given coordinates are contained in the given rect."
@@ -158,10 +169,11 @@
 
 (defn get-room-description
   "Return a room description for the coordinates [x y]"
-  [[x y]]
-  ;(println [x y]) ;testing
-  ((get-room-name [x y]) room-descriptions))
-
+  [[x y] game]
+  (let [room-name (get-room-name [x y])]
+    (if-let [item-description (get-item-description room-name game)]
+      (str (room-name room-descriptions)  "\n" item-description)
+      (room-name room-descriptions))))
 
 ; Portal Functions -----------------------------------------------------------
 (defn portal? 
@@ -176,9 +188,4 @@
   [[x y]]
   (get portals [x y]))
 
-
-; Item Functions --------------------------------------------------------------
-(defn random-items []
-  (into {} (for [[k v] room-items]
-             [k (rand-nth (vec v))])))
 
