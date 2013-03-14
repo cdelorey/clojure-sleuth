@@ -125,7 +125,8 @@
    :marble-bust-of-beethoven "It is a run-of-the-mill marble bust."
    :tin-of-salmon "It is an unusually large tin of salmon."
    :ornate-hourglass "It is an attractive timepiece, but not very practical."
-   :candelabra "This is a very ornate silver candelabra."})
+   :candelabra "This is a very ornate silver candelabra."
+   :magnifying-glass "It looks as though it might prove useful in your investigation."})
 
 (def portals {[16 16] [60 15]
               [17 16] [61 15]
@@ -174,6 +175,12 @@
     (if-let [item-description (get-item-description room-name game)]
       (str (room-name room-descriptions)  "\n" item-description)
       (room-name room-descriptions))))
+
+(defn place-magnifying-glass 
+  "Add the magnifying glass to a random room in game."
+  [game]
+  (assoc-in game [:items (rand-nth (keys room-items))] 
+            [:magnifying-glass "A magnifying glass is lying on the floor."]))
 
 ; Portal Functions -----------------------------------------------------------
 (defn portal? 
