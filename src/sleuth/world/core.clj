@@ -1,10 +1,11 @@
-(ns sleuth.world.core)
+(ns sleuth.world.core
+  (:use [sleuth.world.rooms :only [random-items]]))
 
 ; Constants ------------------------------------------------------------------
 (def world-size [79 17])
 
 ; Data Structures ------------------------------------------------------------
-(defrecord World [tiles message commandline entities])
+(defrecord World [tiles message commandline entities items])
 (defrecord Tile [kind glyph color])
 (defrecord Rect [x y width height])
 
@@ -32,6 +33,14 @@
               (read-row []
                 (vec (repeatedly cols read-tile)))]
         (vec (repeatedly rows read-row))))))
+
+
+(defn new-world []
+  (let [new-house (rand-nth ["resources/house22.txt"])
+        world (->World (load-house new-house) "" "" {} {})
+        world (assoc-in world [:items] random-items)]
+    world))
+    
 
 
 ; Querying the world ---------------------------------------------------------

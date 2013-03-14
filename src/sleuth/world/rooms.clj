@@ -175,3 +175,10 @@
   "Return the value in portals for the key [x y]"
   [[x y]]
   (get portals [x y]))
+
+
+; Item Functions --------------------------------------------------------------
+(defn random-items []
+  (into {} (for [[k v] room-items]
+             [k (rand-nth (vec v))])))
+
