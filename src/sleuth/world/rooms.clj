@@ -153,6 +153,11 @@
   (let [items (get-in world [:items])]
     (first (room-name items))))
 
+(defn get-item-examination
+  "Returns the description of an item upon examination."
+  [item-name]
+  (item-name item-descriptions))
+
 ; Room Functions ---------------------------------------------------------------
 (defn in-rect? 
  "Return true if the given coordinates are contained in the given rect."
