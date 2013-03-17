@@ -5,7 +5,7 @@
 (def world-size [79 17])
 
 ; Data Structures ------------------------------------------------------------
-(defrecord World [tiles message commandline entities items inventory])
+(defrecord World [tiles message commandline entities items flags])
 (defrecord Tile [kind glyph color])
 (defrecord Rect [x y width height])
 
@@ -37,7 +37,10 @@
 
 (defn new-world []
   (let [new-house (rand-nth ["resources/house22.txt"])
-        world (->World (load-house new-house) "" "" {} {} [])
+        world (->World (load-house new-house) "" "" {} {} 
+                       {:found-magnifying-glass false
+                        :found-murder-weapon false
+                        :murderer-is-suspicious false})
         world (assoc-in world [:items] (random-items))
         world (place-magnifying-glass world)]
     world))

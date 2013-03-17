@@ -143,9 +143,15 @@
 
 (defn get-item-description
   "Returns the description of the item in room-name"
-  [room-name game]
-  (let [items (get-in game [:world :items])]
+  [room-name world]
+  (let [items (get-in world [:items])]
     (second (room-name items))))
+
+(defn get-item-name
+  "Returns the name of the item in room-name"
+  [room-name world]
+  (let [items (get-in world [:items])]
+    (first (room-name items))))
 
 ; Room Functions ---------------------------------------------------------------
 (defn in-rect? 
@@ -170,16 +176,16 @@
 
 (defn get-room-description
   "Return a room description for the coordinates [x y]"
-  [[x y] game]
+  [[x y] world]
   (let [room-name (get-room-name [x y])]
-    (if-let [item-description (get-item-description room-name game)]
+    (if-let [item-description (get-item-description room-name world)]
       (str (room-name room-descriptions)  "\n" item-description)
       (room-name room-descriptions))))
 
 (defn place-magnifying-glass 
   "Add the magnifying glass to a random room in game."
-  [game]
-  (assoc-in game [:items (rand-nth (keys room-items))] 
+  [world]
+  (assoc-in world [:items (rand-nth (keys room-items))] 
             [:magnifying-glass "A magnifying glass is lying on the floor."]))
 
 ; Portal Functions -----------------------------------------------------------

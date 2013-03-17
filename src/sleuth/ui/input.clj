@@ -53,20 +53,24 @@
     :escape (assoc game :uis [(->UI :menu)]) ; testing
 
     :left (let [new-game (update-in game [:world] move-player :w)
-            new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :message] (get-room-description new-location new-game)))
+                new-location (get-in new-game [:world :entities :player :location])
+                world (:world new-game)]
+            (assoc-in new-game [:world :message] (get-room-description new-location world)))
 
     :down (let [new-game (update-in game [:world] move-player :s)
-                new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :message] (get-room-description new-location new-game)))
+                new-location (get-in new-game [:world :entities :player :location])
+                world (:world new-game)]
+            (assoc-in new-game [:world :message] (get-room-description new-location world)))
     
     :up (let [new-game (update-in game [:world] move-player :n)
-              new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :message] (get-room-description new-location new-game)))    
+              new-location (get-in new-game [:world :entities :player :location])
+              world (:world new-game)]
+            (assoc-in new-game [:world :message] (get-room-description new-location world)))    
     
     :right (let [new-game (update-in game [:world] move-player :e)
-                 new-location (get-in new-game [:world :entities :player :location])]
-            (assoc-in new-game [:world :message] (get-room-description new-location new-game)))   
+                 new-location (get-in new-game [:world :entities :player :location])
+                 world (:world new-game)]
+            (assoc-in new-game [:world :message] (get-room-description new-location world)))   
 
     :backspace (let [world (:world game)
                      {:keys [commandline]} world]
@@ -79,7 +83,7 @@
                (assoc-in [:world] (process-command world))
                (assoc-in [:world :commandline] "")))
 
-    (\a \b \c \d \e \f \g \h \i \j \k \l \m \n \o \p \q \r \s \t \u \v \w \x \y \z)
+    (\a \b \c \d \e \f \g \h \i \j \k \l \m \n \o \p \q \r \s \t \u \v \w \x \y \z \space)
     (let [world (:world game)
           {:keys [commandline]} world]
       (assoc-in game [:world :commandline] (str commandline input))) 
