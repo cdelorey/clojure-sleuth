@@ -18,7 +18,9 @@
      (and (or (= arguments "magnifying glass") (= arguments "glass")) 
           (= item :magnifying-glass)) (-> world 
                                           (assoc-in [:message] "You are now carrying the magnifying glass.")
-                                          (assoc-in [:flags :found-magnifying-glass] true))
+                                          (assoc-in [:flags :found-magnifying-glass] true)
+                                          (dissoc-in [:items] :magnifying-glass))
+     
                                           ;remove magnifying glass from room
      
      ;(and (= (keywordize arguments) item)
