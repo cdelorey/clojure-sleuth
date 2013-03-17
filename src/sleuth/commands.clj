@@ -89,7 +89,7 @@
 
 (defn help
   "Displays short instructions."
-  []
+  [world]
   (assoc-in world [:message] "To move around the house use the four arrow keys on the numeric keypad.\nObjects can be EXAMINED and TAKEN. You can QUESTION people or ask them for an\nALIBI. When you have solved the crime, pick up the murder weapon, move to the\nmurder room, ASSEMBLE the suspects, and ACCUSE the guilty party. Good Luck!"))
 
 ; Process-command -----------------------------------------------------------------------------  
@@ -104,7 +104,7 @@
      
      (= first-command "examine") (examine rest-command world)
      
-     (= first-command "help") (help)
+     (= first-command "help") (help world)
      
      :else (assoc-in world [:message] 
                       "I'm sorry, but I can't seem to make out what you're trying to say."))))
