@@ -13,15 +13,11 @@
   (let [room-name (get-room-name (get-in world [:entities :player :location]))
         item (get-item-name room-name world)]
     (cond
-     (println item)
-     (println arguments)
      (and (or (= arguments "magnifying glass") (= arguments "glass")) 
           (= item :magnifying-glass)) (-> world 
+                                          (update-in [:items] dissoc room-name)
                                           (assoc-in [:message] "You are now carrying the magnifying glass.")
-                                          (assoc-in [:flags :found-magnifying-glass] true)
-                                          (dissoc-in [:items] :magnifying-glass))
-     
-                                          ;remove magnifying glass from room
+                                          (assoc-in [:flags :found-magnifying-glass] true))
      
      ;(and (= (keywordize arguments) item)
      ;     ("item has not been examined"))

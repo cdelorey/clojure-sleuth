@@ -42,7 +42,8 @@
                         :found-murder-weapon false
                         :murderer-is-suspicious false})
         world (assoc-in world [:items] (random-items))
-        world (place-magnifying-glass world)]
+        world (assoc-in world [:items :dining-room] [:magnifying-glass "a magnifying glass"])] ;testing
+        ;world (place-magnifying-glass world)]
     world))
     
 
