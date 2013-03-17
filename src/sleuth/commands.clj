@@ -9,25 +9,49 @@
   (str ":" (clojure.string/replace input #" " "-")))
 
 
-(defn is-match? 
+(defn is-match?
+  ; This could be more clearly named
   "Returns true if the given keyword matches the given object string."
   [object word]
   (= (keywordize object) (str word)))
+
+(defn examined?
+  "Returns true if a the object in room-name has been examined"
+  ; there must be a simpler way to do this.
+  [item world]
+  (let [examined (some #(= % :examined) item)]
+    (if examined
+      true
+      false)))
+
+(defn murder-weapon?
+  "Returns true if the given item is the murder weapon."
+  [item world]
+  (let [murder-weapon (get-in world [:murder-case :weapon])]
+    (= murder-weapon item)))
 
 ; Commands ----------------------------------------------------------------------------------------
 (defn examine
   "Command to examine an object."
   [object world]
   (let [room-name (get-room-name (get-in world [:entities :player :location]))
-        item (get-item-name room-name world)
+        item-name (get-item-name room-name world)
         found-magnifying-glass (get-in world [:flags :found-magnifying-glass])]
     (cond
      (and (= found-magnifying-glass false)
-          (is-match? object item)) (assoc-in 
+          (is-match? object item-name)) (assoc-in 
                                        world [:message] "It doesn't look like the murder weapon to me.\nOf course, without the magnifying glass, it's hard for me to be certain.")
      
      (and (= found-magnifying-glass true)
-          (is-match? object item)) (assoc-in world [:message] (get-item-examination item))
+          (murder-weapon? item-name world)
+          (is-match? object item-name)) (-> world
+                                         (assoc-in [:message] "There are traces of blood on it! This must be the murder weapon!")
+                                         (update-in [:items room-name] conj :examined))
+     
+     (and (= found-magnifying-glass true)
+          (is-match? object item-name)) (-> world
+                                       (assoc-in [:message] (get-item-examination item-name))
+                                       (update-in [:items room-name] conj :examined)) 
      
      :else (assoc-in world [:message] "I don't see anything like that around here"))))
 
@@ -36,27 +60,32 @@
   "Command to pick-up the item specified in arguments."
   [object world]
   (let [room-name (get-room-name (get-in world [:entities :player :location]))
-        item (get-item-name room-name world)]
+        item-name (get-item-name room-name world)
+        item (get-in world [:items room-name])]
     (cond
      (and (or (= object "magnifying glass") (= object "glass")) 
-          (= item :magnifying-glass)) (-> world 
+          (= item-name :magnifying-glass)) (-> world 
                                           (update-in [:items] dissoc room-name)
                                           (assoc-in [:message] "You are now carrying the magnifying glass.")
                                           (assoc-in [:flags :found-magnifying-glass] true))
      
-     ;(and (= (keywordize object) item)
-     ;     ("item has not been examined"))
+     (and (is-match? object item-name)
+          (not (examined? item world))) (assoc-in world [:message] "You really should examine the object carefully with a magnifying glass before\nyou try to take it.")
      
-     ;(and (= (keywordize object) item)
-     ;     ("item has been examined")
-     ;     ("item is not the murder weapon"))
+     (and (is-match? object item-name)
+          (examined? item world)
+          (not (murder-weapon? item-name world))) (assoc-in world [:message] "This is not the murder weapon, so there's not much point in taking it.")
      
-     ;(and (= (keywordize object) item)
-     ;     ("item has been examined")
-     ;     ("item is the murder weapon"))
+     (and (is-match? object item-name)
+          (examined? item world)
+          (murder-weapon? item-name world)) (-> world
+                                                (update-in [:items] dissoc room-name)
+                                                (assoc-in [:message] "You are now carrying the murder weapon.")
+                                                (assoc-in [:flags :found-murder-weapon] true))
      
      :else (assoc-in world [:message] "I don't see anything like that around here."))
      ))
+
 
 ; Process-command -----------------------------------------------------------------------------  
 (defn process-command

@@ -141,6 +141,12 @@
   (into {} (for [[k v] room-items]
              [k (rand-nth (vec v))])))
 
+(defn random-item
+  "Returns a random item name from the item list."
+  [world]
+  (let [items (map first (vals (:items world)))]
+    (rand-nth items)))
+
 (defn get-item-description
   "Returns the description of the item in room-name"
   [room-name world]
@@ -192,6 +198,12 @@
   [world]
   (assoc-in world [:items (rand-nth (keys room-items))] 
             [:magnifying-glass "A magnifying glass is lying on the floor."]))
+
+(defn random-room
+  "Returns a random room name."
+  [world]
+  (let [rooms (map first (:items world))]
+    (rand-nth rooms)))
 
 ; Portal Functions -----------------------------------------------------------
 (defn portal? 
