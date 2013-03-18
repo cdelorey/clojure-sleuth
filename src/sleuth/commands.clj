@@ -1,5 +1,6 @@
 (ns sleuth.commands
-  (:use [sleuth.world.rooms :only [get-room-name get-item-name get-item-examination]]))
+  (:use [sleuth.world.rooms :only [get-room-name get-item-name get-item-examination]]
+        [sleuth.ui.core :only [->UI]]))
 
 ; Helpers -----------------------------------------------------------------------------------------
 (defn keywordize
@@ -93,6 +94,12 @@
   (assoc-in world [:message] "To move around the house use the four arrow keys on the numeric keypad.\nObjects can be EXAMINED and TAKEN. You can QUESTION people or ask them for an\nALIBI. When you have solved the crime, pick up the murder weapon, move to the\nmurder room, ASSEMBLE the suspects, and ACCUSE the guilty party. Good Luck!"))
 
 
+(defn restart
+  "Restarts game and returns to menu."
+  [game]
+  (assoc game :uis [(->UI :menu)]))
+
+
 (defn quit
   "Exits game"
   [game]
@@ -114,6 +121,8 @@
      (= first-command "examine") (assoc-in game [:world] (examine rest-command world))
      
      (= first-command "help") (assoc-in game [:world] (help world))
+     
+     (= first-command "restart") (restart game)
      
      (= first-command "quit") (quit game)
      
