@@ -3,8 +3,7 @@
         [sleuth.ui.drawing :only [draw-game]]
         [sleuth.ui.input :only [get-input process-input]]
         [sleuth.libtcod]
-        [clj-native.direct :only [loadlib]])
-  (:require [lanterna.screen :as s]))
+        [clj-native.direct :only [loadlib]]))
 
 
 

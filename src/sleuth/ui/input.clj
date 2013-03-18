@@ -4,8 +4,7 @@
         [sleuth.world.rooms :only [get-room-description]]
         [sleuth.entities.player :only [move-player make-player]]
         [sleuth.commands :only [process-command]]
-        [sleuth.libtcod])
-  (:require [lanterna.screen :as s]))
+        [sleuth.libtcod]))
 
 ; Definitions ------------------------------------------------------------
 (defmulti process-input
