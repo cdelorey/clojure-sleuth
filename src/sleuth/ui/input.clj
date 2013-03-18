@@ -81,10 +81,8 @@
                                               (subs commandline 0 
                                                     (max (- (count commandline) 1) 0))))
     
-    (= (.vk input) key-enter) (let [world (:world game)]
-                                (-> game
-                                    (assoc-in [:world] (process-command world))
-                                    (assoc-in [:world :commandline] "")))
+    (= (.vk input) key-enter) (let [new-game (process-command game)]
+                                (assoc-in new-game [:world :commandline] "")) 
     
     (= (.vk input) key-char) (let [world (:world game)
                                    {:keys [commandline]} world]

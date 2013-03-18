@@ -18,7 +18,7 @@
 (defn examined?
   "Returns true if a the object in room-name has been examined"
   ; there must be a simpler way to do this.
-  [item world]
+  [item]
   (let [examined (some #(= % :examined) item)]
     (if examined
       true
@@ -70,14 +70,14 @@
                                           (assoc-in [:flags :found-magnifying-glass] true))
      
      (and (is-match? object item-name)
-          (not (examined? item world))) (assoc-in world [:message] "You really should examine the object carefully with a magnifying glass before\nyou try to take it.")
+          (not (examined? item))) (assoc-in world [:message] "You really should examine the object carefully with a magnifying glass before\nyou try to take it.")
      
      (and (is-match? object item-name)
-          (examined? item world)
+          (examined? item)
           (not (murder-weapon? item-name world))) (assoc-in world [:message] "This is not the murder weapon, so there's not much point in taking it.")
      
      (and (is-match? object item-name)
-          (examined? item world)
+          (examined? item)
           (murder-weapon? item-name world)) (-> world
                                                 (update-in [:items] dissoc room-name)
                                                 (assoc-in [:message] "You are now carrying the murder weapon.")
@@ -92,21 +92,32 @@
   [world]
   (assoc-in world [:message] "To move around the house use the four arrow keys on the numeric keypad.\nObjects can be EXAMINED and TAKEN. You can QUESTION people or ask them for an\nALIBI. When you have solved the crime, pick up the murder weapon, move to the\nmurder room, ASSEMBLE the suspects, and ACCUSE the guilty party. Good Luck!"))
 
+
+(defn quit
+  "Exits game"
+  [game]
+  (assoc game :uis []))
+
 ; Process-command -----------------------------------------------------------------------------  
 (defn process-command
-  "Parse commands entered on commandline."
-  [world]
-  (let [command (:commandline world)
+  "Parse commands entered on commandline.
+  
+  Commands that require access to the UIs take a game, all other commands take a world object."
+  [game]
+  (let [world (:world game)
+        command (:commandline world)
         first-command (first (clojure.string/split command #" "))
         rest-command (clojure.string/replace-first command (str first-command " ") "")]
     (cond
-     (= first-command "get") (pick-up rest-command world)
+     (= first-command "get") (assoc-in game [:world] (pick-up rest-command world))
      
-     (= first-command "examine") (examine rest-command world)
+     (= first-command "examine") (assoc-in game [:world] (examine rest-command world))
      
-     (= first-command "help") (help world)
+     (= first-command "help") (assoc-in game [:world] (help world))
      
-     :else (assoc-in world [:message] 
+     (= first-command "quit") (quit game)
+     
+     :else (assoc-in game [:world :message] 
                       "I'm sorry, but I can't seem to make out what you're trying to say."))))
 
 

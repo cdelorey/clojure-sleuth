@@ -27,20 +27,17 @@
 *DONE* add help command
 *DONE* change commandline to be case insensitive
 03/18/13
-Port to libtcod
+*DONE* Port to libtcod
 *DONE* fix movement
 *DONE* fix map characters
-* update readme
-
-* add quit command
+*DONE* update readme
+*DONE* add quit command
 * add restart command
 * add door to secret passage
 * refactor sleuth input processing (make function for movement)
-
-
 * add cursor character to end of command line
-
 * wrap print methods to allow passing in map of bkgnd and fgnd colors
+* add random house colors
 
 Add NPCs
 
