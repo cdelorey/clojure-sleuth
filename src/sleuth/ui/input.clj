@@ -48,31 +48,24 @@
   (assoc game :uis [(->UI :menu)]))
 
 ; Sleuth ------------------------------------------------------------------
+(defn move
+  "Move player in specified direction."
+  [direction game]
+  (let [new-game (update-in game [:world] move-player direction)
+        new-location (get-in new-game [:world :entities :player :location])
+        world (:world new-game)]
+    (assoc-in new-game [:world :message] (get-room-description new-location world))))
+
 (defmethod process-input :sleuth [game input]
   (cond 
-    ; return to menu
-    (= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
-
-    ; movement keys
-    (= (.vk input) key-left) (let [new-game (update-in game [:world] move-player :w)
-                new-location (get-in new-game [:world :entities :player :location])
-                world (:world new-game)]
-            (assoc-in new-game [:world :message] (get-room-description new-location world)))
-
-    (= (.vk input) key-down) (let [new-game (update-in game [:world] move-player :s)
-                new-location (get-in new-game [:world :entities :player :location])
-                world (:world new-game)]
-            (assoc-in new-game [:world :message] (get-room-description new-location world)))
-    
-    (= (.vk input) key-up) (let [new-game (update-in game [:world] move-player :n)
-              new-location (get-in new-game [:world :entities :player :location])
-              world (:world new-game)]
-            (assoc-in new-game [:world :message] (get-room-description new-location world)))    
-    
-    (= (.vk input) key-right) (let [new-game (update-in game [:world] move-player :e)
-                 new-location (get-in new-game [:world :entities :player :location])
-                 world (:world new-game)]
-            (assoc-in new-game [:world :message] (get-room-description new-location world)))   
+   ; return to menu
+   (= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
+   
+   ; movement keys
+   (= (.vk input) key-left) (move :w game)
+   (= (.vk input) key-down) (move :s game)
+   (= (.vk input) key-up) (move :n game)
+   (= (.vk input) key-right) (move :e game)   
 
    ; commandline keys 
    (= (.vk input) key-backspace) (let [world (:world game)

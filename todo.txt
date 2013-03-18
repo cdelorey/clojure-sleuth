@@ -32,12 +32,12 @@
 *DONE* fix map characters
 *DONE* update readme
 *DONE* add quit command
-* add restart command
-* add door to secret passage
-* refactor sleuth input processing (make function for movement)
-* add cursor character to end of command line
+*DONE* add restart command
+*DONE* add cursor character to end of command line
+*DONE* refactor sleuth input processing (make function for movement)
 * wrap print methods to allow passing in map of bkgnd and fgnd colors
 * add random house colors
+* add door to secret passage
 
 Add NPCs
 
@@ -45,8 +45,8 @@ Personalize
 
 Second House
 
-Polish
+Polish:
 * allow for more item name variations on commandline
 * change file loading function to load line by line
 * try moving by 2 on horizontal axis (will have to account for walls)
-
+* make commandline cursor flash

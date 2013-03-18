@@ -45,8 +45,8 @@
   (console-print screen 0 19 message))
 
 (defn draw-commandline [screen commandline]
-  (console-print screen 0 24 (str ">" commandline)))
-;TODO: print cursor character at end of commandline
+  (console-print screen 0 24 (str ">" commandline))
+  (console-set-char screen (+ (count commandline) 1) 24 95))
 
 (defn draw-player [screen player]
   (let [[x y] (:location player)]
