@@ -3,7 +3,8 @@
         [sleuth.world.core :only [new-world]]
         [sleuth.world.rooms :only [get-room-description]]
         [sleuth.entities.player :only [move-player make-player]]
-        [sleuth.commands :only [process-command]])
+        [sleuth.commands :only [process-command]]
+        [sleuth.libtcod])
   (:require [lanterna.screen :as s]))
 
 ; Definitions ------------------------------------------------------------
@@ -25,14 +26,14 @@
       (assoc :uis [(->UI :sleuth)]))))
 
 (defmethod process-input :menu [game input]
-  (case input
-    (\a \A) (new-game game) 
-    (\b \B) (assoc game :uis [(->UI :personalize)])
-    (\c \C) (assoc (assoc-in
+  (cond
+    (= (.c input) (int \a)) (new-game game) 
+    (= (.c input) (int \b)) (assoc game :uis [(->UI :personalize)])
+    (= (.c input) (int \c)) (assoc (assoc-in
                      game [:instructions] instructions)
-                   :uis [(->UI :instructions)])
-    (\q \Q) (assoc game :uis [])
-    game))
+                 :uis [(->UI :instructions)])
+    (= (.c input) (int \q)) (assoc game :uis [])
+    :else game))
 
 ; Instructions ------------------------------------------------------------
 (defmethod process-input :instructions [game input]
@@ -49,49 +50,57 @@
 
 ; Sleuth ------------------------------------------------------------------
 (defmethod process-input :sleuth [game input]
-  (case input
-    :escape (assoc game :uis [(->UI :menu)]) ; testing
+  (cond 
+    ; return to menu
+    (= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
 
-    :left (let [new-game (update-in game [:world] move-player :w)
+    ; movement keys
+    (= (.vk input) key-left) (let [new-game (update-in game [:world] move-player :w)
                 new-location (get-in new-game [:world :entities :player :location])
                 world (:world new-game)]
             (assoc-in new-game [:world :message] (get-room-description new-location world)))
 
-    :down (let [new-game (update-in game [:world] move-player :s)
+    (= (.vk input) key-down) (let [new-game (update-in game [:world] move-player :s)
                 new-location (get-in new-game [:world :entities :player :location])
                 world (:world new-game)]
             (assoc-in new-game [:world :message] (get-room-description new-location world)))
     
-    :up (let [new-game (update-in game [:world] move-player :n)
+    (= (.vk input) key-up) (let [new-game (update-in game [:world] move-player :n)
               new-location (get-in new-game [:world :entities :player :location])
               world (:world new-game)]
             (assoc-in new-game [:world :message] (get-room-description new-location world)))    
     
-    :right (let [new-game (update-in game [:world] move-player :e)
+    (= (.vk input) key-right) (let [new-game (update-in game [:world] move-player :e)
                  new-location (get-in new-game [:world :entities :player :location])
                  world (:world new-game)]
             (assoc-in new-game [:world :message] (get-room-description new-location world)))   
 
-    :backspace (let [world (:world game)
-                     {:keys [commandline]} world]
-                 (assoc-in game [:world :commandline]
-                           (subs commandline 0 
-                                 (max (- (count commandline) 1) 0))))
+   ; commandline keys 
+   (= (.vk input) key-backspace) (let [world (:world game)
+                                        {:keys [commandline]} world]
+                                    (assoc-in game [:world :commandline]
+                                              (subs commandline 0 
+                                                    (max (- (count commandline) 1) 0))))
     
-    :enter (let [world (:world game)]
-             (-> game
-               (assoc-in [:world] (process-command world))
-               (assoc-in [:world :commandline] "")))
+    (= (.vk input) key-enter) (let [world (:world game)]
+                                (-> game
+                                    (assoc-in [:world] (process-command world))
+                                    (assoc-in [:world :commandline] "")))
+    
+    (= (.vk input) key-char) (let [world (:world game)
+                                   {:keys [commandline]} world]
+                               (assoc-in game [:world :commandline] 
+                                         (str commandline (char (.c input)))))
+   
+    (= (.vk input) key-space) (let [world (:world game)
+                                    {:keys [commandline]} world]
+                                (assoc-in game [:world :commandline] 
+                                          (str commandline " ")))
 
-    (\a \b \c \d \e \f \g \h \i \j \k \l \m \n \o \p \q \r \s \t \u \v \w \x \y \z \space)
-    (let [world (:world game)
-          {:keys [commandline]} world]
-      (assoc-in game [:world :commandline] (str commandline input))) 
-
-    game))
+    :else game))
 
 ; Input processing -------------------------------------------------------
 (defn get-input
   "Gets user's keypress."
   [game screen]
-  (assoc game :input (s/get-key-blocking screen)))
+  (assoc game :input (console-wait-for-keypress true)))

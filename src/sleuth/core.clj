@@ -1,7 +1,9 @@
 (ns sleuth.core
   (:use [sleuth.ui.core :only [->UI]]
         [sleuth.ui.drawing :only [draw-game]]
-        [sleuth.ui.input :only [get-input process-input]])
+        [sleuth.ui.input :only [get-input process-input]]
+        [sleuth.libtcod]
+        [clj-native.direct :only [loadlib]])
   (:require [lanterna.screen :as s]))
 
 
@@ -26,22 +28,9 @@
               :uis [(->UI :start)]
               :input nil}))
 
-(defn main 
-  ([] (main :swing false))
-  ([screen-type] (main screen-type false))
-  ([screen-type block?]
-   (letfn [(go []
-             (let [screen (s/get-screen screen-type)]
-                (s/in-screen screen
-                             (run-game (new-game) screen))))]
-     (if block?
-       (go)
-       (future (go))))))
-
-(defn -main [& args]
-  (let [args (set args)
-        screen-type (cond
-                      (args ":swing")   :swing
-                      (args ":text")    :text
-                      :else             :auto)]
-    (main screen-type true)))
+(defn -main
+  []
+  (loadlib libtcod)
+  (console-set-custom-font "resources/terminal16x16_gs_ro.png" font-layout-ascii-in-row 16 16)
+  (console-init-root 80 25 "Test" false tcod-renderer-sdl)
+  (run-game (new-game) root))

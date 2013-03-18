@@ -1,6 +1,6 @@
 (ns sleuth.ui.drawing
-  (:use [sleuth.utils :only [map2d]])
-  (:require [lanterna.screen :as s]))
+  (:use [sleuth.utils :only [map2d]]
+        [sleuth.libtcod]))
 
 ; Definitions -------------------------------------------------------------
 (def screen-cols 80)
@@ -13,27 +13,25 @@
 ; Start -------------------------------------------------------------------
 (defmethod draw-ui :start [ui game screen]
   "TODO: read sleuth start screen from file."
-  (s/put-string screen (- (/ screen-cols 2) 5) 5 "S L E U T H" {:fg :magenta})
-  (s/put-string screen (- (/ screen-cols 2) 6) 8 "Press any key." {:fg :white}))
+  (console-print screen (- (/ screen-cols 2) 5) 5 "S L E U T H")
+  (console-print screen (- (/ screen-cols 2) 6) 8 "Press any key."))
 
 ; Menu --------------------------------------------------------------------
 (defmethod draw-ui :menu [ui game screen]
-  (s/put-string screen (- (/ screen-cols 2) 5) 5 "S L E U T H" {:fg :blue})
-  (s/put-string screen (- (/ screen-cols 2) 16) 10 "Select the option of your choice:")
-  (s/put-string screen (- (/ screen-cols 2) 10) 12 "(A) Basic Sleuth")
-  (s/put-string screen (- (/ screen-cols 2) 10) 13 "(B) Personalized Sleuth")
-  (s/put-string screen (- (/ screen-cols 2) 10) 14 "(C) Review Instructions")
-  (s/put-string screen (- (/ screen-cols 2) 13) 19 
-                "PRESS Q TO EXIT THIS PROGRAM" {:fg :black :bg :white}))
+  (console-print screen (- (/ screen-cols 2) 5) 5 "S L E U T H")
+  (console-print screen (- (/ screen-cols 2) 16) 10 "Select the option of your choice:")
+  (console-print screen (- (/ screen-cols 2) 10) 12 "(A) Basic Sleuth")
+  (console-print screen (- (/ screen-cols 2) 10) 13 "(B) Personalized Sleuth")
+  (console-print screen (- (/ screen-cols 2) 10) 14 "(C) Review Instructions")
+  (console-print screen (- (/ screen-cols 2) 13) 19 "PRESS Q TO EXIT THIS PROGRAM" ))
 
 ; Instructions ------------------------------------------------------------
 (defmethod draw-ui :instructions [ui game screen]
-  (s/put-sheet screen 5 0 (clojure.string/split 
-                            (first (game :instructions)) #"\newline")))
+  (console-print screen 5 0 (first (game :instructions))))
 
 ; Personalize -------------------------------------------------------------
 (defmethod draw-ui :personalize [ui game screen]
-  (s/put-string screen 10 10 "Press any key to return to menu."))
+  (console-print screen 10 10 "Press any key to return to menu."))
 
 ; Sleuth ------------------------------------------------------------------  
 (defn draw-house [screen tiles]
@@ -41,18 +39,18 @@
           :let [rowtiles (tiles y)]]
     (doseq [x (range 0 (count (tiles 0)))
             :let [{:keys [glyph color]} (rowtiles x)]]
-      (s/put-string screen x y glyph {:fg color}))))
+      (console-set-char screen x y (int glyph)))))
 
 (defn draw-message [screen message]
-  (s/put-sheet screen 0 19 (clojure.string/split message #"\n")))
+  (console-print screen 0 19 message))
 
 (defn draw-commandline [screen commandline]
-  (s/put-string screen 0 24 (str ">" commandline) {:fg :white})
-  (s/move-cursor screen (+ (count commandline) 1) 24))
+  (console-print screen 0 24 (str ">" commandline)))
+;TODO: print cursor character at end of commandline
 
 (defn draw-player [screen player]
   (let [[x y] (:location player)]
-    (s/put-string screen x y (:glyph player) {:fg :white})))
+    (console-set-char screen x y char-smilie)));(:glyph player))))
 
 (defmethod draw-ui :sleuth [ui game screen]
   (let [world (:world game)
@@ -66,8 +64,8 @@
 
 ; Game --------------------------------------------------------------------
 (defn draw-game [game screen]
-  (s/clear screen)
+  (console-clear screen) ;this may not be necessary
   (doseq [ui (:uis game)]
     (draw-ui ui game screen))
-  (s/redraw screen)
+  (console-flush)
   game)

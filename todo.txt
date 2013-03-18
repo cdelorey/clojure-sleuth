@@ -1,0 +1,55 @@
+02/24/13
+*DONE* get mirror description
+*DONE* write function to get room name from coordinates
+*DONE* make room descriptions display
+02/25/13
+*DONE* add doorway descriptions
+*DONE* add rects for upstairs rooms
+02/26/13
+*DONE* fix movement code
+*DONE* fix message display
+02/27/13
+*DONE* fix incorrect rects
+*DONE* fix hallway rects
+*DONE* add stairs movement
+03/14/13
+*DONE* add room items
+*DONE* make item descriptions display
+*DONE* put magnifying glass in random room
+03/17/13
+*DONE* change functions to take a world instead of a game
+*DONE* allow spaces on commandline
+*DONE* add examine command
+*DONE* add examined property to item vectors
+*DONE* add murder weapon selection
+*DONE* add murder room selection
+*DONE* add get command
+*DONE* add help command
+*DONE* change commandline to be case insensitive
+03/18/13
+Port to libtcod
+*DONE* fix movement
+*DONE* fix map characters
+* update readme
+
+* add quit command
+* add restart command
+* add door to secret passage
+* refactor sleuth input processing (make function for movement)
+
+
+* add cursor character to end of command line
+
+* wrap print methods to allow passing in map of bkgnd and fgnd colors
+
+Add NPCs
+
+Personalize
+
+Second House
+
+Polish
+* allow for more item name variations on commandline
+* change file loading function to load line by line
+* try moving by 2 on horizontal axis (will have to account for walls)
+

@@ -11,11 +11,11 @@
 (defrecord Rect [x y width height])
 
 (def tiles
-  {:hwall     (->Tile :hwall "\u2583" :white)
-   :vwall     (->Tile :vwall "\u2503" :white)
-   :fwall     (->Tile :fwall "\u2588" :white)
-   :stairs    (->Tile :stairs "-" :white)
-   :floor     (->Tile :floor " " :blue)}) 
+  {:hwall     (->Tile :hwall 220 :white)
+   :vwall     (->Tile :vwall 219 :white) ;231
+   :fwall     (->Tile :fwall 219 :white)
+   :stairs    (->Tile :stairs 196 :white)
+   :floor     (->Tile :floor 0 :blue)}) 
 
 
 ; World Functions ------------------------------------------------------------
