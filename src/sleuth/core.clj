@@ -3,6 +3,7 @@
         [sleuth.ui.drawing :only [draw-game]]
         [sleuth.ui.input :only [get-input process-input]]
         [sleuth.libtcod]
+        [sleuth.colors :only [initialize-colors *colors* random-color]]
         [clj-native.direct :only [loadlib]]))
 
 
@@ -30,6 +31,7 @@
 (defn -main
   []
   (loadlib libtcod)
-  (console-set-custom-font "resources/terminal16x16_gs_ro.png" font-layout-ascii-in-row 16 16)
-  (console-init-root 80 25 "Test" false tcod-renderer-sdl)
-  (run-game (new-game) root))
+  (binding [*colors* (initialize-colors)]
+    (console-set-custom-font "resources/terminal16x16_gs_ro.png" font-layout-ascii-in-row 16 16)
+    (console-init-root 80 25 "Test" false tcod-renderer-sdl)
+    (run-game (new-game) root)))

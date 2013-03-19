@@ -1,6 +1,7 @@
 (ns sleuth.ui.drawing
   (:use [sleuth.utils :only [map2d]]
-        [sleuth.libtcod]))
+        [sleuth.libtcod]
+        [sleuth.colors]))
 
 ; Definitions -------------------------------------------------------------
 (def screen-cols 80)
@@ -34,12 +35,13 @@
   (console-print screen 10 10 "Press any key to return to menu."))
 
 ; Sleuth ------------------------------------------------------------------  
-(defn draw-house [screen tiles]
+(defn draw-house [screen tiles fg bg]
+  ;set default colors here
   (doseq [y (range 0 (count tiles))
           :let [rowtiles (tiles y)]]
     (doseq [x (range 0 (count (tiles 0)))
-            :let [{:keys [glyph color]} (rowtiles x)]]
-      (console-set-char screen x y (int glyph)))))
+            :let [{:keys [glyph]} (rowtiles x)]]
+      (console-put-char-ex screen x y (int glyph) fg bg))))
 
 (defn draw-message [screen message]
   (console-print screen 0 19 message))
@@ -54,9 +56,11 @@
 
 (defmethod draw-ui :sleuth [ui game screen]
   (let [world (:world game)
-        {:keys [tiles message commandline entities]} world
-        player (:player entities)]
-    (draw-house screen tiles)
+        {:keys [tiles message commandline entities murder-case]} world
+        player (:player entities)
+        color-fg (:house-color-fg murder-case)
+        color-bg (:house-color-bg murder-case)]
+    (draw-house screen tiles color-fg color-bg)
     (draw-message screen message)
     (draw-commandline screen commandline)
     (draw-player screen player)))
