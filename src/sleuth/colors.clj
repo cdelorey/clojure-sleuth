@@ -33,4 +33,5 @@
 (defn random-color
   "Return a random color from the colors map"
   []
+  (println (rand-nth (keys *colors*)))
   (rand-nth (vals *colors*)))
