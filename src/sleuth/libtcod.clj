@@ -316,8 +316,8 @@
    (console-check-for-event TCOD_sys_check_for_event [enum key-t mouse-t] enum)
    
    ; Color module --------------------------------------------------------------
-   (tcod-color-rgb TCOD_color_RGB [int int int] color-t)
-   (tcod-color-hsv TCOD_color_HSV [float float float] color-t)
+   (color-rgb TCOD_color_RGB [int int int] color-t)
+   (color-hsv TCOD_color_HSV [float float float] color-t)
    
    
    ; Mouse module --------------------------------------------------------------
@@ -328,19 +328,7 @@
     
    ))
 
-; Wrapper functions ------------------------------------------------------------
-(defn color-rgb
-  "Allow passing of arguments to color functions as individual numbers or as a vector."
-  ([[i j k]]
-   (tcod-color-rgb i j k))
-  ([i j k]
-   (tcod-color-rgb i j k)))
 
-(defn color-hsv
-  ([[i j k]]
-   (tcod-color-hsv i j k))
-  ([i j k]
-   (tcod-color-hsv i j k)))
 
 ;test
 (defn libtcod-test
