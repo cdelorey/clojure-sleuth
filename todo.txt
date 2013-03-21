@@ -35,8 +35,7 @@
 *DONE* add restart command
 *DONE* add cursor character to end of command line
 *DONE* refactor sleuth input processing (make function for movement)
-* wrap print methods to allow passing in map of bkgnd and fgnd colors
-* add random house colors
+03/21/13
 * add door to secret passage
 
 Add NPCs
@@ -50,3 +49,6 @@ Polish:
 * change file loading function to load line by line
 * try moving by 2 on horizontal axis (will have to account for walls)
 * make commandline cursor flash
+* wrap print methods to allow passing in map of bkgnd and fgnd colors
+* add random house colors
+* switch to opengl

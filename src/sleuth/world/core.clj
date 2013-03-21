@@ -1,12 +1,12 @@
 (ns sleuth.world.core
   (:use [sleuth.world.rooms :only 
-         [random-items random-item random-room place-magnifying-glass]]))
+         [random-items random-item random-room random-passages place-magnifying-glass]]))
 
 ; Constants ------------------------------------------------------------------
 (def world-size [79 17])
 
 ; Data Structures ------------------------------------------------------------
-(defrecord World [tiles message commandline entities items flags murder-case])
+(defrecord World [tiles message commandline entities items flags murder-case secret-passages])
 (defrecord Tile [kind glyph color])
 (defrecord Rect [x y width height])
 
@@ -42,10 +42,11 @@
                        {:found-magnifying-glass false
                         :found-murder-weapon false
                         :murderer-is-suspicious false}
-                       {})
+                       {} {})
         world (assoc-in world [:items] (random-items))
         world (assoc-in world [:murder-case :weapon] (random-item world))
         world (assoc-in world [:murder-case :room] (random-room world))
+        world (random-passages world)
         world (assoc-in world [:items :dining-room] [:magnifying-glass "a magnifying glass"])] ;testing
         ;world (place-magnifying-glass world)]
     world))
