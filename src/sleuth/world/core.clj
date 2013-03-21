@@ -75,7 +75,7 @@
 (defn get-entity-at [world coord]
   (first (get-entities-at world coord)))
 
-(defn is-empty? [world coord]
+(defn is-empty? [coord world]
   (and (tile-walkable? (get-tile world coord))
        (not (get-entity-at world coord))))
 
