@@ -36,7 +36,9 @@
 *DONE* add cursor character to end of command line
 *DONE* refactor sleuth input processing (make function for movement)
 03/21/13
-* add door to secret passage
+*DONE* remove entity code
+*DONE* add door to secret passage
+* refactor rooms.clj
 
 Add NPCs
 
@@ -46,6 +48,7 @@ Second House
 
 Polish:
 * allow for more item name variations on commandline
+* animate secret passage movement
 * change file loading function to load line by line
 * try moving by 2 on horizontal axis (will have to account for walls)
 * make commandline cursor flash

@@ -219,9 +219,17 @@
 
 (defn random-room
   "Returns a random room name."
-  [world]
-  (let [rooms (map first (:items world))]
-    (rand-nth rooms)))
+  []
+  (rand-nth (keys room-items)))
+
+(defn random-coords
+  "Returns the coordinates of a random location in a random room"
+  []
+  (let [room (random-room)
+        rect (room room-rects)
+        x (+ (rand-int (:width rect)) (:x rect))
+        y (+ (rand-int (:height rect)) (:y rect))]
+    [x y]))
 
 ; Portal Functions -----------------------------------------------------------
 (defn portal? 
@@ -259,6 +267,8 @@
 (defn get-passage
   "Return the other side of the passage [x y] in world"
   [[x y] world]
-  (get-in world [:secret-passages [x y]]))
+  (if (= @in-secret-passage true)
+    (random-coords)
+    (get-in world [:secret-passages [x y]])))
 
 
