@@ -1,6 +1,7 @@
 (ns sleuth.world.core
-  (:use [sleuth.world.rooms :only 
-         [random-items random-item random-room random-passages place-magnifying-glass]]))
+  (:use [sleuth.world.rooms :only [random-room]]
+        [sleuth.world.items :only [random-items random-item place-magnifying-glass]]
+        [sleuth.world.portals :only [random-passages]]))
 
 ; Constants ------------------------------------------------------------------
 (def world-size [79 17])

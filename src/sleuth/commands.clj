@@ -1,5 +1,6 @@
 (ns sleuth.commands
-  (:use [sleuth.world.rooms :only [get-room-name get-item-name get-item-examination]]
+  (:use [sleuth.world.rooms :only [get-room-name]]
+        [sleuth.world.items :only [get-item-name get-item-examination]]
         [sleuth.ui.core :only [->UI]]))
 
 ; Helpers -----------------------------------------------------------------------------------------

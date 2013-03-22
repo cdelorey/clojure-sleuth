@@ -1,7 +1,7 @@
 (ns sleuth.entities.player
   (:use [sleuth.coords :only [destination-coords]]
         [sleuth.world.core :only [get-entity-at is-empty?]]
-        [sleuth.world.rooms :only [portal? get-portal secret-passage? get-passage in-secret-passage]]))
+        [sleuth.world.portals :only [portal? get-portal secret-passage? get-passage in-secret-passage]]))
 
 (defrecord Player [id glyph location])
 
