@@ -1,24 +1,16 @@
 (ns sleuth.utils)
 
-;
-;http://cemerick.com/2010/08/03/enhancing-clojures-case-to-evaluate-dispatch-values/
-(defmacro case+
-  "Same as case, but evaluates dispatch values, needed for referring to
-   class and def'ed constants as well as java.util.Enum instances."
-  [value & clauses]
-  (let [clauses (partition 2 2 nil clauses)
-        default (when (-> clauses last count (== 1))
-                  (last clauses))
-        clauses (if default (drop-last clauses) clauses)
-        eval-dispatch (fn [d]
-                        (if (list? d)
-                          (map eval d)
-                          (eval d)))]
-    `(case ~value
-       ~@(concat (->> clauses
-                   (map #(-> % first eval-dispatch (list (second %))))
-                   (mapcat identity))
-           default))))
+(defn keywordize
+  "Turns a string into a valid clojure keyword."
+  ;maybe move this to utils?
+  [input]
+  (str ":" (clojure.string/replace input #" " "-")))
+
+(defn keyword-to-string
+  "Converts a keyword to a string, replacing any dashes with spaces."
+  [word]
+  (clojure.string/replace (name word) #"-" " "))
+
 
 (defn abs [i]
   (if (neg? i)

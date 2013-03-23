@@ -38,9 +38,28 @@
 03/21/13
 *DONE* remove entity code
 *DONE* add door to secret passage
-* refactor rooms.clj
+03/22/13
+*DONE* refactor rooms.clj
+*DONE* write guest descriptions
+*DONE* write alibis
 
 Add NPCs
+03/23/13
+*DONE* add guests
+*DONE* determine murderer and victim
+*DONE* determine alibis
+* place guests in random locations
+* ensure only one guest per room
+* make guest descriptions display
+* add guest list command
+* add alibi parts
+* add alibi command
+* add guest movement
+* add turn count
+* make guests stare at floor after certain # of turns
+* make murderer get suspicious after certain # of turns
+* make murderer stalk you
+
 
 Personalize
 
@@ -54,4 +73,5 @@ Polish:
 * make commandline cursor flash
 * wrap print methods to allow passing in map of bkgnd and fgnd colors
 * add random house colors
+* add random guest names
 * switch to opengl

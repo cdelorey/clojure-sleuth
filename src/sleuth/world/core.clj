@@ -1,7 +1,8 @@
 (ns sleuth.world.core
   (:use [sleuth.world.rooms :only [random-room]]
         [sleuth.world.items :only [random-items random-item place-magnifying-glass]]
-        [sleuth.world.portals :only [random-passages]]))
+        [sleuth.world.portals :only [random-passages]]
+        [sleuth.entities.guests :only [create-guests]]))
 
 ; Constants ------------------------------------------------------------------
 (def world-size [79 17])
@@ -48,6 +49,7 @@
         world (assoc-in world [:murder-case :weapon] (random-item world))
         world (assoc-in world [:murder-case :room] (random-room))
         world (random-passages world)
+        world (assoc-in world [:entities :guests] (create-guests))
         world (assoc-in world [:items :dining-room] [:magnifying-glass "a magnifying glass"])] ;testing
         ;world (place-magnifying-glass world)]
     world))

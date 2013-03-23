@@ -1,16 +1,10 @@
 (ns sleuth.commands
   (:use [sleuth.world.rooms :only [get-room-name]]
         [sleuth.world.items :only [get-item-name get-item-examination]]
-        [sleuth.ui.core :only [->UI]]))
+        [sleuth.ui.core :only [->UI]]
+        [sleuth.utils :only [keywordize]]))
 
 ; Helpers -----------------------------------------------------------------------------------------
-(defn keywordize
-  "Turns a string into a valid clojure keyword."
-  ;maybe move this to utils?
-  [input]
-  (str ":" (clojure.string/replace input #" " "-")))
-
-
 (defn is-match?
   ; This could be more clearly named
   "Returns true if the given keyword matches the given object string."
