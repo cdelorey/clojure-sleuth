@@ -49,7 +49,7 @@
         world (assoc-in world [:murder-case :weapon] (random-item world))
         world (assoc-in world [:murder-case :room] (random-room))
         world (random-passages world)
-        world (assoc-in world [:entities :guests] (create-guests))
+        world (create-guests world)
         world (assoc-in world [:items :dining-room] [:magnifying-glass "a magnifying glass"])] ;testing
         ;world (place-magnifying-glass world)]
     world))

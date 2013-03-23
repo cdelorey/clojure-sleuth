@@ -48,7 +48,7 @@ Add NPCs
 *DONE* add guests
 *DONE* determine murderer and victim
 *DONE* determine alibis
-* place guests in random locations
+*DONE* make guests display
 * ensure only one guest per room
 * make guest descriptions display
 * add guest list command

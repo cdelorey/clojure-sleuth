@@ -81,7 +81,7 @@
              [n (->Guest (keyword-to-name n) "" 0 (random-coords))]))) 
 
 (defn create-guests
-  []
+  [world]
   "Creates guests with their alibis"
   ; This function is ugly! Fix it.
   (let [victim (random-name guest-names)
@@ -98,11 +98,13 @@
         names (remove #{suspect3} names)
         suspect4 (first names)
         guests (get-guests guest-names)]
-    (-> guests
-        (assoc-in [victim :alibi] :victim)
-        (assoc-in [murderer :alibi] :murderer)
-        (assoc-in [alone :alibi] :alone)
-        (assoc-in [suspect1 :alibi] suspect2)
-        (assoc-in [suspect2 :alibi] suspect1)
-        (assoc-in [suspect3 :alibi] suspect4)
-        (assoc-in [suspect4 :alibi] suspect3))))
+    (-> world
+        (assoc-in [:entities :guests] (dissoc guests victim))
+        (assoc-in [:murder-case :victim] victim)
+        (assoc-in [:murder-case :murderer] murderer)
+        (assoc-in [:entities :guests murderer :alibi] :murderer)
+        (assoc-in [:entities :guests alone :alibi] :alone)
+        (assoc-in [:entities :guests suspect1 :alibi] suspect2)
+        (assoc-in [:entities :guests suspect2 :alibi] suspect1)
+        (assoc-in [:entities :guests suspect3 :alibi] suspect4)
+        (assoc-in [:entities :guests suspect4 :alibi] suspect3))))

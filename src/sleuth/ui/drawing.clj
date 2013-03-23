@@ -52,14 +52,20 @@
   (let [[x y] (:location player)]
     (console-set-char screen x y char-smilie)));(:glyph player))))
 
+(defn draw-guests [screen guests]
+  (doall (map 
+          #(console-set-char screen (first (:location %)) (second (:location %))char-smilie) (vals guests))))
+
 (defmethod draw-ui :sleuth [ui game screen]
   (let [world (:world game)
         {:keys [tiles message commandline entities]} world
-        player (:player entities)]
+        player (:player entities)
+        guests (:guests entities)]
     (draw-house screen tiles)
     (draw-message screen message)
     (draw-commandline screen commandline)
-    (draw-player screen player)))
+    (draw-player screen player)
+    (draw-guests screen guests)))
 
 
 ; Game --------------------------------------------------------------------
