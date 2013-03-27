@@ -1,5 +1,5 @@
 (ns sleuth.entities.guests
-  (:use [sleuth.world.rooms :only [random-coords]]
+  (:use [sleuth.world.rooms :only [random-coords random-room]]
         [sleuth.utils :only [keyword-to-string]]))
 
 ; Data Structures --------------------------------------------------------------------------
@@ -78,7 +78,27 @@
   "Returns a list of guests from the given names with random locations."
   [names]
   (into {} (for [n names]
-             [n (->Guest (keyword-to-name n) "" 0 (random-coords))]))) 
+             [n (->Guest (keyword-to-name n) "" 0 [0 0])]))) 
+
+(defn place-guest
+  [[guest-name guest] world]
+  (let [guests (get-in world [:entities :guests])
+        rooms (into [] (for [[k v] (get-in world [:entities :guests])]
+                         (:room v)))
+        old-room (get-in guests [guest-name :room])
+        room (random-room)
+        coords (random-coords room)]
+    (as-> guest guest
+          (assoc-in guest [:room] room)
+          (assoc-in guest [:location] coords))))
+
+(defn place-guests
+  "Moves all of the guests in guest-list.
+  
+  guest-list is a vector of keyword names."
+  [guest-list world]  
+  (into {} (for [[k v] (get-guests guest-list)]
+             [k (place-guest [k v] world)])))
 
 (defn create-guests
   [world]
@@ -97,9 +117,9 @@
         suspect3 (rand-nth names)
         names (remove #{suspect3} names)
         suspect4 (first names)
-        guests (get-guests guest-names)]
+        guest-list (remove #{victim} guest-names)]
     (-> world
-        (assoc-in [:entities :guests] (dissoc guests victim))
+        (assoc-in [:entities :guests] (place-guests guest-list world))
         (assoc-in [:murder-case :victim] victim)
         (assoc-in [:murder-case :murderer] murderer)
         (assoc-in [:entities :guests murderer :alibi] :murderer)

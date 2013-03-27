@@ -98,12 +98,19 @@
   (rand-nth (keys room-items)))
 
 (defn random-coords
-  "Returns the coordinates of a random location in a random room"
-  []
-  (let [room (random-room)
-        rect (room room-rects)
-        x (+ (rand-int (:width rect)) (:x rect))
-        y (+ (rand-int (:height rect)) (:y rect))]
-    [x y]))
+  "Returns the coordinates of a random location in a room
+  
+  If a room is not provided, it returns a random location in a random room."
+  ([]
+   (let [room (random-room)
+         rect (room room-rects)
+          x (+ (rand-int (:width rect)) (:x rect))
+          y (+ (rand-int (:height rect)) (:y rect))]
+     [x y]))
+  ([room]
+   (let [rect (room room-rects)
+         x (+ (rand-int (:width rect)) (:x rect))
+         y (+ (rand-int (:height rect)) (:y rect))]
+     [x y])))
 
 

@@ -49,6 +49,7 @@ Add NPCs
 *DONE* determine murderer and victim
 *DONE* determine alibis
 *DONE* make guests display
+03/26/13
 * ensure only one guest per room
 * make guest descriptions display
 * add guest list command
@@ -59,7 +60,7 @@ Add NPCs
 * make guests stare at floor after certain # of turns
 * make murderer get suspicious after certain # of turns
 * make murderer stalk you
-
+* only display guests in same room as player
 
 Personalize
 
