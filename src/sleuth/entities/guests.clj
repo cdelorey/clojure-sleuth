@@ -3,7 +3,7 @@
         [sleuth.utils :only [keyword-to-string]]))
 
 ; Data Structures --------------------------------------------------------------------------
-(defrecord Guest [name alibi num-questions location])
+(defrecord Guest [name alibi num-questions location description])
 
 (def guest-names
   [:gerald-brisbane
@@ -15,7 +15,7 @@
    :victoria-crompton])
 
 (def guest-descriptions
-  {:parlor ["%s is lounging on the sofa, reading a newspaper."
+  {:living-room ["%s is lounging on the sofa, reading a newspaper."
             "%s is lounging on the divan, reading a newspaper."
             "%s is lying on the divan."
             "%s is standing next to the divan."]
@@ -80,7 +80,7 @@
   names is a vector of keywords."
   [names]
   (into {} (for [n names]
-             [n (->Guest (keyword-to-name n) "" 0 [0 0])]))) 
+             [n (->Guest (keyword-to-name n) " " 0 [0 0] " ")]))) 
 
 (defn place-guest
   [guest-name guest world]
@@ -89,10 +89,12 @@
                          (:room v)))
         old-room (get-in guests [guest-name :room])
         room (random-room rooms)
-        coords (random-coords room)]
+        coords (random-coords room)
+        description (rand-nth (room guest-descriptions))]
     (as-> world world
           (assoc-in world [:entities :guests guest-name :room] room)
-          (assoc-in world [:entities :guests guest-name :location] coords))))
+          (assoc-in world [:entities :guests guest-name :location] coords)
+          (assoc-in world [:entities :guests guest-name :description] description))))
 
 (defn place-guests
   "Moves all of the guests in guest-list.

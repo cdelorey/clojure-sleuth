@@ -84,13 +84,25 @@
   [[x y]]
   (first (keys (get-room [x y]))))
 
+(defn get-guest-description
+  [room-name world]
+  (let [guest (first (remove nil? (for [[k v] (get-in world [:entities :guests])]
+                               (if (= (:room v) room-name)
+                                 k))))
+        description (get-in world [:entities :guests guest :description])]
+    (if (= nil description)
+      nil
+      (let [n (get-in world [:entities :guests guest :name])]
+        (format description n)))))
+
 (defn get-room-description
   "Return a room description for the coordinates [x y]"
+  ;TODO: change this so that there is no second \n if item-description is nil
   [[x y] world]
-  (let [room-name (get-room-name [x y])]
-    (if-let [item-description (get-item-description room-name world)]
-      (str (room-name room-descriptions)  "\n" item-description)
-      (room-name room-descriptions))))
+  (let [room-name (get-room-name [x y])
+        guest-description (get-guest-description room-name world)
+        item-description (get-item-description room-name world)]
+      (str (room-name room-descriptions) "\n"  item-description "\n" guest-description)))
 
 (defn random-room
   "Returns a random room name.

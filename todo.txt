@@ -42,8 +42,6 @@
 *DONE* refactor rooms.clj
 *DONE* write guest descriptions
 *DONE* write alibis
-
-Add NPCs
 03/23/13
 *DONE* add guests
 *DONE* determine murderer and victim
@@ -51,7 +49,7 @@ Add NPCs
 *DONE* make guests display
 03/27/13
 *DONE* ensure only one guest per room
-* make guest descriptions display
+*DONE* make guest descriptions display
 * add guest list command
 * add alibi parts
 * add alibi command
