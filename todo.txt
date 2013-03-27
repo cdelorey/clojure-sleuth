@@ -49,18 +49,21 @@ Add NPCs
 *DONE* determine murderer and victim
 *DONE* determine alibis
 *DONE* make guests display
-03/26/13
-* ensure only one guest per room
+03/27/13
+*DONE* ensure only one guest per room
 * make guest descriptions display
 * add guest list command
 * add alibi parts
 * add alibi command
-* add guest movement
 * add turn count
+* add guest movement
 * make guests stare at floor after certain # of turns
 * make murderer get suspicious after certain # of turns
 * make murderer stalk you
 * only display guests in same room as player
+* lose if get to certain # of turns and enter room
+* lose if ask murderer too many questions
+* add accuse command
 
 Personalize
 

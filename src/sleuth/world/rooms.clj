@@ -93,9 +93,16 @@
       (room-name room-descriptions))))
 
 (defn random-room
-  "Returns a random room name."
-  []
-  (rand-nth (keys room-items)))
+  "Returns a random room name.
+  
+  If a room list is provided, it returns a random room name that is not in the list."
+  ([]
+   (rand-nth (keys room-items)))
+  ([room-list]
+   (let [room (random-room)]
+     (if(some #{room} room-list)
+       (recur room-list)
+       room))))
 
 (defn random-coords
   "Returns the coordinates of a random location in a room

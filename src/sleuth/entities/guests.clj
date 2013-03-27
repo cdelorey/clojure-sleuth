@@ -75,30 +75,40 @@
   (rand-nth names))
 
 (defn get-guests
-  "Returns a list of guests from the given names with random locations."
+  "Returns a list of guests from the given names with random locations.
+  
+  names is a vector of keywords."
   [names]
   (into {} (for [n names]
              [n (->Guest (keyword-to-name n) "" 0 [0 0])]))) 
 
 (defn place-guest
-  [[guest-name guest] world]
+  [guest-name guest world]
   (let [guests (get-in world [:entities :guests])
         rooms (into [] (for [[k v] (get-in world [:entities :guests])]
                          (:room v)))
         old-room (get-in guests [guest-name :room])
-        room (random-room)
+        room (random-room rooms)
         coords (random-coords room)]
-    (as-> guest guest
-          (assoc-in guest [:room] room)
-          (assoc-in guest [:location] coords))))
+    (as-> world world
+          (assoc-in world [:entities :guests guest-name :room] room)
+          (assoc-in world [:entities :guests guest-name :location] coords))))
 
 (defn place-guests
   "Moves all of the guests in guest-list.
   
   guest-list is a vector of keyword names."
   [guest-list world]  
-  (into {} (for [[k v] (get-guests guest-list)]
-             [k (place-guest [k v] world)])))
+  (loop [guest-list guest-list 
+         world world]
+    (if (empty? guest-list)
+      world
+      (do
+        (let [guest-name (first guest-list)
+              guest (get-guests [guest-name])
+              world (assoc-in world [:entities :guests guest-name] (guest-name guest))
+              world (place-guest guest-name guest world)]
+          (recur (rest guest-list) world))))))
 
 (defn create-guests
   [world]
@@ -117,9 +127,9 @@
         suspect3 (rand-nth names)
         names (remove #{suspect3} names)
         suspect4 (first names)
-        guest-list (remove #{victim} guest-names)]
+        guest-list (remove #{victim} guest-names)
+        world (place-guests guest-list world)]
     (-> world
-        (assoc-in [:entities :guests] (place-guests guest-list world))
         (assoc-in [:murder-case :victim] victim)
         (assoc-in [:murder-case :murderer] murderer)
         (assoc-in [:entities :guests murderer :alibi] :murderer)
