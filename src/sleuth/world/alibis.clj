@@ -1,3 +1,7 @@
+(ns sleuth.world.alibis)
+
+; Alibi components ----------------------------------------------------------------------------
+
 ; Openers
 ; used at beginning of an alibi the first time a suspect is asked.
 (def openers 
@@ -31,18 +35,21 @@
 
 ; Alibis
 (def alibis
-  ["\"I spent the entire evening alone in the %s"
-   "\"%s and I spent the entire evening together in the %s"
+  ["\"%s and I spent the entire evening together in the %s"
    "\"%s and I spent the entire evening in the %s"
    "I spent the evening with %s in the %s"
    "I spent the entire evening with %s in the %s"])
+
+; alone alibi
+(def alone-alibi
+  ["\"I spent the entire evening alone in the %s"])
 
 ; Additions
 ; Additional things guests will say when asked the first time.
 (def additions
   ["And I didn't hear or see 
    anything while I was there. I can't imagine what could have happened!"
-   "That\'s all that I can think of to say."
+   "That's all that I can think of to say."
    "You've got your work cut out for you on this one, inspector. None of
     us cared much for %s, and that's the truth. Frankly, whoever did it
     deserves a medal."
@@ -195,3 +202,9 @@
 
 ; added after alibi when being asked for second time
 ;"I can't think of anything else to add."
+
+; Alibi Functions -----------------------------------------------------------------------------
+(defn get-alibi
+  "Creates an alibi based on the guest and number of times the guest has been asked."
+  [guest times]
+  "Hi.")

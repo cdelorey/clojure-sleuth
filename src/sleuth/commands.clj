@@ -1,8 +1,9 @@
 (ns sleuth.commands
-  (:use [sleuth.world.rooms :only [get-room-name]]
+  (:use [sleuth.world.rooms :only [get-room-name get-room]]
         [sleuth.world.items :only [get-item-name get-item-examination]]
         [sleuth.ui.core :only [->UI]]
-        [sleuth.utils :only [keywordize]]))
+        [sleuth.utils :only [keywordize]]
+        [sleuth.world.alibis :only [get-alibi]]))
 
 ; Helpers -----------------------------------------------------------------------------------------
 (defn is-match?
@@ -92,6 +93,17 @@
                      a "        " b "        " c \newline d "        " e "        " f)]
     (assoc-in world [:message] message)))
 
+(defn alibi
+  "Displays the alibi of the guest in the same room as the player."
+  [world]
+  (let [room (ffirst (get-room (get-in world [:entities :player :location])))
+        guests (get-in world [:entities :guests])
+        guest (ffirst (filter #(= (:room (second %)) room) guests))]
+    (if (nil? guest)
+      (assoc-in world [:message] "But there's nobody here!")
+      (let [times (get-in world [:entities :guests guest :num-questions])
+            message (get-alibi guest times)]
+        (assoc-in world [:message] message)))))
 
 (defn help
   "Displays short instructions."
@@ -128,6 +140,8 @@
      (= first-command "help") (assoc-in game [:world] (help world))
      
      (= first-command "guestlist") (assoc-in game [:world] (guestlist world))
+     
+     (= first-command "alibi") (assoc-in game [:world] (alibi world))
      
      (= first-command "restart") (restart game)
      
