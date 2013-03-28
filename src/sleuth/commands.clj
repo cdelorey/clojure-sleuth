@@ -82,6 +82,16 @@
      :else (assoc-in world [:message] "I don't see anything like that around here."))
      ))
 
+(defn guestlist
+  "Displays list of guests in the mansion."
+  [world]
+  (let [guests (get-in world [:entities :guests])
+        guest-names (into [] (for [[k v] guests](:name v)))
+        [a b c d e f] guest-names
+        message (str "The houseguests now lurking about the Crompton estate are:" \newline
+                     a "        " b "        " c \newline d "        " e "        " f)]
+    (assoc-in world [:message] message)))
+
 
 (defn help
   "Displays short instructions."
@@ -116,6 +126,8 @@
      (= first-command "examine") (assoc-in game [:world] (examine rest-command world))
      
      (= first-command "help") (assoc-in game [:world] (help world))
+     
+     (= first-command "guestlist") (assoc-in game [:world] (guestlist world))
      
      (= first-command "restart") (restart game)
      

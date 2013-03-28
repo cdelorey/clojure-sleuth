@@ -50,7 +50,8 @@
 03/27/13
 *DONE* ensure only one guest per room
 *DONE* make guest descriptions display
-* add guest list command
+03/28/13
+*DONE* add guest list command
 * add alibi parts
 * add alibi command
 * add turn count
@@ -68,6 +69,7 @@ Personalize
 Second House
 
 Polish:
+* fix tab display in guestlist
 * allow for more item name variations on commandline
 * animate secret passage movement
 * change file loading function to load line by line
