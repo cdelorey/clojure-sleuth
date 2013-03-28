@@ -52,7 +52,7 @@
 *DONE* make guest descriptions display
 03/28/13
 *DONE* add guest list command
-* add alibi parts
+*DONE* add alibi parts
 * add alibi command
 * add turn count
 * add guest movement
