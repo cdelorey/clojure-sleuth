@@ -65,7 +65,12 @@
    :ornate-hourglass "It is an attractive timepiece, but not very practical."
    :candelabra "This is a very ornate silver candelabra."
    :magnifying-glass "It looks as though it might prove useful in your investigation."
-   :silver-hairbrush "There is nothing unsual about the silver hairbrush."})
+   :silver-hairbrush "There is nothing unsual about the silver hairbrush."
+   :oboe "There's nothing special about the oboe."
+   :unabridged-dictionary "There is nothing unusual about the dictionary."
+   :alabaster-ashtray "It is a very attractive ashtray, but I don't believe it is the murder weapon."
+   :wooden-pepper-mill "There is nothing unusual about the pepper mill."
+   :nondescript-blunt-instrument "There is nothing unusual about the blunt instrument."})
 
 ; Item Functions --------------------------------------------------------------
 (defn random-items []
