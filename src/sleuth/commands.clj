@@ -3,7 +3,7 @@
         [sleuth.world.items :only [get-item-name get-item-examination]]
         [sleuth.ui.core :only [->UI]]
         [sleuth.utils :only [keywordize]]
-        [sleuth.world.alibis :only [get-alibi]]))
+        [sleuth.world.alibis :only [create-alibi-message]]))
 
 ; Helpers -----------------------------------------------------------------------------------------
 (defn is-match?
@@ -102,7 +102,7 @@
     (if (nil? guest)
       (assoc-in world [:message] "But there's nobody here!")
       (let [times (get-in world [:entities :guests guest :num-questions])
-            message (get-alibi guest times)]
+            message (create-alibi-message guest times world)]
         (assoc-in world [:message] message)))))
 
 (defn help

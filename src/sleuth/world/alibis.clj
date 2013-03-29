@@ -1,4 +1,5 @@
-(ns sleuth.world.alibis)
+(ns sleuth.world.alibis
+  (:use [sleuth.entities.guests :only [keyword-to-name]]))
 
 ; Alibi components ----------------------------------------------------------------------------
 
@@ -204,7 +205,29 @@
 ;"I can't think of anything else to add."
 
 ; Alibi Functions -----------------------------------------------------------------------------
+(defn get-murderer-alibi
+  "Returns an alibi for the murderer."
+  [murderer world]
+  (let [guests (get-in world [:entities :guests])
+        alone (ffirst (filter #(= (:alibi (second %)) :alone) guests))
+        guests (dissoc guests murderer)
+        guests (dissoc guests alone)
+        alibi (rand-nth (keys guests))]
+    (println "Murderer!")
+    ;(println (vec (keys guests)))
+    (format (rand-nth alibis) (keyword-to-name alibi) "room")))
+
 (defn get-alibi
+  "Returns an alibi string given a guest and an alibi keyword."
+  [guest world]
+  (let [alibi (get-in world [:entities :guests guest :alibi])]
+    (case alibi
+      :murderer (get-murderer-alibi guest world)
+      :alone (format (first alone-alibi) "room")
+      ;default
+      (format (rand-nth alibis) (keyword-to-name alibi) "room"))))
+
+(defn create-alibi-message
   "Creates an alibi based on the guest and number of times the guest has been asked."
-  [guest times]
-  "Hi.")
+  [guest times world]
+  (get-alibi guest world))
