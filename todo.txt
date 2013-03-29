@@ -53,6 +53,7 @@
 03/28/13
 *DONE* add guest list command
 *DONE* add alibi command
+03/29/13
 * add alibi rooms to create-guests function
 * add alibis to create-guests function using get-alibi function
 * increment question count in alibi command

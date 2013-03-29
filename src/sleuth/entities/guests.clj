@@ -115,20 +115,14 @@
 (defn create-guests
   [world]
   "Creates guests with their alibis"
-  ; This function is ugly! Fix it.
-  (let [victim (random-name guest-names)
-        names (remove #{victim} guest-names)
-        murderer (random-name names)
-        names (remove #{murderer} names)
-        alone (random-name names)
-        names (remove #{alone} names)
-        suspect1 (rand-nth names)
-        names (remove #{suspect1} names)
-        suspect2 (rand-nth names)
-        names (remove #{suspect2} names)
-        suspect3 (rand-nth names)
-        names (remove #{suspect3} names)
-        suspect4 (first names)
+  (let [names (shuffle guest-names)
+        [victim
+         murderer 
+         alone 
+         suspect1
+         suspect2
+         suspect3
+         suspect4] names
         guest-list (remove #{victim} guest-names)
         world (place-guests guest-list world)]
     (-> world
