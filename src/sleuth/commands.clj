@@ -103,7 +103,9 @@
       (assoc-in world [:message] "But there's nobody here!")
       (let [times (get-in world [:entities :guests guest :num-questions])
             message (create-alibi-message guest times world)]
-        (assoc-in world [:message] message)))))
+        (-> world
+            (assoc-in [:message] message)
+            (update-in [:entities :guests guest :num-questions] inc))))))
 
 (defn help
   "Displays short instructions."
