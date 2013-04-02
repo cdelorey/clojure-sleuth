@@ -11,6 +11,17 @@
   [word]
   (clojure.string/replace (name word) #"-" " "))
 
+(defn capitalize-name 
+  [n]
+  "Capitalizes a name string."
+  (let [caps-name (map clojure.string/capitalize (clojure.string/split n #" "))]
+    (str (first caps-name) " " (second caps-name))))
+
+(defn keyword-to-name
+  "Converts a keyword to a capitalized name."
+  [word]
+  (capitalize-name (keyword-to-string word)))
+
 
 (defn abs [i]
   (if (neg? i)

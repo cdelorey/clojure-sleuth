@@ -83,6 +83,11 @@
   (let [items (map first (vals (:items world)))]
     (rand-nth items)))
 
+(defn get-item-rooms
+  "Returns the room names that contain items."
+  []
+  (keys room-items))
+
 (defn get-item-description
   "Returns the description of the item in room-name"
   [room-name world]

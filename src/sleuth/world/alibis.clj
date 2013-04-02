@@ -1,5 +1,6 @@
 (ns sleuth.world.alibis
-  (:use [sleuth.entities.guests :only [keyword-to-name]]))
+  (:use [sleuth.utils :only [keyword-to-name keyword-to-string]]
+        [sleuth.world.rooms :only [random-room]]))
 
 ; Alibi components ----------------------------------------------------------------------------
 
@@ -207,27 +208,41 @@
 ; Alibi Functions -----------------------------------------------------------------------------
 (defn get-murderer-alibi
   "Returns an alibi for the murderer."
-  [murderer world]
-  (let [guests (get-in world [:entities :guests])
-        alone (ffirst (filter #(= (:alibi (second %)) :alone) guests))
+  [murderer guests]
+  (let [alone (ffirst (filter #(= (:alibi (second %)) :alone) guests))
         guests (dissoc guests murderer)
         guests (dissoc guests alone)
         alibi (rand-nth (keys guests))]
     (println "Murderer!")
-    ;(println (vec (keys guests)))
-    (format (rand-nth alibis) (keyword-to-name alibi) "room")))
+    (format (rand-nth alibis) (keyword-to-name alibi) (keyword-to-string (random-room)))))
 
 (defn get-alibi
   "Returns an alibi string given a guest and an alibi keyword."
-  [guest world]
-  (let [alibi (get-in world [:entities :guests guest :alibi])]
+  [guest guests]
+  (let [alibi (get-in guests [guest :alibi])
+        room (get-in guests [guest :alibi-room])]
+    (println "Alibi: " alibi)
     (case alibi
-      :murderer (get-murderer-alibi guest world)
-      :alone (format (first alone-alibi) "room")
+      :murderer (get-murderer-alibi guest guests)
+      :alone (format (first alone-alibi) (keyword-to-string room))
       ;default
-      (format (rand-nth alibis) (keyword-to-name alibi) "room"))))
+      (format (rand-nth alibis) (keyword-to-name alibi) (keyword-to-string room)))))
+
+(defn get-alibis
+  "Adds an alibi for every guest in guests"
+  [guests]
+  (loop [guests guests
+         guest-names (keys guests)]
+    ;(println guests)
+    (if (empty? guest-names)
+      (do
+        (println guests)
+        guests)
+      (let [guest (first guest-names)
+            guests (assoc-in guests [guest :alibi-string] (get-alibi guest guests))]
+        (recur guests (rest guest-names))))))
 
 (defn create-alibi-message
   "Creates an alibi based on the guest and number of times the guest has been asked."
   [guest times world]
-  (get-alibi guest world))
+  (get-in world [:entities :guests guest :alibi-string]))

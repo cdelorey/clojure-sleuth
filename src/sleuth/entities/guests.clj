@@ -1,6 +1,8 @@
 (ns sleuth.entities.guests
   (:use [sleuth.world.rooms :only [random-coords random-room]]
-        [sleuth.utils :only [keyword-to-string]]))
+        [sleuth.world.items :only [get-item-rooms]]
+        [sleuth.world.alibis :only [get-alibis]]
+        [sleuth.utils :only [keyword-to-string keyword-to-name]]))
 
 ; Data Structures --------------------------------------------------------------------------
 (defrecord Guest [name alibi num-questions location description])
@@ -58,17 +60,6 @@
                     "%s turns from the vanity, shocked to see you."]})
 
 ; Guest Functions -----------------------------------------------------------------------------
-(defn capitalize-name 
-  [n]
-  "Capitalizes a name string."
-  (let [caps-name (map clojure.string/capitalize (clojure.string/split n #" "))]
-    (str (first caps-name) " " (second caps-name))))
-
-(defn keyword-to-name
-  "Converts a keyword to a capitalized name."
-  [word]
-  (capitalize-name (keyword-to-string word)))
-
 (defn random-name
   "Returns a random name from the given names list"
   [names]
@@ -123,14 +114,26 @@
          suspect2
          suspect3
          suspect4] names
+        rooms (shuffle (get-item-rooms))
+        [room1 room2 room3] rooms
         guest-list (remove #{victim} guest-names)
         world (place-guests guest-list world)]
-    (-> world
-        (assoc-in [:murder-case :victim] victim)
-        (assoc-in [:murder-case :murderer] murderer)
-        (assoc-in [:entities :guests murderer :alibi] :murderer)
-        (assoc-in [:entities :guests alone :alibi] :alone)
-        (assoc-in [:entities :guests suspect1 :alibi] suspect2)
-        (assoc-in [:entities :guests suspect2 :alibi] suspect1)
-        (assoc-in [:entities :guests suspect3 :alibi] suspect4)
-        (assoc-in [:entities :guests suspect4 :alibi] suspect3))))
+    (println "Room1: " room1 " Guests: " suspect1 " " suspect2)
+    (println "Room2: " room2 " Guests: " suspect3 " " suspect4)
+    (println "Room3: " room3 " Guest: " alone)
+    (as-> world world
+        (assoc-in world [:murder-case :victim] victim)
+        (assoc-in world [:murder-case :murderer] murderer)
+        (assoc-in world [:entities :guests murderer :alibi] :murderer)
+        (assoc-in world [:entities :guests alone :alibi] :alone)
+        (assoc-in world [:entities :guests suspect1 :alibi] suspect2)
+        (assoc-in world [:entities :guests suspect2 :alibi] suspect1)
+        (assoc-in world [:entities :guests suspect3 :alibi] suspect4)
+        (assoc-in world [:entities :guests suspect4 :alibi] suspect3)
+        (assoc-in world [:entities :guests suspect1 :alibi-room] room1)
+        (assoc-in world [:entities :guests suspect2 :alibi-room] room1)
+        (assoc-in world [:entities :guests suspect3 :alibi-room] room2)
+        (assoc-in world [:entities :guests suspect4 :alibi-room] room2)
+        (assoc-in world [:entities :guests alone :alibi-room] room3)
+        (assoc-in world [:entities :guests] 
+                  (get-alibis (get-in world [:entities :guests]))))))
