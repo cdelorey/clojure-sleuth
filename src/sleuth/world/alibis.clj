@@ -242,7 +242,20 @@
             guests (assoc-in guests [guest :alibi-string] (get-alibi guest guests))]
         (recur guests (rest guest-names))))))
 
+(defn random-first-response
+  "Returns a random response for the first time a guest is asked for an alibi."
+  [guest alibi-string world]
+  (let [victim (get-in world [:murder-case :victim])
+        alibi (get-in world [:entities :guests guest :alibi])
+        opener (format (rand-nth openers) (first (keyword-to-name guest)))]
+    (if (= alibi :alone)
+      (str opener alibi-string (format (rand-nth alone-additions) (first (keyword-to-name victim))))
+      alibi-string)))
+
 (defn create-alibi-message
   "Creates an alibi based on the guest and number of times the guest has been asked."
   [guest times world]
-  (get-in world [:entities :guests guest :alibi-string]))
+  (let [alibi-string (get-in world [:entities :guests guest :alibi-string])]
+    (case times
+      0 (random-first-response guest alibi-string world)
+      alibi)))

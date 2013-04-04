@@ -42,7 +42,7 @@
       (console-set-char screen x y (int glyph)))))
 
 (defn draw-message [screen message]
-  (console-print screen 0 19 message))
+  (console-print-rect screen 0 19 screen-cols screen-rows message))
 
 (defn draw-commandline [screen commandline]
   (console-print screen 0 24 (str ">" commandline))
