@@ -1,5 +1,5 @@
 (ns sleuth.world.alibis
-  (:use [sleuth.utils :only [keyword-to-name keyword-to-string]]
+  (:use [sleuth.utils :only [keyword-to-first-name keyword-to-string]]
         [sleuth.world.rooms :only [random-room]])
   (:require [clj-yaml.core :as yaml]))
 
@@ -54,7 +54,7 @@
         guests (dissoc guests alone)
         alibi (rand-nth (keys guests))]
     (println "Murderer!")
-    (format (rand-nth @alibis) (keyword-to-name alibi) (keyword-to-string (random-room)))))
+    (format (rand-nth @alibis) (keyword-to-first-name alibi) (keyword-to-string (random-room)))))
 
 (defn get-alibi
   "Returns an alibi string given a guest and an alibi keyword."
@@ -66,7 +66,7 @@
       :murderer (get-murderer-alibi guest guests)
       :alone (format (first @alone-alibi) (keyword-to-string room))
       ;default
-      (format (rand-nth @alibis) (keyword-to-name alibi) (keyword-to-string room)))))
+      (format (rand-nth @alibis) (keyword-to-first-name alibi) (keyword-to-string room)))))
 
 (defn get-alibis
   "Adds an alibi for every guest in guests"
@@ -87,9 +87,9 @@
   [guest alibi-string world]
   (let [victim (get-in world [:murder-case :victim])
         alibi (get-in world [:entities :guests guest :alibi])
-        opener (format (rand-nth @openers) (first (keyword-to-name guest)))]
+        opener (format (rand-nth @openers) (keyword-to-first-name guest))]
     (if (= alibi :alone)
-      (str opener alibi-string (format (rand-nth @alone-additions) (first (keyword-to-name victim))))
+      (str opener alibi-string (format (rand-nth @alone-additions) (keyword-to-first-name victim)))
       alibi-string)))
 
 (defn create-alibi-message

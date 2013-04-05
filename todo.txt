@@ -62,8 +62,8 @@
 04/03/13
 *DONE* implement line wrapping for message output
 04/04/13
-* move all alibi text to files
-* load text from files
+*DONE* move all alibi text to files
+*DONE* load text from files
 * add function to create random alibi text
 * add distance check for alibi command
 * add turn count

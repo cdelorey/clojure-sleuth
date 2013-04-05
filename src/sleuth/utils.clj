@@ -22,6 +22,11 @@
   [word]
   (capitalize-name (keyword-to-string word)))
 
+(defn keyword-to-first-name
+  "Converts a keyword to a capitalized name and returns only the first name."
+  [word]
+  (first (clojure.string/split (keyword-to-name word) #" ")))
+
 
 (defn abs [i]
   (if (neg? i)
