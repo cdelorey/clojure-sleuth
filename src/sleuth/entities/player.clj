@@ -16,8 +16,8 @@
   (let [player (get-in world [:entities :player])
         target (destination-coords (:location player) dir)
         entity-at-target (get-entity-at world target)]
-    (println (str "Location: " (:location player)))
-    (println (str "Target: " target))
+    ;testing (println (str "Location: " (:location player)))
+    ;testing (println (str "Target: " target))
     (cond
      (portal? target) (assoc-in world [:entities :player :location] (get-portal target))
      (secret-passage? target world) (let [location (get-passage target world)]

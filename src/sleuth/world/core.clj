@@ -2,6 +2,7 @@
   (:use [sleuth.world.rooms :only [random-room]]
         [sleuth.world.items :only [random-items random-item place-magnifying-glass]]
         [sleuth.world.portals :only [random-passages]]
+        [sleuth.world.alibis :only [load-alibis]]
         [sleuth.entities.guests :only [create-guests]]))
 
 ; Constants ------------------------------------------------------------------
@@ -21,6 +22,11 @@
 
 
 ; World Functions ------------------------------------------------------------
+(defn load-text-files
+  "Load all game text from files."
+  []
+  (load-alibis "resources/alibis.yaml"))
+
 (defn load-house [filename]
   (with-open  [r (clojure.java.io/reader filename)]
     (let [[cols rows] world-size]
@@ -39,6 +45,7 @@
 
 
 (defn new-world []
+  "Create a new random world."
   (let [new-house (rand-nth ["resources/house22.txt"])
         world (->World (load-house new-house) "" "" {} {} 
                        {:found-magnifying-glass false
