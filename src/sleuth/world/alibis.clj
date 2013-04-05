@@ -24,12 +24,11 @@
 (def repeats (promise))
 ; said when a guest refuses to answer questions
 (def refuse (promise))
+; said the second time a guest is asked
+(def finished (promise))
 
 ;when staring at floor
 ;"%s looks up from the floor and says,"
-
-; added after alibi when being asked for second time
-;"I can't think of anything else to add."
 
 ; Alibi Functions -----------------------------------------------------------------------------
 (defn load-alibis
@@ -44,7 +43,8 @@
     (deliver alone-additions (:alone-additions alibis-map))
     (deliver accusations (:accusations alibis-map))
     (deliver repeats (:repeats alibis-map))
-    (deliver refuse (:refuse alibis-map))))
+    (deliver refuse (:refuse alibis-map))
+    (deliver finished (:finished alibis-map))))
 
 (defn get-murderer-alibi
   "Returns an alibi for the murderer."
@@ -85,17 +85,37 @@
 (defn random-first-response
   "Returns a random response for the first time a guest is asked for an alibi."
   [guest alibi-string world]
-  (let [victim (get-in world [:murder-case :victim])
+  (let [victim (keyword-to-first-name (get-in world [:murder-case :victim]))
         alibi (get-in world [:entities :guests guest :alibi])
-        opener (format (rand-nth @openers) (keyword-to-first-name guest))]
-    (if (= alibi :alone)
-      (str opener alibi-string (format (rand-nth @alone-additions) (keyword-to-first-name victim)))
-      alibi-string)))
+        opener (format (rand-nth @openers) (keyword-to-first-name guest))
+        accuse (rand-int 4)
+        accused (keyword-to-first-name (rand-nth 
+                                        (remove #{victim alibi guest}
+                                                (keys (get-in world [:entities :guests])))))]
+    (cond
+     (= alibi :alone)
+      (str opener alibi-string (format (rand-nth @alone-additions) victim))
+      
+     (= accuse 0)
+       (str opener alibi-string (format (rand-nth @accusations) accused victim))
+     
+     :else 
+       (str opener alibi-string (format (rand-nth @additions) victim)))))
+
+(defn random-response
+  "Returns a random response for subsequent times a guest is asked for an alibi."
+  [guest alibi-string times]
+  (let [opener (format (rand-nth @repeat-openers) (keyword-to-first-name guest))
+        repeater (rand-nth @repeats)
+        finish (rand-nth @finished)]
+    (if (= times 1)
+      (str opener repeater  " " alibi-string finish)
+      (str opener repeater " " alibi-string "\""))))
 
 (defn create-alibi-message
   "Creates an alibi based on the guest and number of times the guest has been asked."
   [guest times world]
   (let [alibi-string (get-in world [:entities :guests guest :alibi-string])]
-    (case times
-      0 (random-first-response guest alibi-string world)
-      alibi-string)))
+    (if (= times 0)
+      (random-first-response guest alibi-string world)
+      (random-response guest alibi-string times))))
