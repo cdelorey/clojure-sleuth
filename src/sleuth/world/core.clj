@@ -1,5 +1,5 @@
 (ns sleuth.world.core
-  (:use [sleuth.world.rooms :only [random-room]]
+  (:use [sleuth.world.rooms :only [random-room load-rooms]]
         [sleuth.world.items :only [random-items random-item place-magnifying-glass load-items]]
         [sleuth.world.portals :only [random-passages]]
         [sleuth.world.alibis :only [load-alibis]]
@@ -27,7 +27,8 @@
   []
   (load-alibis "resources/alibis.yaml")
   (load-items "resources/items.yaml")
-  (load-guests "resources/guests.yaml"))
+  (load-guests "resources/guests.yaml")
+  (load-rooms "resources/rooms.yaml"))
 
 (defn load-house [filename]
   (with-open  [r (clojure.java.io/reader filename)]
