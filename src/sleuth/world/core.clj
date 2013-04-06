@@ -1,6 +1,6 @@
 (ns sleuth.world.core
   (:use [sleuth.world.rooms :only [random-room]]
-        [sleuth.world.items :only [random-items random-item place-magnifying-glass]]
+        [sleuth.world.items :only [random-items random-item place-magnifying-glass load-items]]
         [sleuth.world.portals :only [random-passages]]
         [sleuth.world.alibis :only [load-alibis]]
         [sleuth.entities.guests :only [create-guests]]))
@@ -25,7 +25,8 @@
 (defn load-text-files
   "Load all game text from files."
   []
-  (load-alibis "resources/alibis.yaml"))
+  (load-alibis "resources/alibis.yaml")
+  (load-items "resources/items.yaml"))
 
 (defn load-house [filename]
   (with-open  [r (clojure.java.io/reader filename)]

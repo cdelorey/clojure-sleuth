@@ -109,7 +109,7 @@
   
   If a room list is provided, it returns a random room name that is not in the list."
   ([]
-   (rand-nth (keys room-items)))
+   (rand-nth (keys @room-items)))
   ([room-list]
    (let [room (random-room)]
      (if(some #{room} room-list)

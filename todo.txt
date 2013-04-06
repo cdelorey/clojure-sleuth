@@ -65,6 +65,7 @@
 *DONE* move all alibi text to files
 *DONE* load text from files
 *DONE* add function to create random alibi text
+04/05/13
 * add random chance for guest to refuse to be questioned
 * change alibi components to have victim and guest tags to be replaced with names
 * add distance check for alibi command
