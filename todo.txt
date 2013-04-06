@@ -66,6 +66,9 @@
 *DONE* load text from files
 *DONE* add function to create random alibi text
 04/05/13
+*DONE* move item text to files
+*DONE* move guest text to files
+* move room text to files
 * add random chance for guest to refuse to be questioned
 * change alibi components to have victim and guest tags to be replaced with names
 * add distance check for alibi command
@@ -78,9 +81,6 @@
 * lose if ask murderer too many questions
 * add accuse command
 * only display guests in same room as player
-* move guest text to files
-* move room text to files
-* move item text to files
 
 Personalize
 

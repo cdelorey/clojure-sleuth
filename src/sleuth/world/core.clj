@@ -3,7 +3,7 @@
         [sleuth.world.items :only [random-items random-item place-magnifying-glass load-items]]
         [sleuth.world.portals :only [random-passages]]
         [sleuth.world.alibis :only [load-alibis]]
-        [sleuth.entities.guests :only [create-guests]]))
+        [sleuth.entities.guests :only [create-guests load-guests]]))
 
 ; Constants ------------------------------------------------------------------
 (def world-size [79 17])
@@ -26,7 +26,8 @@
   "Load all game text from files."
   []
   (load-alibis "resources/alibis.yaml")
-  (load-items "resources/items.yaml"))
+  (load-items "resources/items.yaml")
+  (load-guests "resources/guests.yaml"))
 
 (defn load-house [filename]
   (with-open  [r (clojure.java.io/reader filename)]
