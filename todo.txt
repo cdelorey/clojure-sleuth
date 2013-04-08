@@ -74,15 +74,16 @@
 *DONE* add turn count
 *DONE* make murderer get suspicious after certain # of turns (180) (only shows up in hallway)
 *DONE* make murderer stalk you (276) (only shows up in hallway)
+*DONE* add distance check for alibi command
+* add lose ui
+* lose if ask murderer too many questions
+* lose if being stalked and enter a room. random chance. 
 * add random chance for guest to refuse to be questioned
-* change alibi components to have victim and guest tags to be replaced with names
-* add distance check for alibi command
-* add guest movement
 * make guests stare at floor after certain # of turns (suspicious?). more likely higher turn #.
 * add examine floor command
-* lose if being stalked and enter a room. random chance. 
-* lose if ask murderer too many questions
+* add guest movement
 * add accuse command
+* add win ui
 * only display guests in same room as player
 
 Personalize
@@ -90,6 +91,7 @@ Personalize
 Second House
 
 Polish:
+* change alibi components to have victim and guest tags to be replaced with names
 * fix tab display in guestlist
 * allow for more item name variations on commandline
 * animate secret passage movement

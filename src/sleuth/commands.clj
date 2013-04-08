@@ -2,18 +2,18 @@
   (:use [sleuth.world.rooms :only [get-room-name get-room]]
         [sleuth.world.items :only [get-item-name get-item-examination]]
         [sleuth.ui.core :only [->UI]]
-        [sleuth.utils :only [keywordize]]
+        [sleuth.utils :only [keywordize abs keyword-to-first-name]]
         [sleuth.world.alibis :only [create-alibi-message]]))
 
 ; Helpers -----------------------------------------------------------------------------------------
 (defn is-match?
   ; This could be more clearly named
-  "Returns true if the given keyword matches the given object string."
+  "Return true if the given keyword matches the given object string."
   [object word]
   (= (keywordize object) (str word)))
 
 (defn examined?
-  "Returns true if a the object in room-name has been examined"
+  "Return true if a the object in room-name has been examined"
   ; there must be a simpler way to do this.
   [item]
   (let [examined (some #(= % :examined) item)]
@@ -22,10 +22,21 @@
       false)))
 
 (defn murder-weapon?
-  "Returns true if the given item is the murder weapon."
+  "Return true if the given item is the murder weapon."
   [item world]
   (let [murder-weapon (get-in world [:murder-case :weapon])]
     (= murder-weapon item)))
+
+(defn close-enough?
+  "Return true if the player is too far away for the guest to hear."
+  [[player-x player-y] [guest-x guest-y]]
+  (let [x-distance (abs (- player-x guest-x))
+        y-distance (abs (- player-y guest-y))]
+    (println "X:" x-distance)
+    (println "Y: " y-distance)
+    (if (or (> x-distance 3) (> y-distance 3))
+      false
+      true)))
 
 ; Commands ----------------------------------------------------------------------------------------
 (defn examine
@@ -96,12 +107,21 @@
 (defn alibi
   "Displays the alibi of the guest in the same room as the player."
   [world]
-  (let [room (ffirst (get-room (get-in world [:entities :player :location])))
+  (let [player-location (get-in world [:entities :player :location])
+        room (ffirst (get-room player-location))
         guests (get-in world [:entities :guests])
-        guest (ffirst (filter #(= (:room (second %)) room) guests))]
-    (if (nil? guest)
-      (assoc-in world [:message] "But there's nobody here!")
-      (let [times (get-in world [:entities :guests guest :num-questions])
+        guest (ffirst (filter #(= (:room (second %)) room) guests))
+        guest-location (get-in guests [guest :location])]
+    (cond 
+     (nil? guest)
+     (assoc-in world [:message] "But there's nobody here!")
+     
+     (not (close-enough? player-location guest-location))
+     (assoc-in world [:message] (str (keyword-to-first-name guest) 
+                                     " can't hear you from all the way over there."))
+     
+     :else
+     (let [times (get-in world [:entities :guests guest :num-questions])
             message (create-alibi-message guest times world)]
         (-> world
             (assoc-in [:message] message)
