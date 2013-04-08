@@ -53,7 +53,8 @@
         world (->World (load-house new-house) "" "" {} {} 
                        {:found-magnifying-glass false
                         :found-murder-weapon false
-                        :murderer-is-suspicious false}
+                        :murderer-is-suspicious false
+                        :murderer-is-stalking false}
                        {} {})
         world (assoc-in world [:items] (random-items))
         world (assoc-in world [:murder-case :weapon] (random-item world))
@@ -68,8 +69,13 @@
 (defn new-turn
   "Updates turn count and checks for turn-count dependent events."
   [world]
-  (let [new-world (update-in world [:murder-case :turn-count] inc)]
-    new-world))
+  (let [new-world (update-in world [:murder-case :turn-count] inc)
+        turn-count (get-in new-world [:murder-case :turn-count])]
+    (cond
+     (= turn-count 200) 
+     (assoc-in new-world [:flags :murderer-is-suspicious] true)
+     
+    :else new-world)))
     
 
 

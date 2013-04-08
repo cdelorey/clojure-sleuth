@@ -1,5 +1,5 @@
 (ns sleuth.world.rooms
-  (:use [sleuth.world.items :only [get-item-description room-items]])
+  (:use [sleuth.world.items :only [get-item-description get-item-rooms]])
   (:require [clj-yaml.core :as yaml]))
 
 (defrecord Rect [x y width height])
@@ -80,15 +80,21 @@
   [[x y] world]
   (let [room-name (get-room-name [x y])
         guest-description (get-guest-description room-name world)
-        item-description (get-item-description room-name world)]
-      (str (room-name @room-descriptions) "\n"  item-description "\n" guest-description)))
+        item-description (get-item-description room-name world)
+        description (str (room-name @room-descriptions) "\n"  item-description "\n" guest-description)]
+    (println (not (contains? (set (get-item-rooms)) room-name)))  
+    (cond 
+       (and (= true (get-in world [:flags :murderer-is-suspicious])) (not (contains? (set (get-item-rooms)) room-name)))
+        (str description "The murderer has grown suspicious of your investigation!")
+       
+       :else description)))
 
 (defn random-room
   "Returns a random room name.
   
   If a room list is provided, it returns a random room name that is not in the list."
   ([]
-   (rand-nth (keys @room-items)))
+   (rand-nth (get-item-rooms)))
   ([room-list]
    (let [room (random-room)]
      (if(some #{room} room-list)
