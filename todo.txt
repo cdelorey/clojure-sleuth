@@ -73,13 +73,13 @@
 04/08/13
 *DONE* add turn count
 *DONE* make murderer get suspicious after certain # of turns (180) (only shows up in hallway)
+*DONE* make murderer stalk you (276) (only shows up in hallway)
 * add random chance for guest to refuse to be questioned
 * change alibi components to have victim and guest tags to be replaced with names
 * add distance check for alibi command
 * add guest movement
 * make guests stare at floor after certain # of turns (suspicious?). more likely higher turn #.
 * add examine floor command
-* make murderer stalk you (276) (only shows up in hallway)
 * lose if being stalked and enter a room. random chance. 
 * lose if ask murderer too many questions
 * add accuse command

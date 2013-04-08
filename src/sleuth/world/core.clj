@@ -75,6 +75,9 @@
      (= turn-count 200) 
      (assoc-in new-world [:flags :murderer-is-suspicious] true)
      
+     (= turn-count 300)
+     (assoc-in new-world [:flags :murderer-is-stalking] true)
+     
     :else new-world)))
     
 

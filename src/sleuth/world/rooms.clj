@@ -84,10 +84,13 @@
         description (str (room-name @room-descriptions) "\n"  item-description "\n" guest-description)]
     (println (not (contains? (set (get-item-rooms)) room-name)))  
     (cond 
-       (and (= true (get-in world [:flags :murderer-is-suspicious])) (not (contains? (set (get-item-rooms)) room-name)))
-        (str description "The murderer has grown suspicious of your investigation!")
+     (and (= true (get-in world [:flags :murderer-is-stalking])) (not (contains? (set (get-item-rooms)) room-name)))
+     (str description "The murderer is now stalking you!")
+     
+     (and (= true (get-in world [:flags :murderer-is-suspicious])) (not (contains? (set (get-item-rooms)) room-name)))
+     (str description "The murderer has grown suspicious of your investigation!")
        
-       :else description)))
+     :else description)))
 
 (defn random-room
   "Returns a random room name.
