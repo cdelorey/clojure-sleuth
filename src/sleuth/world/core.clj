@@ -58,11 +58,18 @@
         world (assoc-in world [:items] (random-items))
         world (assoc-in world [:murder-case :weapon] (random-item world))
         world (assoc-in world [:murder-case :room] (random-room))
+        world (assoc-in world [:murder-case :turn-count] 0)
         world (random-passages world)
         world (create-guests world)
         world (assoc-in world [:items :dining-room] [:magnifying-glass "a magnifying glass"])] ;testing
         ;world (place-magnifying-glass world)]
     world))
+
+(defn new-turn
+  "Updates turn count and checks for turn-count dependent events."
+  [world]
+  (let [new-world (update-in world [:murder-case :turn-count] inc)]
+    new-world))
     
 
 

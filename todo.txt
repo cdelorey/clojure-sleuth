@@ -70,10 +70,11 @@
 *DONE* move guest text to files
 04/06/13
 *DONE* move room text to files
+04/08/13
+*DONE* add turn count
 * add random chance for guest to refuse to be questioned
 * change alibi components to have victim and guest tags to be replaced with names
 * add distance check for alibi command
-* add turn count
 * add guest movement
 * make guests stare at floor after certain # of turns
 * make murderer get suspicious after certain # of turns

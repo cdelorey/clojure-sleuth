@@ -1,6 +1,6 @@
 (ns sleuth.ui.input
   (:use [sleuth.ui.core :only [->UI instructions]]
-        [sleuth.world.core :only [new-world]]
+        [sleuth.world.core :only [new-world new-turn]]
         [sleuth.world.rooms :only [get-room-description]]
         [sleuth.entities.player :only [move-player make-player]]
         [sleuth.commands :only [process-command]]
@@ -52,6 +52,7 @@
   "Move player in specified direction."
   [direction game]
   (let [new-game (update-in game [:world] move-player direction)
+        new-game (assoc-in new-game [:world] (new-turn (get-in new-game [:world])))
         new-location (get-in new-game [:world :entities :player :location])
         world (:world new-game)]
     (assoc-in new-game [:world :message] (get-room-description new-location world))))
