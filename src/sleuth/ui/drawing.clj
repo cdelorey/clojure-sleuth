@@ -56,7 +56,8 @@
   (doall (map 
           #(console-set-char screen (first (:location %)) (second (:location %))char-smilie) (vals guests))))
 
-(defmethod draw-ui :sleuth [ui game screen]
+(defn draw-sleuth 
+  [game screen]
   (let [world (:world game)
         {:keys [tiles message commandline entities]} world
         player (:player entities)
@@ -67,10 +68,13 @@
     (draw-player screen player)
     (draw-guests screen guests)))
 
+(defmethod draw-ui :sleuth [ui game screen]
+  (draw-sleuth game screen))
+
 
 ; Game --------------------------------------------------------------------
 (defn draw-game [game screen]
-  (console-clear screen) ;this may not be necessary
+  (console-clear screen) 
   (doseq [ui (:uis game)]
     (draw-ui ui game screen))
   (console-flush)

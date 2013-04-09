@@ -54,7 +54,8 @@
                        {:found-magnifying-glass false
                         :found-murder-weapon false
                         :murderer-is-suspicious false
-                        :murderer-is-stalking false}
+                        :murderer-is-stalking false
+                        :game-lost false}
                        {} {})
         world (assoc-in world [:items] (random-items))
         world (assoc-in world [:murder-case :weapon] (random-item world))

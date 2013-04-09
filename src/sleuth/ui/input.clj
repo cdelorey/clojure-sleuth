@@ -57,6 +57,32 @@
         world (:world new-game)]
     (assoc-in new-game [:world :message] (get-room-description new-location world))))
 
+(defn process-commandline-input
+  [game input command-function]
+  "Process commandline input.
+  
+  Takes a command function so different uis can process commands differently."
+  (cond
+   (= (.vk input) key-backspace) (let [world (:world game)
+                                        {:keys [commandline]} world]
+                                    (assoc-in game [:world :commandline]
+                                              (subs commandline 0 
+                                                    (max (- (count commandline) 1) 0))))
+    
+   (= (.vk input) key-enter) (let [new-game (command-function game)]
+                                (assoc-in new-game [:world :commandline] "")) 
+    
+   (= (.vk input) key-char) (let [world (:world game)
+                                   {:keys [commandline]} world]
+                               (assoc-in game [:world :commandline] 
+                                         (str commandline (char (.c input)))))
+   
+   (= (.vk input) key-space) (let [world (:world game)
+                                    {:keys [commandline]} world]
+                                (assoc-in game [:world :commandline] 
+                                          (str commandline " ")))
+   :else game))
+
 (defmethod process-input :sleuth [game input]
   (cond 
    ; return to menu
@@ -69,26 +95,11 @@
    (= (.vk input) key-right) (move :e game)   
 
    ; commandline keys 
-   (= (.vk input) key-backspace) (let [world (:world game)
-                                        {:keys [commandline]} world]
-                                    (assoc-in game [:world :commandline]
-                                              (subs commandline 0 
-                                                    (max (- (count commandline) 1) 0))))
-    
-    (= (.vk input) key-enter) (let [new-game (process-command game)]
-                                (assoc-in new-game [:world :commandline] "")) 
-    
-    (= (.vk input) key-char) (let [world (:world game)
-                                   {:keys [commandline]} world]
-                               (assoc-in game [:world :commandline] 
-                                         (str commandline (char (.c input)))))
-   
-    (= (.vk input) key-space) (let [world (:world game)
-                                    {:keys [commandline]} world]
-                                (assoc-in game [:world :commandline] 
-                                          (str commandline " ")))
+   (contains? #{key-backspace key-enter key-char key-space} (.vk input)) 
+   (process-commandline-input game input process-command) 
 
     :else game))
+
 
 ; Input processing -------------------------------------------------------
 (defn get-input
