@@ -1,6 +1,6 @@
 (ns sleuth.world.alibis
   (:use [sleuth.utils :only [keyword-to-first-name keyword-to-string]]
-        [sleuth.world.rooms :only [random-room]])
+        [sleuth.world.rooms :only [random-room current-room]])
   (:require [clj-yaml.core :as yaml]))
 
 ; Alibi components ----------------------------------------------------------------------------
@@ -26,6 +26,10 @@
 (def refuse (promise))
 ; said the second time a guest is asked
 (def finished (promise))
+; text displayed when player loses from questioning murderer too much
+(def lose-questioning (promise))
+; text displayed when player loses from running out of time
+(def lose-time (promise))
 
 ;when staring at floor
 ;"%s looks up from the floor and says,"
@@ -44,7 +48,28 @@
     (deliver accusations (:accusations alibis-map))
     (deliver repeats (:repeats alibis-map))
     (deliver refuse (:refuse alibis-map))
-    (deliver finished (:finished alibis-map))))
+    (deliver finished (:finished alibis-map))
+    (deliver lose-questioning (:lose-questioning alibis-map))
+    (deliver lose-time (:lose-time alibis-map))))
+
+(defn get-lose-questioning
+  "Returns the lose-questioning text with the proper values filled in"
+  [world]
+  (let [murderer (keyword-to-first-name (get-in world [:murder-case :murderer]))
+        victim (keyword-to-first-name (get-in world [:murder-case :victim]))
+        room (keyword-to-string (get-in world [:murder-case :room]))
+        weapon (keyword-to-string (get-in world [:murder-case :weapon]))]
+    (format (first @lose-questioning) murderer victim room weapon)))
+
+(defn get-lose-time
+  "Returns the lose-time text with the proper values filled in"
+  [world]
+  (let [murderer (keyword-to-first-name (get-in world [:murder-case :murderer]))
+        victim (keyword-to-first-name (get-in world [:murder-case :victim]))
+        room (keyword-to-string (get-in world [:murder-case :room]))
+        weapon (keyword-to-string (get-in world [:murder-case :weapon]))
+        current-room (current-room world)]
+    (format (first @lose-time) murderer current-room victim room weapon)))
 
 (defn get-murderer-alibi
   "Returns an alibi for the murderer."

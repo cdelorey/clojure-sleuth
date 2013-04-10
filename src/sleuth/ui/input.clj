@@ -3,7 +3,7 @@
         [sleuth.world.core :only [new-world new-turn]]
         [sleuth.world.rooms :only [get-room-description]]
         [sleuth.entities.player :only [move-player make-player]]
-        [sleuth.commands :only [process-command]]
+        [sleuth.commands :only [process-command process-lose-commands]]
         [sleuth.libtcod]))
 
 ; Definitions ------------------------------------------------------------
@@ -47,7 +47,16 @@
   "Does nothing yet -- returns to menu screen."
   (assoc game :uis [(->UI :menu)]))
 
+
 ; Sleuth ------------------------------------------------------------------
+(defn lose-game
+  "Switch to lose-game ui."
+  [game]
+  (let [lose-text (get-in game [:world :murder-case :lose-text])]
+    (-> game
+        (assoc-in [:uis] [(->UI :lose-game)])
+        (assoc-in [:world :message] lose-text))))
+
 (defn move
   "Move player in specified direction."
   [direction game]
@@ -84,22 +93,32 @@
    :else game))
 
 (defmethod process-input :sleuth [game input]
-  (cond 
-   ; return to menu
-   (= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
+  (if (= true (get-in game [:world :flags :game-lost]))
+    (lose-game game)
+    (cond 
+     ; return to menu
+     (= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
    
-   ; movement keys
-   (= (.vk input) key-left) (move :w game)
-   (= (.vk input) key-down) (move :s game)
-   (= (.vk input) key-up) (move :n game)
-   (= (.vk input) key-right) (move :e game)   
+     ; movement keys
+     (= (.vk input) key-left) (move :w game)
+     (= (.vk input) key-down) (move :s game)
+     (= (.vk input) key-up) (move :n game)
+     (= (.vk input) key-right) (move :e game)   
 
-   ; commandline keys 
-   (contains? #{key-backspace key-enter key-char key-space} (.vk input)) 
-   (process-commandline-input game input process-command) 
+     ; commandline keys 
+     (contains? #{key-backspace key-enter key-char key-space} (.vk input)) 
+     (process-commandline-input game input process-command) 
 
-    :else game))
+     :else game)))
 
+; Lose Game ---------------------------------------------------------------
+(defmethod process-input :lose-game [game input]
+  (let [game (assoc-in game [:world :message] "Quit or Restart?")]
+    (cond
+     (contains? #{key-backspace key-enter key-char key-space} (.vk input))
+     (process-commandline-input game input process-lose-commands)
+   
+     :else game)))
 
 ; Input processing -------------------------------------------------------
 (defn get-input

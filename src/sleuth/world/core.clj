@@ -2,7 +2,7 @@
   (:use [sleuth.world.rooms :only [random-room load-rooms]]
         [sleuth.world.items :only [random-items random-item place-magnifying-glass load-items]]
         [sleuth.world.portals :only [random-passages]]
-        [sleuth.world.alibis :only [load-alibis]]
+        [sleuth.world.alibis :only [load-alibis get-lose-questioning]]
         [sleuth.entities.guests :only [create-guests load-guests]]))
 
 ; Constants ------------------------------------------------------------------
@@ -78,6 +78,12 @@
      
      (= turn-count 300)
      (assoc-in new-world [:flags :murderer-is-stalking] true)
+     
+     ;testing
+     (= turn-count 5)
+     (-> new-world
+       (assoc-in [:flags :game-lost] true)
+       (assoc-in [:murder-case :lose-text] (get-lose-questioning new-world)))
      
     :else new-world)))
     

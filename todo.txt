@@ -75,7 +75,7 @@
 *DONE* make murderer get suspicious after certain # of turns (180) (only shows up in hallway)
 *DONE* make murderer stalk you (276) (only shows up in hallway)
 *DONE* add distance check for alibi command
-04/09/13
+04/10/13
 * add lose ui. move common code to functions so both play and lose/win uis can use them.
 * lose if ask murderer too many questions
 * lose if being stalked and enter a room. random chance. 

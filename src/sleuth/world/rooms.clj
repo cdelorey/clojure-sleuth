@@ -63,6 +63,12 @@
   [[x y]]
   (first (keys (get-room [x y]))))
 
+(defn current-room
+  "Returns the name of the room the player is currently in."
+  [world]
+  (let [[x y] (get-in world [:entities :player :location])]
+    (get-room-name [x y])))
+
 (defn get-guest-description
   [room-name world]
   (let [guest (first (remove nil? (for [[k v] (get-in world [:entities :guests])]

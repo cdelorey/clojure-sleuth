@@ -195,3 +195,17 @@ refuse:
     "%s stares defiantly at you, but says nothing.",
     "%s pays no attention to your question.",
    ]
+   
+lose-questioning:
+  [
+  "%s locks the door and turns toward you. \"I'm sick and tired of your snooping. I killed 
+  %s in the %s with the %s and now I'm going to get rid of you! I'm afraid 
+  that your investigation is over!!\""
+  ]
+  
+lose-time:
+  [
+  "%s quietly locks the door behind you as you enter the %s. \" Let me
+  satisfy your curiosity inspector. I killed %s in the %s with the %s and
+  now I intend to dispose of you! Goodbye, inspector!!\""
+  ]

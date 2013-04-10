@@ -71,6 +71,9 @@
 (defmethod draw-ui :sleuth [ui game screen]
   (draw-sleuth game screen))
 
+; Lose Game ---------------------------------------------------------------
+(defmethod draw-ui :lose-game [ui game screen]
+  (draw-sleuth game screen))
 
 ; Game --------------------------------------------------------------------
 (defn draw-game [game screen]

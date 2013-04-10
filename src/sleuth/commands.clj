@@ -172,4 +172,14 @@
      :else (assoc-in game [:world :message] 
                       "I'm sorry, but I can't seem to make out what you're trying to say."))))
 
+(defn process-lose-commands
+  "Parse commands entered on the commandline for the lose ui."
+  [game]
+  (let [world (:world game)
+        command (:commandline world)]
+    (cond
+     (= command "restart") (restart game)
+     (= command "quit") (quit game)
+     :else game)))
+
 
