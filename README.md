@@ -5,7 +5,7 @@ A Clojure clone of the ASCII murder mystery game [sleuth].
 [sleuth]: http://en.wikipedia.org/wiki/Sleuth_(video_game)
 
 
-Clojure-sleuth uses my clojure [bindings] to the [libtcod] library.
+`clojure-sleuth` uses my clojure [bindings] to the [libtcod] library.
 
 [libtcod]: http://doryen.eptalys.net/libtcod/
 
