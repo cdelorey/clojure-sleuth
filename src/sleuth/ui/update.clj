@@ -1,5 +1,5 @@
 (ns sleuth.ui.update
-  (:use [sleuth.world.alibis :only [get-lose-questioning]]))
+  (:use [sleuth.ui.input :only [lose-game]]))
 
 ; Definitions ------------------------------------------------------------
 (defmulti update
@@ -43,17 +43,15 @@
      (= turn-count 300)
      (assoc-in new-world [:flags :murderer-is-stalking] true)
 
-     ;testing
-     (= turn-count 5)
-     (-> new-world
-       (assoc-in [:flags :game-lost] true)
-       (assoc-in [:murder-case :lose-text] (get-lose-questioning new-world)))
-
     :else new-world)))
 
 (defmethod update :sleuth
   [game]
-  (assoc-in game [:world] (new-turn (:world game))))
+  "Checks if game has been won or lost and updates turn count."
+  (let [game-lost (get-in game [:world :flags :game-lost])]
+    (if game-lost
+      (lose-game game)
+      (assoc-in game [:world] (new-turn (:world game))))))
 
 
 ; Lose Game --------------------------------------------------------------

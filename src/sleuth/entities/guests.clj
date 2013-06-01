@@ -26,11 +26,11 @@
 
 (defn get-guests
   "Returns a list of guests from the given names with random locations.
-  
+
   names is a vector of keywords."
   [names]
   (into {} (for [n names]
-             [n (->Guest (keyword-to-name n) " " 0 [0 0] " ")]))) 
+             [n (->Guest (keyword-to-name n) " " 0 [0 0] " ")])))
 
 (defn place-guest
   [guest-name guest world]
@@ -48,10 +48,10 @@
 
 (defn place-guests
   "Moves all of the guests in guest-list.
-  
+
   guest-list is a vector of keyword names."
-  [guest-list world]  
-  (loop [guest-list guest-list 
+  [guest-list world]
+  (loop [guest-list guest-list
          world world]
     (if (empty? guest-list)
       world
@@ -67,8 +67,8 @@
   "Creates guests with their alibis"
   (let [names (shuffle @guest-names)
         [victim
-         murderer 
-         alone 
+         murderer
+         alone
          suspect1
          suspect2
          suspect3
@@ -77,9 +77,12 @@
         [room1 room2 room3] rooms
         guest-list (remove #{victim} @guest-names)
         world (place-guests guest-list world)]
+    ; testing
     (println "Room1: " room1 " Guests: " suspect1 " " suspect2)
     (println "Room2: " room2 " Guests: " suspect3 " " suspect4)
     (println "Room3: " room3 " Guest: " alone)
+    (println "HELLO")
+    (println "Murderer: " murderer)
     (as-> world world
         (assoc-in world [:murder-case :victim] victim)
         (assoc-in world [:murder-case :murderer] murderer)
@@ -94,5 +97,5 @@
         (assoc-in world [:entities :guests suspect3 :alibi-room] room2)
         (assoc-in world [:entities :guests suspect4 :alibi-room] room2)
         (assoc-in world [:entities :guests alone :alibi-room] room3)
-        (assoc-in world [:entities :guests] 
+        (assoc-in world [:entities :guests]
                   (get-alibis (get-in world [:entities :guests]))))))

@@ -92,23 +92,21 @@
    :else game))
 
 (defmethod process-input :sleuth [game input]
-  (if (= true (get-in game [:world :flags :game-lost]))
-    (lose-game game)
-    (cond
-     ; return to menu
-     (= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
+  (cond
+   ; return to menu
+   (= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
 
-     ; movement keys
-     (= (.vk input) key-left) (move :w game)
-     (= (.vk input) key-down) (move :s game)
-     (= (.vk input) key-up) (move :n game)
-     (= (.vk input) key-right) (move :e game)
+   ; movement keys
+   (= (.vk input) key-left) (move :w game)
+   (= (.vk input) key-down) (move :s game)
+   (= (.vk input) key-up) (move :n game)
+   (= (.vk input) key-right) (move :e game)
 
-     ; commandline keys
-     (contains? #{key-backspace key-enter key-char key-space} (.vk input))
-     (process-commandline-input game input process-command)
+   ; commandline keys
+   (contains? #{key-backspace key-enter key-char key-space} (.vk input))
+   (process-commandline-input game input process-command)
 
-     :else game)))
+   :else game))
 
 ; Lose Game ---------------------------------------------------------------
 (defmethod process-input :lose-game [game input]
