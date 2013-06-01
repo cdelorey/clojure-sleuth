@@ -32,8 +32,6 @@
   [[player-x player-y] [guest-x guest-y]]
   (let [x-distance (abs (- player-x guest-x))
         y-distance (abs (- player-y guest-y))]
-    (println "X:" x-distance)
-    (println "Y: " y-distance)
     (if (or (> x-distance 3) (> y-distance 3))
       false
       true)))

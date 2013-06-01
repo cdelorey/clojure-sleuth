@@ -78,7 +78,6 @@
         guests (dissoc guests murderer)
         guests (dissoc guests alone)
         alibi (rand-nth (keys guests))]
-    (println "Murderer!")
     (format (rand-nth @alibis) (keyword-to-first-name alibi) (keyword-to-string (random-room)))))
 
 (defn get-alibi
@@ -86,7 +85,6 @@
   [guest guests]
   (let [alibi (get-in guests [guest :alibi])
         room (get-in guests [guest :alibi-room])]
-    (println "Alibi: " alibi)
     (case alibi
       :murderer (get-murderer-alibi guest guests)
       :alone (format (first @alone-alibi) (keyword-to-string room))
@@ -98,11 +96,8 @@
   [guests]
   (loop [guests guests
          guest-names (keys guests)]
-    ;(println guests)
     (if (empty? guest-names)
-      (do
-        (println guests)
-        guests)
+      guests
       (let [guest (first guest-names)
             guests (assoc-in guests [guest :alibi-string] (get-alibi guest guests))]
         (recur guests (rest guest-names))))))
@@ -114,17 +109,17 @@
         alibi (get-in world [:entities :guests guest :alibi])
         opener (format (rand-nth @openers) (keyword-to-first-name guest))
         accuse (rand-int 4)
-        accused (keyword-to-first-name (rand-nth 
+        accused (keyword-to-first-name (rand-nth
                                         (remove #{victim alibi guest}
                                                 (keys (get-in world [:entities :guests])))))]
     (cond
      (= alibi :alone)
       (str opener alibi-string (format (rand-nth @alone-additions) victim))
-      
+
      (= accuse 0)
        (str opener alibi-string (format (rand-nth @accusations) accused victim))
-     
-     :else 
+
+     :else
        (str opener alibi-string (format (rand-nth @additions) victim)))))
 
 (defn random-response

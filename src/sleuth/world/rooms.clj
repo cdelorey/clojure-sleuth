@@ -43,7 +43,7 @@
   (let [rooms-map (yaml/parse-string (slurp "resources/rooms.yaml"))]
     (deliver room-descriptions (:room-descriptions rooms-map))))
 
-(defn in-rect? 
+(defn in-rect?
  "Return true if the given coordinates are contained in the given rect."
  [[x-coord y-coord] rect]
   (let [{:keys [x y width height]} rect]
@@ -53,10 +53,10 @@
   true
   false)))
 
-(defn get-room 
+(defn get-room
   "Return the room containing the coordinates [x y]."
   [[x y]]
-  (filter #(in-rect? [x y] (second %)) room-rects)) 
+  (filter #(in-rect? [x y] (second %)) room-rects))
 
 (defn get-room-name
   "Return the name of the room for the coordinates [x y]"
@@ -88,19 +88,18 @@
         guest-description (get-guest-description room-name world)
         item-description (get-item-description room-name world)
         description (str (room-name @room-descriptions) "\n"  item-description "\n" guest-description)]
-    (println (not (contains? (set (get-item-rooms)) room-name)))  
-    (cond 
+    (cond
      (and (= true (get-in world [:flags :murderer-is-stalking])) (not (contains? (set (get-item-rooms)) room-name)))
      (str description "The murderer is now stalking you!")
-     
+
      (and (= true (get-in world [:flags :murderer-is-suspicious])) (not (contains? (set (get-item-rooms)) room-name)))
      (str description "The murderer has grown suspicious of your investigation!")
-       
+
      :else description)))
 
 (defn random-room
   "Returns a random room name.
-  
+
   If a room list is provided, it returns a random room name that is not in the list."
   ([]
    (rand-nth (get-item-rooms)))
@@ -112,7 +111,7 @@
 
 (defn random-coords
   "Returns the coordinates of a random location in a room
-  
+
   If a room is not provided, it returns a random location in a random room."
   ([]
    (let [room (random-room)
