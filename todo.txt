@@ -75,10 +75,12 @@
 *DONE* make murderer get suspicious after certain # of turns (180) (only shows up in hallway)
 *DONE* make murderer stalk you (276) (only shows up in hallway)
 *DONE* add distance check for alibi command
-04/10/13
-* add lose ui. move common code to functions so both play and lose/win uis can use them.
+06/01/13
+*DONE* add lose ui. move common code to functions so both play and lose/win uis can use them.
+* add update functions to uis
 * lose if ask murderer too many questions
-* lose if being stalked and enter a room. random chance. 
+* switch to libtcod clojars dependency
+* lose if being stalked and enter a room. random chance.
 * add random chance for guest to refuse to be questioned
 * make guests stare at floor after certain # of turns (suspicious?). more likely higher turn #.
 * add examine floor command

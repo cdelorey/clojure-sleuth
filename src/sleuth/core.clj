@@ -1,5 +1,6 @@
 (ns sleuth.core
   (:use [sleuth.ui.core :only [->UI]]
+        [sleuth.ui.update :only [update]]
         [sleuth.ui.drawing :only [draw-game]]
         [sleuth.ui.input :only [get-input process-input]]
         [sleuth.world.core :only [load-text-files]]
@@ -20,6 +21,7 @@
                    (dissoc :input)
                    (process-input input))
                (-> game
+                   (update)
                    (draw-game screen)
                    (get-input screen)))))))
 

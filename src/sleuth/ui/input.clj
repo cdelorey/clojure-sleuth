@@ -1,6 +1,6 @@
 (ns sleuth.ui.input
   (:use [sleuth.ui.core :only [->UI instructions]]
-        [sleuth.world.core :only [new-world new-turn]]
+        [sleuth.world.core :only [new-world]]
         [sleuth.world.rooms :only [get-room-description]]
         [sleuth.entities.player :only [move-player make-player]]
         [sleuth.commands :only [process-command process-lose-commands]]
@@ -26,7 +26,7 @@
 
 (defmethod process-input :menu [game input]
   (cond
-    (= (.c input) (int \a)) (new-game game) 
+    (= (.c input) (int \a)) (new-game game)
     (= (.c input) (int \b)) (assoc game :uis [(->UI :personalize)])
     (= (.c input) (int \c)) (assoc (assoc-in
                      game [:instructions] instructions)
@@ -61,7 +61,6 @@
   "Move player in specified direction."
   [direction game]
   (let [new-game (update-in game [:world] move-player direction)
-        new-game (assoc-in new-game [:world] (new-turn (get-in new-game [:world])))
         new-location (get-in new-game [:world :entities :player :location])
         world (:world new-game)]
     (assoc-in new-game [:world :message] (get-room-description new-location world))))
@@ -69,45 +68,45 @@
 (defn process-commandline-input
   [game input command-function]
   "Process commandline input.
-  
+
   Takes a command function so different uis can process commands differently."
   (cond
    (= (.vk input) key-backspace) (let [world (:world game)
                                         {:keys [commandline]} world]
                                     (assoc-in game [:world :commandline]
-                                              (subs commandline 0 
+                                              (subs commandline 0
                                                     (max (- (count commandline) 1) 0))))
-    
+
    (= (.vk input) key-enter) (let [new-game (command-function game)]
-                                (assoc-in new-game [:world :commandline] "")) 
-    
+                                (assoc-in new-game [:world :commandline] ""))
+
    (= (.vk input) key-char) (let [world (:world game)
                                    {:keys [commandline]} world]
-                               (assoc-in game [:world :commandline] 
+                               (assoc-in game [:world :commandline]
                                          (str commandline (char (.c input)))))
-   
+
    (= (.vk input) key-space) (let [world (:world game)
                                     {:keys [commandline]} world]
-                                (assoc-in game [:world :commandline] 
+                                (assoc-in game [:world :commandline]
                                           (str commandline " ")))
    :else game))
 
 (defmethod process-input :sleuth [game input]
   (if (= true (get-in game [:world :flags :game-lost]))
     (lose-game game)
-    (cond 
+    (cond
      ; return to menu
      (= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
-   
+
      ; movement keys
      (= (.vk input) key-left) (move :w game)
      (= (.vk input) key-down) (move :s game)
      (= (.vk input) key-up) (move :n game)
-     (= (.vk input) key-right) (move :e game)   
+     (= (.vk input) key-right) (move :e game)
 
-     ; commandline keys 
-     (contains? #{key-backspace key-enter key-char key-space} (.vk input)) 
-     (process-commandline-input game input process-command) 
+     ; commandline keys
+     (contains? #{key-backspace key-enter key-char key-space} (.vk input))
+     (process-commandline-input game input process-command)
 
      :else game)))
 
@@ -117,7 +116,7 @@
     (cond
      (contains? #{key-backspace key-enter key-char key-space} (.vk input))
      (process-commandline-input game input process-lose-commands)
-   
+
      :else game)))
 
 ; Input processing -------------------------------------------------------

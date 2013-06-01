@@ -2,7 +2,7 @@
   (:use [sleuth.world.rooms :only [random-room load-rooms]]
         [sleuth.world.items :only [random-items random-item place-magnifying-glass load-items]]
         [sleuth.world.portals :only [random-passages]]
-        [sleuth.world.alibis :only [load-alibis get-lose-questioning]]
+        [sleuth.world.alibis :only [load-alibis]]
         [sleuth.entities.guests :only [create-guests load-guests]]))
 
 ; Constants ------------------------------------------------------------------
@@ -18,7 +18,7 @@
    :vwall     (->Tile :vwall 219 :white) ;231
    :fwall     (->Tile :fwall 219 :white)
    :stairs    (->Tile :stairs 196 :white)
-   :floor     (->Tile :floor 0 :blue)}) 
+   :floor     (->Tile :floor 0 :blue)})
 
 
 ; World Functions ------------------------------------------------------------
@@ -50,7 +50,7 @@
 (defn new-world []
   "Create a new random world."
   (let [new-house (rand-nth ["resources/house22.txt"])
-        world (->World (load-house new-house) "" "" {} {} 
+        world (->World (load-house new-house) "" "" {} {}
                        {:found-magnifying-glass false
                         :found-murder-weapon false
                         :murderer-is-suspicious false
@@ -66,27 +66,6 @@
         world (assoc-in world [:items :dining-room] [:magnifying-glass "a magnifying glass"])] ;testing
         ;world (place-magnifying-glass world)]
     world))
-
-(defn new-turn
-  "Updates turn count and checks for turn-count dependent events."
-  [world]
-  (let [new-world (update-in world [:murder-case :turn-count] inc)
-        turn-count (get-in new-world [:murder-case :turn-count])]
-    (cond
-     (= turn-count 200) 
-     (assoc-in new-world [:flags :murderer-is-suspicious] true)
-     
-     (= turn-count 300)
-     (assoc-in new-world [:flags :murderer-is-stalking] true)
-     
-     ;testing
-     (= turn-count 5)
-     (-> new-world
-       (assoc-in [:flags :game-lost] true)
-       (assoc-in [:murder-case :lose-text] (get-lose-questioning new-world)))
-     
-    :else new-world)))
-    
 
 
 ; Querying the world ---------------------------------------------------------
