@@ -125,4 +125,26 @@
          y (+ (rand-int (:height rect)) (:y rect))]
      [x y])))
 
+(defn is-doorway
+  "Returns true if the given coordinates are in a doorway."
+  [[x y]]
+  (let [room-name (get-room-name [x y])]
+    (if (.startsWith (name room-name) "doorway")
+      true
+      false)))
 
+(defn is-item-room
+  "Returns true if the given coordinates are in an item room"
+  [[x y]]
+  (let [room-name (get-room-name [x y])]
+    (if (some #{room-name} (get-item-rooms))
+      true
+      false)))
+
+(defn has-entered-room
+  "Returns true if the first coordinates are in a doorway and the second are
+  in an item room."
+  [[x1 y1] [x2 y2]]
+  (if (and (is-doorway [x1 y1]) (is-item-room [x2 y2]))
+    true
+    false))

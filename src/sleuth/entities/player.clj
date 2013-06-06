@@ -1,12 +1,13 @@
 (ns sleuth.entities.player
   (:use [sleuth.coords :only [destination-coords]]
         [sleuth.world.core :only [get-entity-at is-empty?]]
-        [sleuth.world.portals :only [portal? get-portal secret-passage? get-passage in-secret-passage]]))
+        [sleuth.world.portals :only [portal? get-portal secret-passage? get-passage in-secret-passage]]
+        [sleuth.world.rooms :only [has-entered-room]]))
 
 (defrecord Player [id glyph location])
 
 (defn make-player [world]
-  (->Player :player "@" [2 2])) 
+  (->Player :player "@" [2 2]))
 
 (defn can-move?
   [dest world]
@@ -18,6 +19,9 @@
         entity-at-target (get-entity-at world target)]
     ;testing (println (str "Location: " (:location player)))
     ;testing (println (str "Target: " target))
+    (if (has-entered-room (:location player) target)
+      (println "ENTERED ROOM")
+      (println "NOT"))
     (cond
      (portal? target) (assoc-in world [:entities :player :location] (get-portal target))
      (secret-passage? target world) (let [location (get-passage target world)]

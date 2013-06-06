@@ -79,9 +79,11 @@
 *DONE* add lose ui. move common code to functions so both play and lose/win uis can use them.
 *DONE* add update functions to uis
 *DONE* lose if ask murderer too many questions
-* switch to libtcod clojars dependency
-* cleanup testing text
+*DONE* cleanup testing text
+06/06/13
+*DONE* add function to check if payer has entered a room
 * lose if being stalked and enter a room. random chance.
+* switch to libtcod clojars dependency
 * add random chance for guest to refuse to be questioned
 * make guests stare at floor after certain # of turns (suspicious?). more likely higher turn #.
 * add examine floor command
