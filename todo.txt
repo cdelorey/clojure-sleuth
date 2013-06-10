@@ -84,7 +84,7 @@
 *DONE* add function to check if payer has entered a room
 06/10/13
 *DONE* lose if being stalked and enter a room.
-* fix lose-text room-name bug
+*DONE* fix lose-text room-name bug
 * switch to libtcod clojars dependency
 * add random chance for guest to refuse to be questioned
 * add randomness to losing game after being stalked by murderer
@@ -94,6 +94,7 @@
 * add win ui
 * add accuse command
 * only display guests in same room as player
+* add closed door to lose room and make sure there is an npc in the room
 
 Personalize
 

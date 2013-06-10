@@ -1,4 +1,5 @@
-(ns sleuth.ui.update)
+(ns sleuth.ui.update
+  (:use [sleuth.ui.core :only [->UI]]))
 
 ; Definitions ------------------------------------------------------------
 (defmulti update

@@ -68,7 +68,7 @@
         victim (keyword-to-first-name (get-in world [:murder-case :victim]))
         room (keyword-to-string (get-in world [:murder-case :room]))
         weapon (keyword-to-string (get-in world [:murder-case :weapon]))
-        current-room (current-room world)]
+        current-room (keyword-to-string (current-room world))]
     (format (first @lose-time) murderer current-room victim room weapon)))
 
 (defn get-murderer-alibi
