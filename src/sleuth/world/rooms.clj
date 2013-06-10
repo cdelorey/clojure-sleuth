@@ -1,5 +1,6 @@
 (ns sleuth.world.rooms
-  (:use [sleuth.world.items :only [get-item-description get-item-rooms]])
+  (:use [sleuth.world.items :only [get-item-description get-item-rooms]]
+        [sleuth.utils :only [keyword-to-name]])
   (:require [clj-yaml.core :as yaml]))
 
 (defrecord Rect [x y width height])
@@ -74,11 +75,14 @@
   (let [guest (first (remove nil? (for [[k v] (get-in world [:entities :guests])]
                                (if (= (:room v) room-name)
                                  k))))
+        guest-name (get-in world [:entities :guests guest :name])
         description (get-in world [:entities :guests guest :description])]
     (if (= nil description)
       nil
-      (let [n (get-in world [:entities :guests guest :name])]
-        (format description n)))))
+      (if (:guests-stare-at-floor (:flags world))
+        (str  guest-name " is staring at the floor.")
+        (let [n (get-in world [:entities :guests guest :name])]
+          (format description n))))))
 
 (defn get-room-description
   "Return a room description for the coordinates [x y]"

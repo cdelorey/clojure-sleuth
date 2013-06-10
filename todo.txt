@@ -85,14 +85,15 @@
 06/10/13
 *DONE* lose if being stalked and enter a room.
 *DONE* fix lose-text room-name bug
+*DONE* make guests stare at floor after certain # of turns (suspicious?)
 * switch to libtcod clojars dependency
+* add examine floor command
+* add accuse/win ui
+* add accuse command
 * add random chance for guest to refuse to be questioned
 * add randomness to losing game after being stalked by murderer
-* make guests stare at floor after certain # of turns (suspicious?). more likely higher turn #.
-* add examine floor command
+* add randomness to staring at floor
 * add guest movement
-* add win ui
-* add accuse command
 * only display guests in same room as player
 * add closed door to lose room and make sure there is an npc in the room
 

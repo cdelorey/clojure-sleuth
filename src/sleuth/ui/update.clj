@@ -37,6 +37,9 @@
   (let [new-world (update-in world [:murder-case :turn-count] inc)
         turn-count (get-in new-world [:murder-case :turn-count])]
     (cond
+     (= turn-count 150)
+     (assoc-in new-world [:flags :guests-stare-at-floor] true)
+
      (= turn-count 200)
      (assoc-in new-world [:flags :murderer-is-suspicious] true)
 
