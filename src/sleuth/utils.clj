@@ -11,7 +11,7 @@
   [word]
   (clojure.string/replace (name word) #"-" " "))
 
-(defn capitalize-name 
+(defn capitalize-name
   [n]
   "Capitalizes a name string."
   (let [caps-name (map clojure.string/capitalize (clojure.string/split n #" "))]
@@ -33,7 +33,7 @@
     (- i)
     i))
 
-(defn get-lines-from-file 
+(defn get-lines-from-file
   "Returns a sequence of the lines in filename."
   [filename]
   (with-open [r (clojure.java.io/reader filename)]
@@ -59,4 +59,9 @@
 
 (defn enumerate [s]
   (map-indexed vector s))
+
+(defmacro and-as-> [expr sym & body]
+  `(as-> ~expr ~sym
+     ~@(map (fn [b] `(and ~sym ~b)) (butlast body))
+     ~(last body)))
 

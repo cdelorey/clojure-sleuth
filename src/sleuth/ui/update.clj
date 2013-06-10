@@ -43,11 +43,11 @@
      (= turn-count 300)
      (assoc-in new-world [:flags :murderer-is-stalking] true)
 
+
     :else new-world)))
 
 (defmethod update :sleuth
   [game]
-  "Checks if game has been won or lost and updates turn count."
   (let [game-lost (get-in game [:world :flags :game-lost])]
     (if game-lost
       (lose-game game)

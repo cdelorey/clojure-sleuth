@@ -82,9 +82,12 @@
 *DONE* cleanup testing text
 06/06/13
 *DONE* add function to check if payer has entered a room
-* lose if being stalked and enter a room. random chance.
+06/10/13
+*DONE* lose if being stalked and enter a room.
+* fix lose-text room-name bug
 * switch to libtcod clojars dependency
 * add random chance for guest to refuse to be questioned
+* add randomness to losing game after being stalked by murderer
 * make guests stare at floor after certain # of turns (suspicious?). more likely higher turn #.
 * add examine floor command
 * add guest movement
