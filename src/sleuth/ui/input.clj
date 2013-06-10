@@ -49,14 +49,6 @@
 
 
 ; Sleuth ------------------------------------------------------------------
-(defn lose-game
-  "Switch to lose-game ui."
-  [game]
-  (let [lose-text (get-in game [:world :murder-case :lose-text])]
-    (-> game
-        (assoc-in [:uis] [(->UI :lose-game)])
-        (assoc-in [:world :message] lose-text))))
-
 (defn move
   "Move player in specified direction."
   [direction game]

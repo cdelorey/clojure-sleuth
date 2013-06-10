@@ -1,5 +1,4 @@
-(ns sleuth.ui.update
-  (:use [sleuth.ui.input :only [lose-game]]))
+(ns sleuth.ui.update)
 
 ; Definitions ------------------------------------------------------------
 (defmulti update
@@ -45,6 +44,14 @@
 
 
     :else new-world)))
+
+(defn lose-game
+  "Switch to lose-game ui."
+  [game]
+  (let [lose-text (get-in game [:world :murder-case :lose-text])]
+    (-> game
+        (assoc-in [:uis] [(->UI :lose-game)])
+        (assoc-in [:world :message] lose-text))))
 
 (defmethod update :sleuth
   [game]
