@@ -1,9 +1,10 @@
 (ns sleuth.commands
-  (:use [sleuth.world.rooms :only [get-room-name get-room]]
+  (:use [sleuth.world.rooms :only [get-room-name get-room current-room murder-room get-current-guest]]
         [sleuth.world.items :only [get-item-name get-item-examination]]
         [sleuth.ui.core :only [->UI]]
         [sleuth.utils :only [keywordize abs keyword-to-first-name]]
-        [sleuth.world.alibis :only [create-alibi-message get-lose-questioning]]))
+        [sleuth.world.alibis :only [create-alibi-message get-lose-questioning]]
+        [sleuth.entities.player :only [get-player-location]]))
 
 ; Helpers -----------------------------------------------------------------------------------------
 (defn is-match?
@@ -40,24 +41,42 @@
 (defn examine
   "Command to examine an object."
   [object world]
-  (let [room-name (get-room-name (get-in world [:entities :player :location]))
+  (let [room-name (current-room world)
         item-name (get-item-name room-name world)
         found-magnifying-glass (get-in world [:flags :found-magnifying-glass])]
     (cond
+     ; examine the floor
+     (= object "floor")
+     (let [guest (get-current-guest world)]
+       (if (and (:guests-stare-at-floor (:flags world))
+                (not (nil? guest))
+                found-magnifying-glass)
+        (let [player-location (get-player-location world)
+              guest-location (get-in world [:entities :guests guest :location])]
+          (if (not (close-enough? player-location guest-location))
+            (assoc-in world [:message] "can't see")
+            (if (= (current-room world) (murder-room world))
+            (assoc-in world [:message] "There seem to be blood stains on the floor! This must be the scene of the murder!!")
+            (assoc-in world [:message] "There's nothing unusual about the floor."))))
+        ;else
+        (assoc-in world [:message] "I can't see anything unusual about the floor. But then I am rather nearsighted.")))
+
+     ; examine item without the magnifying glass
      (and (= found-magnifying-glass false)
           (is-match? object item-name)) (assoc-in
-                                       world [:message] "It doesn't look like the murder weapon to me.\nOf course, without the magnifying glass, it's hard for me to be certain.")
+                                         world [:message] "It doesn't look like the murder weapon to me.\nOf course, without the magnifying glass, it's hard for me to be certain.")
 
+     ; examine murder weapon
      (and (= found-magnifying-glass true)
           (murder-weapon? item-name world)
           (is-match? object item-name)) (-> world
-                                         (assoc-in [:message] "There are traces of blood on it! This must be the murder weapon!")
-                                         (update-in [:items room-name] conj :examined))
-
+                                            (assoc-in [:message] "There are traces of blood on it! This must be the murder weapon!")
+                                            (update-in [:items room-name] conj :examined))
+     ; examine room item
      (and (= found-magnifying-glass true)
           (is-match? object item-name)) (-> world
-                                       (assoc-in [:message] (get-item-examination item-name))
-                                       (update-in [:items room-name] conj :examined))
+                                            (assoc-in [:message] (get-item-examination item-name))
+                                            (update-in [:items room-name] conj :examined))
 
      :else (assoc-in world [:message] "I don't see anything like that around here"))))
 

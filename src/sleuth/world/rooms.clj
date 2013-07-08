@@ -70,11 +70,22 @@
   (let [[x y] (get-in world [:entities :player :location])]
     (get-room-name [x y])))
 
+(defn get-current-guest
+  "Returns the name of the guest in the current room"
+  [world]
+  (let [room-name (current-room world)]
+    (first (remove nil? (for [[k v] (get-in world [:entities :guests])]
+                               (if (= (:room v) room-name)
+                                 k))))))
+
+(defn murder-room
+  "Returns the name of the room where the murder took place"
+  [world]
+  (get-in world [:murder-case :room]))
+
 (defn get-guest-description
   [room-name world]
-  (let [guest (first (remove nil? (for [[k v] (get-in world [:entities :guests])]
-                               (if (= (:room v) room-name)
-                                 k))))
+  (let [guest (get-current-guest world)
         guest-name (get-in world [:entities :guests guest :name])
         description (get-in world [:entities :guests guest :description])]
     (if (= nil description)

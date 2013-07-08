@@ -11,6 +11,9 @@
 (defn make-player [world]
   (->Player :player "@" [2 2]))
 
+(defn get-player-location [world]
+  (get-in world [:entities :player :location]))
+
 (defn can-move?
   [dest world]
   (is-empty? dest world))
