@@ -59,12 +59,15 @@
     (assoc-in new-game [:world :message] (get-room-description new-location world))))
 
 (defn process-movement-keys
-  [game input]
+  "Process player movement.
+
+  Takes a move function so different uis can process movement differently."
+  [game input move-function]
   (cond
-   (= (.vk input) key-left) (move :w game)
-   (= (.vk input) key-down) (move :s game)
-   (= (.vk input) key-up) (move :n game)
-   (= (.vk input) key-right) (move :e game)
+   (= (.vk input) key-left) (move-function :w game)
+   (= (.vk input) key-down) (move-function :s game)
+   (= (.vk input) key-up) (move-function :n game)
+   (= (.vk input) key-right) (move-function :e game)
    :else game))
 
 (defn process-commandline-input
@@ -102,16 +105,22 @@
    (contains? #{key-backspace key-enter key-char key-space} (.vk input))
    (process-commandline-input game input process-command)
 
-   :else (process-movement-keys game input)))
+   :else (process-movement-keys game input move)))
 
 ; Assemble ----------------------------------------------------------------
+(defn assemble-move
+  "Move player in specified direction without displaying room descriptions."
+  [direction game]
+  (update-in game [:world] move-player direction))
+
+
 (defmethod process-input :assemble [game input]
   (let [game (assoc-in game [:world :message] "Everyone is waiting with baited breath to hear your accusation!")]
     (cond
      (contains? #{key-backspace key-enter key-char key-space} (.vk input))
      (process-commandline-input game input process-accuse-commands)
 
-     :else (process-movement-keys game input))))
+     :else (process-movement-keys game input assemble-move))))
 
 ; Lose Game ---------------------------------------------------------------
 (defmethod process-input :lose-game [game input]

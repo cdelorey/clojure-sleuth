@@ -33,7 +33,7 @@
 (defmethod draw-ui :personalize [ui game screen]
   (console-print screen 10 10 "Press any key to return to menu."))
 
-; Sleuth ------------------------------------------------------------------  
+; Sleuth ------------------------------------------------------------------
 (defn draw-house [screen tiles]
   (doseq [y (range 0 (count tiles))
           :let [rowtiles (tiles y)]]
@@ -53,10 +53,10 @@
     (console-set-char screen x y char-smilie)));(:glyph player))))
 
 (defn draw-guests [screen guests]
-  (doall (map 
+  (doall (map
           #(console-set-char screen (first (:location %)) (second (:location %))char-smilie) (vals guests))))
 
-(defn draw-sleuth 
+(defn draw-sleuth
   [game screen]
   (let [world (:world game)
         {:keys [tiles message commandline entities]} world
@@ -71,13 +71,17 @@
 (defmethod draw-ui :sleuth [ui game screen]
   (draw-sleuth game screen))
 
+; Assemble ----------------------------------------------------------------
+(defmethod draw-ui :assemble [ui game screen]
+  (draw-sleuth game screen))
+
 ; Lose Game ---------------------------------------------------------------
 (defmethod draw-ui :lose-game [ui game screen]
   (draw-sleuth game screen))
 
 ; Game --------------------------------------------------------------------
 (defn draw-game [game screen]
-  (console-clear screen) 
+  (console-clear screen)
   (doseq [ui (:uis game)]
     (draw-ui ui game screen))
   (console-flush)

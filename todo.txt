@@ -91,6 +91,8 @@
 07/09/13
 * switch to libtcod clojars dependency
 * add assemble/win ui
+* add people to assemble ui (move people function)
+* add door to assemble ui
 * add assemble command
 * add accuse command
 * add random chance for guest to refuse to be questioned
@@ -98,6 +100,7 @@
 * add randomness to staring at floor
 * add guest movement
 * only display guests in same room as player
+* refactor accuse-guests and lose game
 * add more accuse text
 * add closed door to lose room and make sure there is an npc in the room
 

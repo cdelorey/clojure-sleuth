@@ -46,8 +46,22 @@
      (= turn-count 300)
      (assoc-in new-world [:flags :murderer-is-stalking] true)
 
+     ; testing
+     (= turn-count 4)
+     (assoc-in new-world [:flags :assemble] true)
+
 
     :else new-world)))
+
+; TODO: accuse-guests and lose-game are basically the same. refactor.
+(defn assemble-guests
+  "Switch to assemble ui"
+  [game]
+  (let [accuse-text "The suspects have all gathered here in the *room* to hear your accusation. The door is now locked."]
+    (print "Switching to accuse...")
+    (-> game
+        (assoc-in [:uis] [(->UI :assemble)])
+        (assoc-in [:world :message] accuse-text))))
 
 (defn lose-game
   "Switch to lose-game ui."
@@ -59,10 +73,17 @@
 
 (defmethod update :sleuth
   [game]
-  (let [game-lost (get-in game [:world :flags :game-lost])]
-    (if game-lost
-      (lose-game game)
-      (assoc-in game [:world] (new-turn (:world game))))))
+  (let [game-lost (get-in game [:world :flags :game-lost])
+        assemble (get-in game [:world :flags :assemble])]
+    (cond
+     game-lost  (lose-game game)
+     assemble     (assemble-guests game)
+     :else        (assoc-in game [:world] (new-turn (:world game))))))
+
+; Assemble --------------------------------------------------------------
+(defmethod update :assemble [game]
+  "Does nothing."
+  game)
 
 
 ; Lose Game --------------------------------------------------------------
