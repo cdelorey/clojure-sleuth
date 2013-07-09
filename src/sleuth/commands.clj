@@ -54,7 +54,7 @@
         (let [player-location (get-player-location world)
               guest-location (get-in world [:entities :guests guest :location])]
           (if (not (close-enough? player-location guest-location))
-            (assoc-in world [:message] "can't see")
+            (assoc-in world [:message] (str "I can't see what " (keyword-to-first-name guest) " is looking at from all the way over here."))
             (if (= (current-room world) (murder-room world))
             (assoc-in world [:message] "There seem to be blood stains on the floor! This must be the scene of the murder!!")
             (assoc-in world [:message] "There's nothing unusual about the floor."))))
