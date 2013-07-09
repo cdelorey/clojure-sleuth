@@ -3,7 +3,8 @@
         [sleuth.world.core :only [new-world]]
         [sleuth.world.rooms :only [get-room-description]]
         [sleuth.entities.player :only [move-player make-player]]
-        [sleuth.commands :only [process-command process-lose-commands]]
+        [sleuth.commands :only [process-command process-lose-commands
+                                process-accuse-commands]]
         [sleuth.libtcod]))
 
 ; Definitions ------------------------------------------------------------
@@ -105,7 +106,12 @@
 
 ; Assemble ----------------------------------------------------------------
 (defmethod process-input :assemble [game input]
-  ())
+  (let [game (assoc-in game [:world :message] "Everyone is waiting with baited breath to hear your accusation!")]
+    (cond
+     (contains? #{key-backspace key-enter key-char key-space} (.vk input))
+     (process-commandline-input game input process-accuse-commands)
+
+     :else (process-movement-keys game input))))
 
 ; Lose Game ---------------------------------------------------------------
 (defmethod process-input :lose-game [game input]

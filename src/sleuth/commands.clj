@@ -113,11 +113,11 @@
 
 (defn guestlist
   "Displays list of guests in the mansion."
-  [world]
+  [world message]
   (let [guests (get-in world [:entities :guests])
         guest-names (into [] (for [[k v] guests](:name v)))
         [a b c d e f] guest-names
-        message (str "The houseguests now lurking about the Crompton estate are:" \newline
+        message (str message \newline
                      a "        " b "        " c \newline d "        " e "        " f)]
     (assoc-in world [:message] message)))
 
@@ -187,7 +187,9 @@
 
      (= first-command "help") (assoc-in game [:world] (help world))
 
-     (= first-command "guestlist") (assoc-in game [:world] (guestlist world))
+     (= first-command "guestlist")
+     (let [message "The houseguests now lurking about the Crompton estate are:"]
+       (assoc-in game [:world] (guestlist world message)))
 
      (= first-command "alibi") (assoc-in game [:world] (alibi world))
 
@@ -206,6 +208,23 @@
     (cond
      (= command "restart") (restart game)
      (= command "quit") (quit game)
+     :else game)))
+
+(defn process-accuse-commands
+  "Parse commands entered on the commandline for the accuse ui."
+  [game]
+  (let [world (:world game)
+        command (:commandline world)
+        first-command (first (clojure.string/split command #" "))]
+    (cond
+     (= first-command "restart") (restart game)
+
+     (= first-command "quit") (quit game)
+
+     (= first-command "guestlist")
+     (let [message "You must ACCUSE one of the six people in the room:"]
+       (assoc-in game [:world] (guestlist world message)))
+
      :else game)))
 
 
