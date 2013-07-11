@@ -1,5 +1,6 @@
 (ns sleuth.world.rooms
   (:use [sleuth.world.items :only [get-item-description get-item-rooms]]
+        [sleuth.world.tiles :only [set-tile]]
         [sleuth.utils :only [keyword-to-name]])
   (:require [clj-yaml.core :as yaml]))
 
@@ -70,6 +71,24 @@
   [world]
   (let [[x y] (get-in world [:entities :player :location])]
     (get-room-name [x y])))
+
+(defn get-doorway
+  "Return the coordinates of the doorway in the current room"
+  [room]
+  (if (.contains (name room) "-hall")
+    nil
+    (let [doorway (if (.contains (name room) "doorway")
+                    room
+                    (keyword (str "doorway-" (name room))))
+          doorway-rect (doorway room-rects)]
+      [(:x doorway-rect) (:y doorway-rect)])))
+
+(defn lock-current-room
+  "Adds a locked door to the doorway of the current room."
+  [world]
+  (let [room (current-room world)
+        doorway-location (get-doorway room)]
+    (set-tile world doorway-location :door)))
 
 (defn get-current-guest
   "Returns the name of the guest in the current room"
