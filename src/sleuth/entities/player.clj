@@ -6,8 +6,11 @@
         [sleuth.world.alibis :only [get-lose-time]]
         [sleuth.utils :only [and-as->]]))
 
+; Data Structures -------------------------------------------------------------
 (defrecord Player [id glyph location])
 
+
+; Player Functions ------------------------------------------------------------
 (defn make-player [world]
   (->Player :player "@" [2 2]))
 

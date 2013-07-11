@@ -3,6 +3,7 @@
         [sleuth.utils :only [keyword-to-name]])
   (:require [clj-yaml.core :as yaml]))
 
+; Data Structures -------------------------------------------------------------
 (defrecord Rect [x y width height])
 
 (def room-rects
