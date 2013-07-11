@@ -1,6 +1,6 @@
 (ns sleuth.entities.player
   (:use [sleuth.coords :only [destination-coords]]
-        [sleuth.world.core :only [get-entity-at is-empty?]]
+        [sleuth.world.tiles :only [get-entity-at is-empty?]]
         [sleuth.world.portals :only [portal? get-portal secret-passage? get-passage in-secret-passage]]
         [sleuth.world.rooms :only [has-entered-room]]
         [sleuth.world.alibis :only [get-lose-time]]

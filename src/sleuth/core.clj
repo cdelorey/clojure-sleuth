@@ -3,7 +3,10 @@
         [sleuth.ui.update :only [update]]
         [sleuth.ui.drawing :only [draw-game]]
         [sleuth.ui.input :only [get-input process-input]]
-        [sleuth.world.core :only [load-text-files]]
+        [sleuth.world.rooms :only [load-rooms]]
+        [sleuth.world.items :only [load-items]]
+        [sleuth.world.alibis :only [load-alibis]]
+        [sleuth.entities.guests :only [load-guests]]
         [sleuth.libtcod]
         [clj-native.direct :only [loadlib]]))
 
@@ -29,6 +32,14 @@
   (map->Game {:world nil
               :uis [(->UI :start)]
               :input nil}))
+
+(defn load-text-files
+  "Load all game text from files."
+  []
+  (load-alibis "resources/alibis.yaml")
+  (load-items "resources/items.yaml")
+  (load-guests "resources/guests.yaml")
+  (load-rooms "resources/rooms.yaml"))
 
 (defn -main
   []
