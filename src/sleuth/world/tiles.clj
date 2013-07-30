@@ -52,7 +52,6 @@
   [world [x y] tile-type]
   (let [new-tiles (:tiles world)
         new-tiles (assoc-in new-tiles [y x] (tiles tile-type))]
-    (print new-tiles)
     (assoc-in world [:tiles] new-tiles)))
 
 

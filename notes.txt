@@ -1,0 +1,17 @@
+Assemble:
+* The suspects have all gathered here in the *room* to hear your accusation. The door is now locked
+  * accuse
+    * correct guest and room -> *murderer* turns to you in a state of shock. "How did you come to suspect me!
+      sure I killed *victim*, and right here in this room. Though how you managed to figure it out,
+      I'll never know"
+      The case is closed after num_moves moves. You now rank as a professional sleuth.
+    * incorrect guest and room -> very slipshod of you inspector. *murderer* murdered *victim* and the
+      murder was commited in the *murder room* not the *current room*.
+    * incorrect guest, correct room -> *murderer* rises and declares angrily, "You're wrong!! You've got
+      the right room, but I was the one who used the *weapon* to kill *victim*"
+    * correct guest, incorrect room -> *murderer* stands up and exclaims, "You fool! Yes, I used the
+       *weapon* to get rid of *victim*. But I did it in the *murder room* not here in the *current_room*"
+  * guestlist -> You must ACCUSE one of the six people in the room: + guestlist
+  * quit/restart may work as usual
+  * any other command -> Everyone is waiting with baited breath to hear your accusation!
+* do you want to quit or restart? can't move/ do anything else
