@@ -1,6 +1,7 @@
 (ns sleuth.ui.update
   (:use [sleuth.ui.core :only [->UI]]
-        [sleuth.world.rooms :only [lock-current-room]]))
+        [sleuth.world.rooms :only [lock-current-room]]
+        [sleuth.entities.guests :only [move-guests]]))
 
 ; Definitions ------------------------------------------------------------
 (defmulti update
@@ -60,10 +61,11 @@
   [game]
   (let [accuse-text "The suspects have all gathered here in the *room* to hear your accusation. The door is now locked."]
     (print "Switching to accuse...")
-    (-> game
-        (assoc-in [:world] (lock-current-room (:world game)))
-        (assoc-in [:uis] [(->UI :assemble)])
-        (assoc-in [:world :message] accuse-text))))
+    (as-> game game
+        (assoc-in game [:world] (move-guests (:world game)))
+        (assoc-in game [:world] (lock-current-room (:world game)))
+        (assoc-in game [:uis] [(->UI :assemble)])
+        (assoc-in game [:world :message] accuse-text))))
 
 (defn lose-game
   "Switch to lose-game ui."

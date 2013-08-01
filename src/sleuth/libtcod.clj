@@ -1,4 +1,4 @@
-;TODO: can default values be added to functions so root does not need to be passed 
+;TODO: can default values be added to functions so root does not need to be passed
 ; so much?
 ;TODO: add event enum
 ;TODO: write wrapper around console pring so a map of fg and bg color can be passed in
@@ -18,8 +18,8 @@
 (def ^:const tcod-nb-renderers 3)
 
 ; TCOD_alignment_t
-(def ^:const tcod-left 0) 
-(def ^:const tcod-right 1) 
+(def ^:const tcod-left 0)
+(def ^:const tcod-right 1)
 (def ^:const tcod-center 2)
 
 ; TCOD_custom_font_flags
@@ -129,9 +129,9 @@
 (def ^:const key-char 65)
 
 ; TCOD_chars_t
-; single walls 
+; single walls
 (def ^:const char-hline 196)
- (def ^:const char-vline 179)	
+ (def ^:const char-vline 179)
  (def ^:const char-ne 191)
  (def ^:const char-nw 218)
  (def ^:const char-se 217)
@@ -141,7 +141,7 @@
  (def ^:const char-teen 193)
  (def ^:const char-tees 194)
  (def ^:const char-cross 197)
-; double walls 
+; double walls
  (def ^:const char-dhline 205)
  (def ^:const char-dvline 186)
  (def ^:const char-dne 187)
@@ -153,29 +153,29 @@
  (def ^:const char-dteen 202)
  (def ^:const char-dtees 203)
  (def ^:const char-dcross 206)
-; blocks 
+; blocks
  (def ^:const char-block1 176)
  (def ^:const char-block2 177)
  (def ^:const char-block3 178)
-; arrows 
+; arrows
  (def ^:const char-arrow-n 24)
  (def ^:const char-arrow-s 25)
  (def ^:const char-arrow-e 26)
  (def ^:const char-arrow-w 27)
-; arrows without tail 
+; arrows without tail
  (def ^:const char-arrow2-n 30)
  (def ^:const char-arrow2-s 31)
  (def ^:const char-arrow2-e 16)
  (def ^:const char-arrow2-w 17)
-; double arrows 
+; double arrows
  (def ^:const char-darrow-h 29)
  (def ^:const char-darrow-v 18)
-; gui stuff 
+; gui stuff
  (def ^:const char-checkbox-unset 224)
  (def ^:const char-checkbox-set 225)
  (def ^:const char-radio-unset 9)
  (def ^:const char-radio-set 10)
-; sub-pixel resolution kit 
+; sub-pixel resolution kit
  (def ^:const char-subp-nw 226)
  (def ^:const char-subp-ne 227)
  (def ^:const char-subp-n 228)
@@ -218,7 +218,7 @@
  (def ^:const char-pow3   252)
  (def ^:const char-pow2   253)
  (def ^:const char-bullet-square   254)
- 
+
 ; Color names
 (def ^:const tcod-color-red 0)
 (def ^:const tcod-color-flame 1)
@@ -226,7 +226,7 @@
 (def ^:const tcod-color-amber 3)
 (def ^:const tcod-color-yellow 4)
 (def ^:const tcod-color-lime 5)
-(def ^:const tcod-color-chartreuse 6)	
+(def ^:const tcod-color-chartreuse 6)
 (def ^:const tcod-color-gree 7)
 (def ^:const tcod-color-sea 8)
 (def ^:const tcod-color-turquoise 9)
@@ -248,11 +248,11 @@
 
 ; Library definition -----------------------------------------------------------------
 (defclib
-  libtcod 
-  (:libname "tcod_debug")
+  libtcod
+  (:libname "tcod-mingw-debug")
   (:structs
    (key-t :vk int :c char :lalt bool :lctrl bool :ralt bool :rctrl bool :shift bool)
-   (mouse-t :x int :y int :dx int :dy int :cx int :cy int :dcx int :dcy int 
+   (mouse-t :x int :y int :dx int :dy int :cx int :cy int :dcx int :dcy int
             :lbutton bool :rbutton bool :mbutton bool :lbutton-pressed bool
             :rbutton-pressed bool :mbutton-pressed bool :wheel-up bool :wheel-down bool)
    (color-t :r int :g int :b int))
@@ -263,69 +263,69 @@
    (console-init-root TCOD_console_init_root [int int constchar* bool enum] void)
    (console-set-window-title TCOD_console_set_window_title [constchar*] void)
    (console-set-fullscreen TCOD_console_set_fullscreen [bool] void)
-   (console-is-fullscreen? TCOD_console_is_fullscreen [] bool) 
+   (console-is-fullscreen? TCOD_console_is_fullscreen [] bool)
    (console-is-window-closed? TCOD_console_is_window_closed [] bool)
    (console-has-mouse-focus? TCOD_console_has_mouse_focus [] bool)
    (console-is-active? TCOD_console_is_active [] bool)
-   
-   
-   (console-set-custom-font TCOD_console_set_custom_font 
+
+
+   (console-set-custom-font TCOD_console_set_custom_font
                             [constchar*  int int int] void)
-   
-   
+
+
    (console-set-default-background TCOD_console_set_default_background
                                    [void* color-t] void)
    (console-set-default-foreground TCOD_console_set_default_foreground
                                    [void* color-t] void)
    (console-clear TCOD_console_clear [void*] void)
-   (console-set-char-background TCOD_console_set_char_background 
+   (console-set-char-background TCOD_console_set_char_background
                                 [void* int int color-t enum])
-   (console-set-char-foreground TCOD_console_set_char_foreground 
+   (console-set-char-foreground TCOD_console_set_char_foreground
                                 [void* int int color-t])
    (console-set-char TCOD_console_set_char [void* int int int] void)
    (console-put-char TCOD_console_put_char [void* int int int enum] void)
    (console-put-char-ex TCOD_console_put_char_ex [void* int int int color-t color-t] void)
-   
-   
+
+
    (console-get-width TCOD_console_get_width [void*] int)
    (console-get-height TCOD_console_get_height [void*] int)
    (console-get-default-background TCOD_console_get_default_background [void*] color-t)
    (console-get-default-foreground TCOD_console_get_default_foreground [void*] color-t)
    (console-get-char TCOD_console_get_char [void* int int] int)
-   
-   
+
+
    (console-set-fade TCOD_console_set_fade [int color-t] void)
    (console-get-fade TCOD_console_get_fade [] int)
    (console-get-fading-color TCOD_console_get_fading_color [] color-t)
-   
+
    (console-print TCOD_console_print [void* int int constchar*] void)
    (console-print-rect TCOD_console_print_rect [void* int int int int constchar*] int)
    (console-rect TCOD_console_rect [void* int int int int bool enum] void)
    (console-hline TCOD_console_hline [void* int int int enum] void)
    (console-vline TCOD_console_vline [void* int int int enum] void)
-   (console-print-frame TCOD_console_print_frame 
+   (console-print-frame TCOD_console_print_frame
                         [void* int int int int bool enum constchar*])
-   
+
    (console-flush TCOD_console_flush [] void)
-   
-   
+
+
    (console-wait-for-keypress TCOD_console_wait_for_keypress [bool] key-t)
    (console-check-for-keypress TCOD_console_check_for_keypress [enum] key-t)
    (console-is-key-pressed? TCOD_console_is_key_pressed [enum] bool)
    (console-wait-for-event TCOD_sys_wait_for_event [int key-t mouse-t bool] enum)
    (console-check-for-event TCOD_sys_check_for_event [enum key-t mouse-t] enum)
-   
+
    ; Color module --------------------------------------------------------------
    (color-rgb TCOD_color_RGB [int int int] color-t)
    (color-hsv TCOD_color_HSV [float float float] color-t)
-   
-   
+
+
    ; Mouse module --------------------------------------------------------------
    (mouse-show-cursor TCOD_mouse_show_cursor [bool] void)
    (mouse-is-cursor-visible TCOD_mouse_is_cursor_visible [] bool)
    (mouse-move TCOD_mouse_move [int int] void)
    (mouse-get-status TCOD_mouse_get_status [] mouse-t)
-    
+
    ))
 
 
@@ -345,7 +345,7 @@
   (console-set-char root 10 11 char-block3)
   (console-set-char root 11 10 char-block3)
   (console-put-char root 15 15 char-smilie tcod-bkgnd-set)
-  (console-put-char-ex root 15 20 char-dhline 
+  (console-put-char-ex root 15 20 char-dhline
                        (color-rgb 1 45 100) (color-rgb 100 100 100))
   (console-print root 1 1 "Hello, World!")
   (mouse-move 50 50)
@@ -365,7 +365,6 @@
   (console-print-rect root 5 5 20 10 "fjjasdkljaskldjaklsjdklasjdklasjdlkasjdlkjasd")
   (console-flush)
   (console-wait-for-keypress true))
-  
 
 
- 
+

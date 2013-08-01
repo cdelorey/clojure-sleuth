@@ -56,6 +56,17 @@
   true
   false)))
 
+(defn get-rect
+  "Return the rect for the given room-name"
+  [room-name]
+  (room-name room-rects))
+
+(defn in-room?
+  "Return true if the given coordinates are contained in the given room."
+  [[x-coord y-coord] room-name]
+  (let [rect (get-rect room-name)]
+    (in-rect? [x-coord y-coord] rect)))
+
 (defn get-room
   "Return the room containing the coordinates [x y]."
   [[x y]]
