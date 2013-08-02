@@ -159,6 +159,14 @@
   (assoc-in world [:message] "To move around the house use the four arrow keys on the numeric keypad.\nObjects can be EXAMINED and TAKEN. You can QUESTION people or ask them for an\nALIBI. When you have solved the crime, pick up the murder weapon, move to the\nmurder room, ASSEMBLE the suspects, and ACCUSE the guilty party. Good Luck!"))
 
 
+(defn assemble
+  "Assembles guests in current room to wait for player accusation."
+  [world]
+  (if (get-in world [:flags :found-murder-weapon])
+    (assoc-in world [:flags :assemble] true)
+    (assoc-in world [:message] "But I haven't yet found the murder weapon!")))
+
+
 (defn restart
   "Restarts game and returns to menu."
   [game]
@@ -192,6 +200,8 @@
        (assoc-in game [:world] (guestlist world message)))
 
      (= first-command "alibi") (assoc-in game [:world] (alibi world))
+
+     (= first-command "assemble") (assoc-in game [:world] (assemble world))
 
      (= first-command "restart") (restart game)
 

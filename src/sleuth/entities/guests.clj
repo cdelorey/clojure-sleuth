@@ -44,7 +44,7 @@
                   (- 1 player-y))
         guest-x (if (in-room? [(- player-x 2) guest-y] current-room)
                   (- player-x 2)
-                  (player-x))] ;this will not check player-y - 1. could instead use x value of room rect.
+                  player-x)] ;TODO: these positions will not work for secret passage fix!
     (assoc-in world [:entities :guests]
               (zipmap (keys guests) (map #(assoc-in % [:location] [%2 guest-y])
                                          (vals guests) (range guest-x (+ guest-x 6)))))))

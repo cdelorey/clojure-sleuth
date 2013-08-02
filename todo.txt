@@ -92,9 +92,13 @@
 *DONE* add assemble/win ui
 07/30/13
 *DONE* add door to assemble ui
+08/01/13
+*DONE* add people to assemble ui (move people function)
+*DONE* add assemble command
+*DONE* assemble command only works if the player has found the murder weapon
 
-* add people to assemble ui (move people function)
-* add assemble command
+* fix assemble text (add correct room name)
+* fix assemble positions for secret passage
 * add accuse command
 * add random chance for guest to refuse to be questioned
 * add randomness to losing game after being stalked by murderer
