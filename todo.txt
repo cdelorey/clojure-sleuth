@@ -102,19 +102,22 @@
 *DONE* "everyone is waiting" should only appear if player enters an invalid command, not when any key is pressed
 *DONE* handle case where accused is not a valid guest name
 *DONE* fix assemble text (add correct room name)
-
+*DONE* fix assemble positions for too far to the right (change x-guest position to place guests in center of room)
 
 * fix assemble positions for secret passage (if in secret-passage, guest-y = player-y)
-* fix assemble positions for too far to the right (change x-guest position to place guests in center of room)
+
+* add closed door to lose room and make sure there is an npc in the room
 * refactor lose-game to game-over to include winning and losing text
+* switch to game-over ui after an accusation
+* refactor accuse-guests and lose game
+* fix lock door for pantry
 * add random chance for guest to refuse to be questioned
 * add randomness to losing game after being stalked by murderer
 * add randomness to staring at floor
 * add guest movement
 * only display guests in same room as player
-* refactor accuse-guests and lose game
 * switch to libtcod clojars dependency
-* add closed door to lose room and make sure there is an npc in the room
+
 
 Personalize
 

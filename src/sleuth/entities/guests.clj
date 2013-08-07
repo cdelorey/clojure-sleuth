@@ -1,5 +1,5 @@
 (ns sleuth.entities.guests
-  (:use [sleuth.world.rooms :only [random-coords random-room current-room in-room?]]
+  (:use [sleuth.world.rooms :only [random-coords random-room current-room in-room? get-rect]]
         [sleuth.world.items :only [get-item-rooms]]
         [sleuth.world.alibis :only [get-alibis]]
         [sleuth.entities.player :only [get-player-location]]
@@ -46,12 +46,11 @@
   (let [guests (get-in world [:entities :guests])
         [player-x player-y] (get-player-location world)
         current-room (current-room world)
+        rect (get-rect current-room)
         guest-y (if (in-room? [player-x (- player-y 1)] current-room)
                   (- player-y 1)
                   (+ player-y 1))
-        guest-x (if (in-room? [(- player-x 2) guest-y] current-room)
-                  (- player-x 2)
-                  player-x)] ;TODO: these positions will not work for secret passage fix!
+        guest-x (+ (:x rect) 4)]
     (assoc-in world [:entities :guests]
               (zipmap (keys guests) (map #(assoc-in % [:location] [%2 guest-y])
                                          (vals guests) (range guest-x (+ guest-x 6)))))))
