@@ -184,8 +184,8 @@
   ; TODO: write more ending text and move it to separate file
   ; TODO: handle case where accused is not a valid guest name
   [world arguments]
-  (let [victim (keyword-to-first-name (get-in world [:murder-case :victim]))
-        accused (clojure.string/capitalize (first (clojure.string/split arguments #" ")))
+  (let [accused (clojure.string/capitalize (first (clojure.string/split arguments #" ")))
+        victim (keyword-to-first-name (get-in world [:murder-case :victim]))
         murderer (keyword-to-first-name (get-in world [:murder-case :murderer]))
         weapon (keyword-to-string (get-in world [:murder-case :weapon]))
         murder-room (keyword-to-string (get-in world [:murder-case :room]))

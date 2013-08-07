@@ -98,13 +98,13 @@
 *DONE* assemble command only works if the player has found the murder weapon
 08/07/13
 * add accuse command
+* fix assemble positions for bottom row of room
 
 * handle case where accused is not a valid guest name
 * "everyone is waiting" should only appear if player enters an invalid command, not when any key is pressed
 * fix assemble text (add correct room name)
 * fix assemble positions for secret passage
 * fix assemble positions for too far to the right
-* fix assemble positions for bottom row of room
 * refactor lose-game to game-over to include winning and losing text
 * add random chance for guest to refuse to be questioned
 * add randomness to losing game after being stalked by murderer
