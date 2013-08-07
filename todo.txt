@@ -96,10 +96,16 @@
 *DONE* add people to assemble ui (move people function)
 *DONE* add assemble command
 *DONE* assemble command only works if the player has found the murder weapon
+08/07/13
+* add accuse command
 
+* handle case where accused is not a valid guest name
+* "everyone is waiting" should only appear if player enters an invalid command, not when any key is pressed
 * fix assemble text (add correct room name)
 * fix assemble positions for secret passage
-* add accuse command
+* fix assemble positions for too far to the right
+* fix assemble positions for bottom row of room
+* refactor lose-game to game-over to include winning and losing text
 * add random chance for guest to refuse to be questioned
 * add randomness to losing game after being stalked by murderer
 * add randomness to staring at floor
@@ -107,13 +113,13 @@
 * only display guests in same room as player
 * refactor accuse-guests and lose game
 * switch to libtcod clojars dependency
-* add more accuse text
 * add closed door to lose room and make sure there is an npc in the room
 
 Personalize
 
 
 Polish:
+* add more accuse text
 * change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
 * fix tab display in guestlist
 * allow for more item name variations on commandline

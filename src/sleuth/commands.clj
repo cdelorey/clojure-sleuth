@@ -2,7 +2,7 @@
   (:use [sleuth.world.rooms :only [get-room-name get-room current-room murder-room get-current-guest]]
         [sleuth.world.items :only [get-item-name get-item-examination]]
         [sleuth.ui.core :only [->UI]]
-        [sleuth.utils :only [keywordize abs keyword-to-first-name]]
+        [sleuth.utils :only [keywordize abs keyword-to-first-name keyword-to-string]]
         [sleuth.world.alibis :only [create-alibi-message get-lose-questioning]]
         [sleuth.entities.player :only [get-player-location]]))
 
@@ -178,6 +178,38 @@
   [game]
   (assoc game :uis []))
 
+
+(defn accuse
+  "Accuses a guest of murder, displays the appropriate message, and ends game"
+  ; TODO: write more ending text and move it to separate file
+  ; TODO: handle case where accused is not a valid guest name
+  [world arguments]
+  (let [victim (keyword-to-first-name (get-in world [:murder-case :victim]))
+        accused (clojure.string/capitalize (first (clojure.string/split arguments #" ")))
+        murderer (keyword-to-first-name (get-in world [:murder-case :murderer]))
+        weapon (keyword-to-string (get-in world [:murder-case :weapon]))
+        murder-room (keyword-to-string (get-in world [:murder-case :room]))
+        current-room (keyword-to-string (current-room world))
+        message (cond
+                 (and (= murderer accused) (= murder-room current-room))
+                 (str murderer " turns to you in a state of shock. 'How did you come to suspect me! sure I killed "
+                      victim ", and right here in this room. Though how you managed to figure it out, I'll never know'")
+
+                 (and (= murderer accused) (not= murder-room current-room))
+                 (str murderer " stands up and exclaims, 'You fool! Yes, I used the "
+                      weapon " to get rid of " victim ". But I did it in the "
+                      murder-room " not here in the " current-room)
+
+                 (and (not= murderer accused) (= murder-room current-room))
+                 (str murderer " rises and declares angrily, 'You're wrong!! You've got the right room, but I was the one who used the "
+                      weapon " to kill " victim "'")
+
+                 (and (not= murderer accused) (not= murder-room current-room))
+                 (str "Very slipshod of you inspector. " murderer " murdered "
+                      victim  " and the murder was commited in the "
+                      murder-room " not the " current-room "."))]
+    (assoc-in world [:message] message)))
+
 ; Process-command -----------------------------------------------------------------------------
 (defn process-command
   "Parse commands entered on commandline.
@@ -225,7 +257,8 @@
   [game]
   (let [world (:world game)
         command (:commandline world)
-        first-command (first (clojure.string/split command #" "))]
+        first-command (first (clojure.string/split command #" "))
+        rest-command (clojure.string/replace-first command (str first-command " ") "")]
     (cond
      (= first-command "restart") (restart game)
 
@@ -234,6 +267,8 @@
      (= first-command "guestlist")
      (let [message "You must ACCUSE one of the six people in the room:"]
        (assoc-in game [:world] (guestlist world message)))
+
+     (= first-command "accuse") (assoc-in game [:world] (accuse world rest-command))
 
      :else game)))
 

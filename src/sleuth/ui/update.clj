@@ -48,6 +48,10 @@
      (= turn-count 300)
      (assoc-in new-world [:flags :murderer-is-stalking] true)
 
+     ;testing
+     (= turn-count 3)
+     (assoc-in new-world [:flags :found-murder-weapon] true)
+
     :else new-world)))
 
 ; TODO: accuse-guests and lose-game are basically the same. refactor.
