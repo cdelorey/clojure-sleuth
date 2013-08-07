@@ -47,10 +47,11 @@
         [player-x player-y] (get-player-location world)
         current-room (current-room world)
         rect (get-rect current-room)
-        guest-y (if (in-room? [player-x (- player-y 1)] current-room)
-                  (- player-y 1)
-                  (+ player-y 1))
-        guest-x (+ (:x rect) 4)]
+        guest-x (+ (:x rect) 4)
+        guest-y (cond
+                 (= current-room :secret-passage) player-y
+                 (in-room? [player-x (- player-y 1)] current-room) (- player-y 1)
+                 :else (+ player-y 1))]
     (assoc-in world [:entities :guests]
               (zipmap (keys guests) (map #(assoc-in % [:location] [%2 guest-y])
                                          (vals guests) (range guest-x (+ guest-x 6)))))))

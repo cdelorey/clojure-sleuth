@@ -95,11 +95,15 @@
       [(:x doorway-rect) (:y doorway-rect)])))
 
 (defn lock-current-room
-  "Adds a locked door to the doorway of the current room."
+  "Adds a locked door to the doorway of the current room.
+
+  Does nothing if the current room is the secret passage."
   [world]
-  (let [room (current-room world)
-        doorway-location (get-doorway room)]
-    (set-tile world doorway-location :door)))
+  (let [room (current-room world)]
+    (print (str "ROOM: " current-room))
+    (if (= room :secret-passage)
+      world
+      (set-tile world (get-doorway room) :door))))
 
 (defn get-current-guest
   "Returns the name of the guest in the current room"
