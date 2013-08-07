@@ -190,7 +190,7 @@
         weapon (keyword-to-string (get-in world [:murder-case :weapon]))
         murder-room (keyword-to-string (get-in world [:murder-case :room]))
         current-room (keyword-to-string (current-room world))
-        message (if (contains? (get-guest-names world) accused)
+        message (if (contains? (set (get-guest-names world)) accused)
                   (cond
                    (and (= murderer accused) (= murder-room current-room))
                    (str murderer " turns to you in a state of shock. 'How did you come to suspect me! sure I killed "

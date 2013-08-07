@@ -104,9 +104,9 @@
 *DONE* fix assemble text (add correct room name)
 *DONE* fix assemble positions for too far to the right (change x-guest position to place guests in center of room)
 *DONE* fix assemble positions for secret passage (if in secret-passage, guest-y = player-y)
+*DONE* fix accuse bug that thinks a valid guest name is not valid
 
 
-* fix accuse bug that thinks a valid guest name is not valid
 * add closed door to lose room and make sure there is an npc in the room
 * refactor lose-game to game-over to include winning and losing text
 * switch to game-over ui after an accusation
