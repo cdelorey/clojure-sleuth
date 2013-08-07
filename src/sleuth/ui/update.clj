@@ -58,13 +58,13 @@
 (defn assemble-guests
   "Switch to assemble ui"
   [game]
-  (let [accuse-text "The suspects have all gathered here in the *room* to hear your accusation. The door is now locked."]
+  (let [assemble-text "The suspects have all gathered here in the *room* to hear your accusation. The door is now locked."]
     (print "Switching to accuse...")
     (as-> game game
         (assoc-in game [:world] (move-guests (:world game)))
         (assoc-in game [:world] (lock-current-room (:world game)))
         (assoc-in game [:uis] [(->UI :assemble)])
-        (assoc-in game [:world :message] accuse-text))))
+        (assoc-in game [:world :message] assemble-text))))
 
 (defn lose-game
   "Switch to lose-game ui."

@@ -40,7 +40,7 @@
         [player-x player-y] (get-player-location world)
         current-room (current-room world)
         guest-y (if (in-room? [player-x (- player-y 1)] current-room)
-                  (- player-y 1))
+                  (- player-y 1)
                   (+ player-y 1))
         guest-x (if (in-room? [(- player-x 2) guest-y] current-room)
                   (- player-x 2)

@@ -270,6 +270,6 @@
 
      (= first-command "accuse") (assoc-in game [:world] (accuse world rest-command))
 
-     :else game)))
+     :else (assoc-in game [:world :message] "Everyone is waiting to hear your accusation!"))))
 
 

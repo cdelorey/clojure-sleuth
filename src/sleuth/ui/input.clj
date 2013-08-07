@@ -115,12 +115,11 @@
 
 
 (defmethod process-input :assemble [game input]
-  (let [game (assoc-in game [:world :message] "Everyone is waiting with baited breath to hear your accusation!")]
     (cond
      (contains? #{key-backspace key-enter key-char key-space} (.vk input))
      (process-commandline-input game input process-accuse-commands)
 
-     :else (process-movement-keys game input assemble-move))))
+     :else (process-movement-keys game input assemble-move)))
 
 ; Lose Game ---------------------------------------------------------------
 (defmethod process-input :lose-game [game input]
