@@ -3,7 +3,7 @@
         [sleuth.world.items :only [get-item-rooms]]
         [sleuth.world.alibis :only [get-alibis]]
         [sleuth.entities.player :only [get-player-location]]
-        [sleuth.utils :only [keyword-to-string keyword-to-name]])
+        [sleuth.utils :only [keyword-to-string keyword-to-name keyword-to-first-name]])
   (:require [clj-yaml.core :as yaml]))
 
 ; Data Structures --------------------------------------------------------------------------
@@ -32,6 +32,13 @@
   [names]
   (into {} (for [n names]
              [n (->Guest (keyword-to-name n) " " 0 [0 0] " ")])))
+
+(defn get-guest-names
+  "Returns a list of the first names of the guests in the mansion."
+  [world]
+  (let [guests (get-in world [:entities :guests])]
+    (into [] (for [[k v] guests]
+               (keyword-to-first-name (:name v))))))
 
 (defn move-guests
   "Moves the guests in the world guestlist to the player's current room"

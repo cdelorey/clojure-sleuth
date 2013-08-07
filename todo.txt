@@ -100,8 +100,9 @@
 *DONE* add accuse command
 *DONE* fix assemble positions for bottom row of room
 *DONE* "everyone is waiting" should only appear if player enters an invalid command, not when any key is pressed
+*DONE* handle case where accused is not a valid guest name
 
-* handle case where accused is not a valid guest name
+
 * fix assemble text (add correct room name)
 * fix assemble positions for secret passage
 * fix assemble positions for too far to the right (change x-guest position to place guests in center of room)
