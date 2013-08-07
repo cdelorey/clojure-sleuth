@@ -101,10 +101,10 @@
 *DONE* fix assemble positions for bottom row of room
 *DONE* "everyone is waiting" should only appear if player enters an invalid command, not when any key is pressed
 *DONE* handle case where accused is not a valid guest name
+*DONE* fix assemble text (add correct room name)
 
 
-* fix assemble text (add correct room name)
-* fix assemble positions for secret passage
+* fix assemble positions for secret passage (if in secret-passage, guest-y = player-y)
 * fix assemble positions for too far to the right (change x-guest position to place guests in center of room)
 * refactor lose-game to game-over to include winning and losing text
 * add random chance for guest to refuse to be questioned
