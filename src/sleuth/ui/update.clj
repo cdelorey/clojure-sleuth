@@ -1,7 +1,7 @@
 (ns sleuth.ui.update
   (:use [sleuth.ui.core :only [->UI]]
         [sleuth.world.rooms :only [lock-current-room current-room]]
-        [sleuth.entities.guests :only [move-guests]]
+        [sleuth.entities.guests :only [move-guests move-murderer]]
         [sleuth.utils :only [keyword-to-string]]))
 
 ; Definitions ------------------------------------------------------------
@@ -79,6 +79,7 @@
   [game]
   (let [lose-text (get-in game [:world :murder-case :lose-text])]
     (as-> game game
+        (assoc-in game [:world] (move-murderer (:world game)))
         (assoc-in game [:world] (lock-current-room (:world game)))
         (assoc-in game [:uis] [(->UI :lose-game)])
         (assoc-in game [:world :message] lose-text))))

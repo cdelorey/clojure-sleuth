@@ -1,5 +1,6 @@
 (ns sleuth.entities.guests
-  (:use [sleuth.world.rooms :only [random-coords random-room current-room in-room? get-rect]]
+  (:use [sleuth.world.rooms :only [random-coords random-room current-room in-room? get-rect
+                                   get-current-guest]]
         [sleuth.world.items :only [get-item-rooms]]
         [sleuth.world.alibis :only [get-alibis]]
         [sleuth.entities.player :only [get-player-location]]
@@ -41,7 +42,7 @@
                (keyword-to-first-name (:name v))))))
 
 (defn move-guests
-  "Moves the guests in the world guestlist to the player's current room"
+  "Moves the guests in the world guestlist to the player's current room."
   [world]
   (let [guests (get-in world [:entities :guests])
         [player-x player-y] (get-player-location world)
@@ -55,6 +56,18 @@
     (assoc-in world [:entities :guests]
               (zipmap (keys guests) (map #(assoc-in % [:location] [%2 guest-y])
                                          (vals guests) (range guest-x (+ guest-x 6)))))))
+
+(defn move-murderer
+  "Moves the murderer to the player's current room, if there is not already a guest in the room."
+  [world]
+  (if (not (nil? (get-current-guest world)))
+    world
+    (let [murderer (get-in world [:murder-case :murderer])
+          [player-x player-y] (get-player-location world)
+          murderer-x (if (in-room? [(+ player-x 1) player-y] (current-room world))
+                       (+ player-x 1)
+                       (- player-x 1))]
+      (assoc-in world [:entities :guests murderer :location] [murderer-x player-y]))))
 
 
 (defn place-guest
