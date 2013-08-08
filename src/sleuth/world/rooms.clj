@@ -100,10 +100,18 @@
   Does nothing if the current room is the secret passage."
   [world]
   (let [room (current-room world)]
-    (print (str "ROOM: " current-room))
-    (if (= room :secret-passage)
-      world
-      (set-tile world (get-doorway room) :door))))
+
+    (cond
+     (= room :pantry)
+     (let [[x y] (get-doorway room)]
+       (-> world
+             (set-tile [x y] :hdoor)
+             (set-tile [(+ x 2) y] :hdoor)
+             (set-tile [(+ x 1) y] :hdoor)))
+
+     (= room :secret-passage) world
+
+     :else (set-tile world (get-doorway room) :door))))
 
 (defn get-current-guest
   "Returns the name of the guest in the current room"

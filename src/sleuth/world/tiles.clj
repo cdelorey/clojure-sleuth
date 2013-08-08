@@ -12,7 +12,8 @@
    :fwall     (->Tile :fwall 219 :white)
    :stairs    (->Tile :stairs 196 :white)
    :floor     (->Tile :floor 0 :blue)
-   :door      (->Tile :door 179 :white)})
+   :door      (->Tile :door 179 :white)
+   :hdoor     (->Tile :hdoor 196 :white)})
 
 ; Querying tiles --------------------------------------------------------------
 (defn get-tile-from-tiles [tiles [x y]]
