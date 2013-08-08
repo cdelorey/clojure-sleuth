@@ -210,7 +210,9 @@
                         victim  " and the murder was commited in the "
                         murder-room " not the " current-room "."))
                   (str accused " is not a guest."))]
-    (assoc-in world [:message] message)))
+    (as-> world world
+        (assoc-in world [:message] message)
+        (assoc-in world [:flags :accused] true))))
 
 ; Process-command -----------------------------------------------------------------------------
 (defn process-command
@@ -244,7 +246,7 @@
      :else (assoc-in game [:world :message]
                       "I'm sorry, but I can't seem to make out what you're trying to say."))))
 
-(defn process-lose-commands
+(defn process-game-over-commands
   "Parse commands entered on the commandline for the lose ui."
   [game]
   (let [world (:world game)

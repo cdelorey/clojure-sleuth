@@ -106,11 +106,10 @@
 *DONE* fix assemble positions for secret passage (if in secret-passage, guest-y = player-y)
 *DONE* fix accuse bug that thinks a valid guest name is not valid
 *DONE* add closed door to lose room and make sure there is an npc in the room
+08/08/13
+*DONE* refactor lose-game to game-over to include winning and losing text
+*DONE* switch to game-over ui after an accusation
 
-
-* refactor lose-game to game-over to include winning and losing text
-* switch to game-over ui after an accusation
-* refactor accuse-guests and lose game
 * fix lock door for pantry
 * add random chance for guest to refuse to be questioned
 * add randomness to losing game after being stalked by murderer
@@ -124,6 +123,7 @@ Personalize
 
 
 Polish:
+* refactor game-over functions
 * add more accuse text
 * change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
 * fix tab display in guestlist

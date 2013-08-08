@@ -3,7 +3,7 @@
         [sleuth.world.core :only [new-world]]
         [sleuth.world.rooms :only [get-room-description]]
         [sleuth.entities.player :only [move-player make-player]]
-        [sleuth.commands :only [process-command process-lose-commands
+        [sleuth.commands :only [process-command process-game-over-commands
                                 process-accuse-commands]]
         [sleuth.libtcod]))
 
@@ -121,12 +121,12 @@
 
      :else (process-movement-keys game input assemble-move)))
 
-; Lose Game ---------------------------------------------------------------
-(defmethod process-input :lose-game [game input]
+; Game Over ---------------------------------------------------------------
+(defmethod process-input :game-over [game input]
   (let [game (assoc-in game [:world :message] "Quit or Restart?")]
     (cond
      (contains? #{key-backspace key-enter key-char key-space} (.vk input))
-     (process-commandline-input game input process-lose-commands)
+     (process-commandline-input game input process-game-over-commands)
 
      :else game)))
 

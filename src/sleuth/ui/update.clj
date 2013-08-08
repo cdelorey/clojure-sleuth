@@ -50,14 +50,8 @@
      (assoc-in new-world [:flags :murderer-is-stalking] true)
 
      ;testing
-     ;(= turn-count 3)
-     ;(assoc-in new-world [:flags :found-murder-weapon] true)
-
-     ;testing
      (= turn-count 3)
-     (as-> new-world new-world
-           (assoc-in new-world [:flags :game-lost] true)
-           (assoc-in new-world [:murder-case :lose-text] "You lost!"))
+     (assoc-in new-world [:flags :found-murder-weapon] true)
 
     :else new-world)))
 
@@ -75,31 +69,42 @@
         (assoc-in game [:world :message] assemble-text))))
 
 (defn lose-game
-  "Switch to lose-game ui."
+  "Lose game and switch to game-over ui."
   [game]
   (let [lose-text (get-in game [:world :murder-case :lose-text])]
     (as-> game game
         (assoc-in game [:world] (move-murderer (:world game)))
         (assoc-in game [:world] (lock-current-room (:world game)))
-        (assoc-in game [:uis] [(->UI :lose-game)])
+        (assoc-in game [:uis] [(->UI :game-over)])
         (assoc-in game [:world :message] lose-text))))
 
 (defmethod update :sleuth
   [game]
   (let [game-lost (get-in game [:world :flags :game-lost])
-        assemble (get-in game [:world :flags :assemble])]
+        assemble  (get-in game [:world :flags :assemble])]
     (cond
-     game-lost  (lose-game game)
+     game-lost    (lose-game game)
      assemble     (assemble-guests game)
      :else        (assoc-in game [:world] (new-turn (:world game))))))
 
 ; Assemble --------------------------------------------------------------
+(defn game-over
+  "Switch to game-over ui after an accusation."
+  [game]
+  (let [turn-count (get-in game [:world :murder-case :turn-count])]
+    (-> game
+        (assoc-in [:world :message] (str "The game is over after " turn-count " turns"))
+        (assoc-in [:uis] [(->UI :game-over)]))))
+
+
 (defmethod update :assemble [game]
-  "Does nothing."
-  game)
+  (cond
+   (get-in game [:world :flags :game-over]) (game-over game)
+   (get-in game [:world :flags :accused]) (assoc-in game[:world :flags :game-over] true)
+   :else game))
 
 
-; Lose Game --------------------------------------------------------------
-(defmethod update :lose-game [game]
+; Game Over --------------------------------------------------------------
+(defmethod update :game-over [game]
   "Does nothing."
   game)
