@@ -132,10 +132,28 @@
       (str opener repeater  " " alibi-string finish)
       (str opener repeater " " alibi-string "\""))))
 
+(defn random-refuse-response
+  "Returns a random response for when a guest refuses to be questioned."
+  [guest]
+  (format (rand-nth @refuse) (keyword-to-first-name guest)))
+
+(defn refuse-questioning?
+  "Returns true if a guest refuses to be questioned, based on the number of
+  questions that have already been asked."
+  [times]
+  (if (>= (rand-int 10) times)
+    false
+    true))
+
 (defn create-alibi-message
-  "Creates an alibi based on the guest and number of times the guest has been asked."
+  "Creates an alibi based on the guest and number of times the guest has been asked.
+
+  There is a random chance that the guest will refuse to be questioned. The likelihood
+  increases with the number of questions the guest has been asked."
   [guest times world]
   (let [alibi-string (get-in world [:entities :guests guest :alibi-string])]
     (if (= times 0)
       (random-first-response guest alibi-string world)
-      (random-response guest alibi-string times))))
+      (if (refuse-questioning? times)
+        (random-refuse-response guest)
+        (random-response guest alibi-string times)))))

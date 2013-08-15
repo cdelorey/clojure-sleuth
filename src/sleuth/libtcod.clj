@@ -249,7 +249,7 @@
 ; Library definition -----------------------------------------------------------------
 (defclib
   libtcod
-  (:libname "tcod-mingw-debug")
+  (:libname "tcod")
   (:structs
    (key-t :vk int :c char :lalt bool :lctrl bool :ralt bool :rctrl bool :shift bool)
    (mouse-t :x int :y int :dx int :dy int :cx int :cy int :dcx int :dcy int

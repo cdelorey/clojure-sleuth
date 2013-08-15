@@ -110,8 +110,10 @@
 *DONE* refactor lose-game to game-over to include winning and losing text
 *DONE* switch to game-over ui after an accusation
 *DONE* fix lock door for pantry
+08/14/13
+*DONE* add random chance for guest to refuse to be questioned
 
-* add random chance for guest to refuse to be questioned
+* check for linux/windows when determining name of libtcod library (win: tcod-mingw)
 * add randomness to losing game after being stalked by murderer
 * add randomness to staring at floor
 * add guest movement
