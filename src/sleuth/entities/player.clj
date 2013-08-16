@@ -21,13 +21,26 @@
   [dest world]
   (is-empty? dest world))
 
+(defn player-trapped?
+  "Returns true if the player has been trapped by the murderer.
+
+  There is a random chance that the player will be trapped by
+  the murderer after entering a room, if the murderer is stalking
+  the player."
+  [is-stalking location target]
+  (if (and
+       is-stalking
+       (has-entered-room location target)
+       (> (rand-int 3) 1) true) ; 33% chance
+    true
+    false))
+
+
 (defn move-player [world dir]
   (let [player (get-in world [:entities :player])
         location (:location player)
         target (destination-coords location dir)
         entity-at-target (get-entity-at world target)]
-    ;testing (println (str "Location: " (:location player)))
-    ;testing (println (str "Target: " target))
     (and-as-> world world
               ; handle movement
               (cond
@@ -39,11 +52,8 @@
                                                 (assoc-in world [:entities :player :location] location))
                (can-move? target world) (assoc-in world [:entities :player :location] target)
                :else world)
-              ; handle entered-room flag
-              (if (and (:murderer-is-stalking (:flags world))
-                       (has-entered-room location target))
-                ; pull this out into separate function
-                (-> world
-                    (assoc-in [:flags :game-lost] true)
-                    (assoc-in [:murder-case :lose-text] (get-lose-time world)))
-                world))))
+               (if (player-trapped? (:murderer-is-stalking (:flags world)) location target)
+                 (-> world
+                     (assoc-in [:flags :game-lost] true)
+                     (assoc-in [:murder-case :lose-text] (get-lose-time world)))
+                 world))))

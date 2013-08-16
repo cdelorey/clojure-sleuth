@@ -112,9 +112,9 @@
 *DONE* fix lock door for pantry
 08/14/13
 *DONE* add random chance for guest to refuse to be questioned
+08/15/13
+*DONE* add randomness to losing game after being stalked by murderer
 
-* check for linux/windows when determining name of libtcod library (win: tcod-mingw)
-* add randomness to losing game after being stalked by murderer
 * add randomness to staring at floor
 * add guest movement
 * only display guests in same room as player
@@ -136,4 +136,3 @@ Polish:
 * wrap print methods to allow passing in map of bkgnd and fgnd colors
 * add random house colors
 * add random guest names
-* switch to opengl
