@@ -62,3 +62,8 @@ in the current room with a probability proportional to turn count?
 08/24/13
 * These functions can't go in update because they will not be invoked until after the player
 has already entered the room. Whoops. Moving them back to player-move code for now.
+
+add guest movement:
+-------------------
+* move guests at random when player enters a room. A random guest may be moved to an empty room.
+* place-guest function already moves a guest to a random empty room

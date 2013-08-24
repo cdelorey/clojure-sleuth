@@ -41,6 +41,12 @@
     (into [] (for [[k v] guests]
                (keyword-to-first-name (:name v))))))
 
+(defn random-guest-name
+  "Returns a random keyword name from the list of guests in the mansion."
+  [world]
+  (let [guests (get-in world [:entities :guests])]
+    (rand-nth (keys guests))))
+
 (defn flip-current-stare-flag
   "Flips the is-staring-at-floor flag for the guest in the current room."
   [world]
@@ -89,11 +95,10 @@
 
 
 (defn place-guest
-  [guest-name guest world]
+  "Place the given guest at a random location in a random empty room."
+  [world guest-name]
   (let [guests (get-in world [:entities :guests])
-        rooms (into [] (for [[k v] (get-in world [:entities :guests])]
-                         (:room v)))
-        old-room (get-in guests [guest-name :room])
+        rooms (into [] (for [[k v] guests] (:room v)))
         room (random-room rooms)
         coords (random-coords room)
         description (rand-nth (room @guest-descriptions))]
@@ -101,6 +106,21 @@
           (assoc-in world [:entities :guests guest-name :room] room)
           (assoc-in world [:entities :guests guest-name :location] coords)
           (assoc-in world [:entities :guests guest-name :description] description))))
+
+(defn update-guest-locations
+  "Updates locations of guests based on turn count."
+  [world]
+  (let [turn-count (get-in world [:murder-case :turn-count])]
+    (cond
+     (< (rand-int 300) turn-count)
+     (if (= (current-room world) (:room (:murder-case world)))
+       ;(do
+       ;  (ensure-guest-in-current-room world)
+       ;  (assoc-in world [:entities :guests (get-current-guest world) :is-staring-at-floor] true))
+       world ; temporary
+       (place-guest world (random-guest-name world)))
+
+     :else world)))
 
 (defn place-guests
   "Moves all of the guests in guest-list.
@@ -115,7 +135,7 @@
         (let [guest-name (first guest-list)
               guest (get-guests [guest-name])
               world (assoc-in world [:entities :guests guest-name] (guest-name guest))
-              world (place-guest guest-name guest world)]
+              world (place-guest world guest-name)]
           (recur (rest guest-list) world))))))
 
 (defn create-guests

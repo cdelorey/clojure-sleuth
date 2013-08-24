@@ -116,8 +116,8 @@
 *DONE* add randomness to losing game after being stalked by murderer
 08/24/13
 *DONE* add randomness to staring at floor
+*DONE* add guest movement
 
-* add guest movement
 * make sure there is a guest staring at floor in murder room
 * only display guests in same room as player
 

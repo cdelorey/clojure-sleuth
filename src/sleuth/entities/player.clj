@@ -4,7 +4,7 @@
         [sleuth.world.alibis :only [get-lose-time]]
         [sleuth.world.portals :only [portal? get-portal secret-passage? get-passage in-secret-passage]]
         [sleuth.world.rooms :only [has-entered-room]]
-        [sleuth.entities.guests :only [update-guest-staring-flags]]))
+        [sleuth.entities.guests :only [update-guest-staring-flags update-guest-locations]]))
 
 ; Data Structures -------------------------------------------------------------
 (defrecord Player [id glyph location])
@@ -57,6 +57,7 @@
     (if (has-entered-room location target)
       (as-> new-world new-world
             (update-guest-staring-flags new-world)
+            (update-guest-locations new-world)
             (check-for-trap new-world)
             (assoc-in new-world [:flags :player-entered-room] false))
       new-world)))
