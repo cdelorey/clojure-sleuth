@@ -18,7 +18,6 @@
         world (->World (load-house new-house) "" "" {} {}
                        {:found-magnifying-glass false
                         :found-murder-weapon false
-                        :guests-stare-at-floor false
                         :murderer-is-suspicious false
                         :murderer-is-stalking false
                         :game-lost false

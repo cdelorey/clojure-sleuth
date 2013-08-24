@@ -114,17 +114,22 @@
 *DONE* add random chance for guest to refuse to be questioned
 08/15/13
 *DONE* add randomness to losing game after being stalked by murderer
+08/24/13
+*DONE* add randomness to staring at floor
 
-* add randomness to staring at floor
 * add guest movement
+* make sure there is a guest staring at floor in murder room
 * only display guests in same room as player
-* switch to libtcod clojars dependency
+
 
 
 Personalize
 
+Text Re-write
+
 
 Polish:
+* switch to libtcod clojars dependency
 * refactor game-over functions
 * add more accuse text
 * change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.

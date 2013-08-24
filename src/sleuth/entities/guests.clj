@@ -3,12 +3,12 @@
                                    get-current-guest]]
         [sleuth.world.items :only [get-item-rooms]]
         [sleuth.world.alibis :only [get-alibis]]
-        [sleuth.entities.player :only [get-player-location]]
         [sleuth.utils :only [keyword-to-string keyword-to-name keyword-to-first-name]])
   (:require [clj-yaml.core :as yaml]))
 
 ; Data Structures --------------------------------------------------------------------------
-(defrecord Guest [name alibi num-questions location description])
+(defrecord Guest [name alibi num-questions location description
+                  is-staring-at-floor])
 
 (def guest-names (promise))
 (def guest-descriptions (promise))
@@ -32,7 +32,7 @@
   names is a vector of keywords."
   [names]
   (into {} (for [n names]
-             [n (->Guest (keyword-to-name n) " " 0 [0 0] " ")])))
+             [n (->Guest (keyword-to-name n) " " 0 [0 0] " " false)])))
 
 (defn get-guest-names
   "Returns a list of the first names of the guests in the mansion."
@@ -41,11 +41,29 @@
     (into [] (for [[k v] guests]
                (keyword-to-first-name (:name v))))))
 
+(defn flip-current-stare-flag
+  "Flips the is-staring-at-floor flag for the guest in the current room."
+  [world]
+  (let [guest-name (get-current-guest world)]
+    (if guest-name
+      (let [flag (not (:is-staring-at-floor (guest-name (:entities world))))]
+        (assoc-in world [:entities :guests guest-name :is-staring-at-floor] flag))
+      world)))
+
+(defn update-guest-staring-flags
+  "Flips the current guest's staring flag with a probability proportional to turn count."
+  [world]
+  (let [turn-count (get-in world [:murder-case :turn-count])]
+    (cond
+     (< (rand-int 300) turn-count)
+     (flip-current-stare-flag world)
+     :else world)))
+
 (defn move-guests
   "Moves the guests in the world guestlist to the player's current room."
   [world]
   (let [guests (get-in world [:entities :guests])
-        [player-x player-y] (get-player-location world)
+        [player-x player-y] (get-in world [:entities :player :location])
         current-room (current-room world)
         rect (get-rect current-room)
         guest-x (+ (:x rect) 4)
@@ -63,7 +81,7 @@
   (if (not (nil? (get-current-guest world)))
     world
     (let [murderer (get-in world [:murder-case :murderer])
-          [player-x player-y] (get-player-location world)
+          [player-x player-y] (get-in world [:entities :player :location])
           murderer-x (if (in-room? [(+ player-x 1) player-y] (current-room world))
                        (+ player-x 1)
                        (- player-x 1))]

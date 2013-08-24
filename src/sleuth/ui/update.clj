@@ -35,14 +35,11 @@
 
 ; Sleuth -----------------------------------------------------------------
 (defn new-turn
-  "Updates turn count and checks for turn-count dependent events."
+  "Updates turn count and checks for events."
   [world]
   (let [new-world (update-in world [:murder-case :turn-count] inc)
         turn-count (get-in new-world [:murder-case :turn-count])]
     (cond
-     (= turn-count 150)
-     (assoc-in new-world [:flags :guests-stare-at-floor] true)
-
      (= turn-count 200)
      (assoc-in new-world [:flags :murderer-is-suspicious] true)
 
@@ -54,10 +51,10 @@
      ;(assoc-in new-world [:flags :found-murder-weapon] true)
 
      ;testing
-     (= turn-count 1)
-     (assoc-in new-world [:flags :murderer-is-stalking] true)
+     ;(= turn-count 1)
+     ;(assoc-in new-world [:flags :murderer-is-stalking] true)
 
-    :else new-world)))
+     :else new-world)))
 
 
 (defn assemble-guests
@@ -86,9 +83,11 @@
   [game]
   (let [game-lost (get-in game [:world :flags :game-lost])
         assemble  (get-in game [:world :flags :assemble])]
+    ; check flags
     (cond
      game-lost    (lose-game game)
      assemble     (assemble-guests game)
+     ; update
      :else        (assoc-in game [:world] (new-turn (:world game))))))
 
 ; Assemble --------------------------------------------------------------

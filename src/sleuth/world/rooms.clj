@@ -128,14 +128,17 @@
 
 (defn get-guest-description
   [room-name world]
-  (let [guest (get-current-guest world)
-        guest-name (get-in world [:entities :guests guest :name])
-        description (get-in world [:entities :guests guest :description])]
+  (let [guest-name (get-current-guest world)
+        description (get-in world [:entities :guests guest-name :description])]
     (if (= nil description)
       nil
-      (if (:guests-stare-at-floor (:flags world))
-        (str  guest-name " is staring at the floor.")
-        (let [n (get-in world [:entities :guests guest :name])]
+      (if (get-in world [:entities :guests guest-name :is-staring-at-floor])
+        (do
+          (print "YES")
+          (str  (keyword-to-name guest-name) " is staring at the floor."))
+        (let [n (get-in world [:entities :guests guest-name :name])]
+          (println "LOOK")
+          (print (str guest-name))
           (format description n))))))
 
 (defn get-room-description

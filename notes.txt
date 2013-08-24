@@ -1,4 +1,5 @@
 Assemble:
+---------
 * The suspects have all gathered here in the *room* to hear your accusation. The door is now locked
   * accuse
     * correct guest and room -> *murderer* turns to you in a state of shock. "How did you come to suspect me!
@@ -15,3 +16,49 @@ Assemble:
   * quit/restart may work as usual
   * any other command -> Everyone is waiting with baited breath to hear your accusation!
 * do you want to quit or restart? can't move/ do anything else
+
+add randomness to staring at floor:
+-----------------------------------
+* Currently, there is a world flag for all guests to begin staring at the
+  floor. To change it so that not all guests stare at the floor at once,
+  the flag will have to be moved to the guest structure and flipped at
+  random.
+* in the sleuth update function, add a random chance to flip one or more
+  guests' staring-at-floor flag. In the guest description function, check
+  this flag, not the global flag to determine which description to display.
+* the chance to make guests stare at the floor should be proportional to
+  the number of turns that have passed.
+08/21/13
+* This needs to be checked only the first time the player enters the room to
+  avoid the situation where a guest could start or stop staring at the floor
+  while the player is in the room. But the entered room check is currently in
+  the player move function! this would be an awkward place to start checking if
+  changes need to be made to staring flags. It is also currently being used to check
+  if the player has been cornered by the murderer upon entering the room.
+  This is probably not the best place for this. How should this be changed? Set an
+  external flag? Wouldn't want to check an external flag every turn to see if a room
+  has been entered, but is there a better way to do this? The player move function
+  and the input function that calls it, are the only places that have access to the
+  previous and current location information necessary for the has-entered-room?
+  function.
+    * the player-move function is doing too many things!  refactor:
+        1. function that deals only with player movement
+        2. function that checks for player being cornered by murderer
+        3. function that flips a random guest staring flag if necessary
+        5. renamed player-move function that calls above functions
+08/22/13
+* Guest movement will also be checked in the new player-move function. These checks really should be
+made in the update function; the player-move function ideally would not be doing so many things.
+But the alternative would be either setting up some sort of message passing, which seems like
+overkill in a project of this size, or setting an entered room flag that the update function checks.
+* Maybe the player-move function will just check if a room has been entered using the current
+and previous location information, and if so, set an entered room flag. The update function will
+check for this flag, if it's true, it will call the functions for dealing with events that happen
+only when a room is entered, and then unset the flag. This way, the move function doesn't have to
+unset the flag. Is this a good organization? Are these flags too much like global state? It's
+probably better than having update functionality in the player-move functions.
+* the random stare flag flipping doesn't work very well. Maybe try flipping the flag of the guest
+in the current room with a probability proportional to turn count?
+08/24/13
+* These functions can't go in update because they will not be invoked until after the player
+has already entered the room. Whoops. Moving them back to player-move code for now.
