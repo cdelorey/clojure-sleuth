@@ -1,5 +1,6 @@
 (ns sleuth.ui.drawing
   (:use [sleuth.utils :only [map2d]]
+        [sleuth.world.rooms :only [get-current-guest]]
         [sleuth.libtcod]))
 
 ; Definitions -------------------------------------------------------------
@@ -56,6 +57,14 @@
   (doall (map
           #(console-set-char screen (first (:location %)) (second (:location %))char-smilie) (vals guests))))
 
+(defn draw-guest
+  "Draws the guest in the player's current room, if there is one."
+  [screen world]
+  (let [guest (get-current-guest world)]
+    (if guest
+      (let [[x y] (get-in world [:entities :guests guest :location])]
+        (console-set-char screen x y char-smilie)))))
+
 (defn draw-sleuth
   [game screen]
   (let [world (:world game)
@@ -66,7 +75,7 @@
     (draw-message screen message)
     (draw-commandline screen commandline)
     (draw-player screen player)
-    (draw-guests screen guests)))
+    (draw-guest screen world)))
 
 (defmethod draw-ui :sleuth [ui game screen]
   (draw-sleuth game screen))
