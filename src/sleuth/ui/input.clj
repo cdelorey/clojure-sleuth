@@ -5,6 +5,7 @@
         [sleuth.entities.player :only [move-player make-player]]
         [sleuth.commands :only [process-command process-game-over-commands
                                 process-accuse-commands]]
+        [sleuth.personalize :only [new-personalize process-personalize-input]]
         [sleuth.libtcod]))
 
 ; Definitions ------------------------------------------------------------
@@ -28,7 +29,9 @@
 (defmethod process-input :menu [game input]
   (cond
     (= (.c input) (int \a)) (new-game game)
-    (= (.c input) (int \b)) (assoc game :uis [(->UI :personalize)])
+    (= (.c input) (int \b)) (-> game
+                                (assoc-in [:uis] [(->UI :personalize)])
+                                (assoc-in [:personalize] (new-personalize)))
     (= (.c input) (int \c)) (assoc (assoc-in
                      game [:instructions] instructions)
                  :uis [(->UI :instructions)])
@@ -45,8 +48,24 @@
 
 ; Personalize -------------------------------------------------------------
 (defmethod process-input :personalize [game input]
-  "Does nothing yet -- returns to menu screen."
-  (assoc game :uis [(->UI :menu)]))
+  (let [current-box (:current-box (:personalize game))
+        input-box (current-box (:gui (:personalize game)))
+        data (:data input-box)]
+  (cond
+   (= (.vk input) key-backspace) (assoc-in game [:personalize :gui current-box :data]
+                                              (subs data 0 (max (- (count data) 1) 0)))
+
+   (= (.vk input) key-enter) (let [new-game (process-personalize-input game)]
+                               (-> new-game
+                                   (assoc-in [:personalize :gui :box-one :data] "")
+                                   (assoc-in [:personalize :gui :box-two :data] "")))
+
+   (= (.vk input) key-char) (assoc-in game [:personalize :gui current-box :data]
+                                         (str data (char (.c input))))
+
+   (= (.vk input) key-space) (assoc-in game [:personalize :gui current-box :data]
+                                          (str data " "))
+   :else game)))
 
 
 ; Sleuth ------------------------------------------------------------------

@@ -123,6 +123,14 @@
 
 
 Personalize
+-----------
+08/24/13
+*DONE* add basic personalize ui
+
+
+* save personalized names into name list
+* enable use of personalized list in game
+
 
 Text Re-write
 
