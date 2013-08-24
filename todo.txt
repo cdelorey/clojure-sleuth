@@ -126,11 +126,10 @@ Personalize
 -----------
 08/24/13
 *DONE* add basic personalize ui
+*DONE* save personalized names into name list
 
-
-* save personalized names into name list
 * enable use of personalized list in game
-
+* make cursor display in personalized ui
 
 Text Re-write
 
@@ -140,11 +139,6 @@ Polish:
 * refactor game-over functions
 * add more accuse text
 * change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
-* fix tab display in guestlist
 * allow for more item name variations on commandline
-* animate secret passage movement
-* change file loading function to load line by line
 * try moving by 2 on horizontal axis (will have to account for walls)
-* wrap print methods to allow passing in map of bkgnd and fgnd colors
 * add random house colors
-* add random guest names

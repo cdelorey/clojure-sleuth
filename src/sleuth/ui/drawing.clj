@@ -32,18 +32,17 @@
 
 ; Personalize -------------------------------------------------------------
 (defn draw-boxes [screen gui]
-  (println "GUI:")
-  (println gui)
   (doall
    (map
     #(console-print screen (:x %) (:y %) (:data %)) (vals gui))))
 
 (defmethod draw-ui :personalize [ui game screen]
-  (console-print screen 20 1 "P E R S O N A L I Z E   S L E U T H")
-  (console-print screen 10 8 "Suspect #1")
-  (console-print screen 10 10 "Enter first name: ")
-  (console-print screen 10 12 "Enter second name: ")
-  (draw-boxes screen (:gui (:personalize game))))
+  (let [suspect-number (:suspect-number (:personalize game))]
+    (console-print screen 20 1 "P E R S O N A L I Z E   S L E U T H")
+    (console-print screen 10 8 (str "Suspect #" suspect-number))
+    (console-print screen 10 10 "Enter first name: ")
+    (console-print screen 10 12 "Enter second name: ")
+    (draw-boxes screen (:gui (:personalize game)))))
 
 ; Sleuth ------------------------------------------------------------------
 (defn draw-house [screen tiles]

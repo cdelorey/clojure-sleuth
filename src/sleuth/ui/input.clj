@@ -55,10 +55,7 @@
    (= (.vk input) key-backspace) (assoc-in game [:personalize :gui current-box :data]
                                               (subs data 0 (max (- (count data) 1) 0)))
 
-   (= (.vk input) key-enter) (let [new-game (process-personalize-input game)]
-                               (-> new-game
-                                   (assoc-in [:personalize :gui :box-one :data] "")
-                                   (assoc-in [:personalize :gui :box-two :data] "")))
+   (= (.vk input) key-enter) (process-personalize-input game)
 
    (= (.vk input) key-char) (assoc-in game [:personalize :gui current-box :data]
                                          (str data (char (.c input))))
