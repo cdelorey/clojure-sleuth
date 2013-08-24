@@ -93,6 +93,18 @@
                        (- player-x 1))]
       (assoc-in world [:entities :guests murderer :location] [murderer-x player-y]))))
 
+(defn ensure-guest-in-current-room
+  [world]
+  (if (not (nil? (get-current-guest world)))
+    world
+    (let [guest-name (random-guest-name world)
+          room (current-room world)
+          coords (random-coords room)
+          description (rand-nth (room @guest-descriptions))]
+      (as-> world world
+            (assoc-in world [:entities :guests guest-name :room] room)
+            (assoc-in world [:entities :guests guest-name :location] coords)
+            (assoc-in world [:entities :guests guest-name :description] description)))))
 
 (defn place-guest
   "Place the given guest at a random location in a random empty room."
@@ -113,11 +125,12 @@
   (let [turn-count (get-in world [:murder-case :turn-count])]
     (cond
      (< (rand-int 300) turn-count)
+     ; move guest to current room and have the guest stare at the floor
      (if (= (current-room world) (:room (:murder-case world)))
-       ;(do
-       ;  (ensure-guest-in-current-room world)
-       ;  (assoc-in world [:entities :guests (get-current-guest world) :is-staring-at-floor] true))
-       world ; temporary
+       (as-> world world
+         (ensure-guest-in-current-room world)
+         (assoc-in world [:entities :guests (get-current-guest world) :is-staring-at-floor] true))
+       ; move random guest
        (place-guest world (random-guest-name world)))
 
      :else world)))
@@ -159,6 +172,7 @@
     (println "Room3: " room3 " Guest: " alone)
     (println "HELLO")
     (println "Murderer: " murderer)
+    (println "Murder-room: " (get-in world [:murder-case :room]))
     (as-> world world
         (assoc-in world [:murder-case :victim] victim)
         (assoc-in world [:murder-case :murderer] murderer)

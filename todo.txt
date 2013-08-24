@@ -117,10 +117,10 @@
 08/24/13
 *DONE* add randomness to staring at floor
 *DONE* add guest movement
+*DONE* make sure there is a guest staring at floor in murder room
 
-* make sure there is a guest staring at floor in murder room
 * only display guests in same room as player
-
+* remove test code (print statements, player and magnifying glass placement)
 
 
 Personalize
