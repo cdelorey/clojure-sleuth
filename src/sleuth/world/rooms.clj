@@ -133,17 +133,12 @@
     (if (= nil description)
       nil
       (if (get-in world [:entities :guests guest-name :is-staring-at-floor])
-        (do
-          (print "YES")
-          (str  (keyword-to-name guest-name) " is staring at the floor."))
+        (str  (keyword-to-name guest-name) " is staring at the floor.")
         (let [n (get-in world [:entities :guests guest-name :name])]
-          (println "LOOK")
-          (print (str guest-name))
           (format description n))))))
 
 (defn get-room-description
   "Return a room description for the coordinates [x y]"
-  ;TODO: change this so that there is no second \n if item-description is nil
   [[x y] world]
   (let [room-name (get-room-name [x y])
         guest-description (get-guest-description room-name world)

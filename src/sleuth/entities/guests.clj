@@ -166,13 +166,6 @@
         [room1 room2 room3] rooms
         guest-list (remove #{victim} @guest-names)
         world (place-guests guest-list world)]
-    ; testing
-    (println "Room1: " room1 " Guests: " suspect1 " " suspect2)
-    (println "Room2: " room2 " Guests: " suspect3 " " suspect4)
-    (println "Room3: " room3 " Guest: " alone)
-    (println "HELLO")
-    (println "Murderer: " murderer)
-    (println "Murder-room: " (get-in world [:murder-case :room]))
     (as-> world world
         (assoc-in world [:murder-case :victim] victim)
         (assoc-in world [:murder-case :murderer] murderer)

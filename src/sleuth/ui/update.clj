@@ -46,14 +46,6 @@
      (= turn-count 300)
      (assoc-in new-world [:flags :murderer-is-stalking] true)
 
-     ;testing
-     ;(= turn-count 3)
-     ;(assoc-in new-world [:flags :found-murder-weapon] true)
-
-     ;testing
-     ;(= turn-count 1)
-     ;(assoc-in new-world [:flags :murderer-is-stalking] true)
-
      :else new-world)))
 
 

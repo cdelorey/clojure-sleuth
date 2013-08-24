@@ -119,8 +119,7 @@
 *DONE* add guest movement
 *DONE* make sure there is a guest staring at floor in murder room
 *DONE* only display guests in same room as player
-
-* remove test code (print statements, player and magnifying glass placement)
+*DONE* remove test code (print statements, player and magnifying glass placement)
 
 
 Personalize

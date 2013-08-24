@@ -31,9 +31,6 @@
 ; text displayed when player loses from running out of time
 (def lose-time (promise))
 
-;when staring at floor
-;"%s looks up from the floor and says,"
-
 ; Alibi Functions -----------------------------------------------------------------------------
 (defn load-alibis
   "Loads alibi components from filename"

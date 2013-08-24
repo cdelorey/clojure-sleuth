@@ -2,7 +2,6 @@
 
 (defn keywordize
   "Turns a string into a valid clojure keyword."
-  ;maybe move this to utils?
   [input]
   (str ":" (clojure.string/replace input #" " "-")))
 
