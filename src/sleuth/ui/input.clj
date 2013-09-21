@@ -3,9 +3,11 @@
         [sleuth.world.core :only [new-world]]
         [sleuth.world.rooms :only [get-room-description]]
         [sleuth.entities.player :only [move-player make-player]]
+        [sleuth.entities.guests :only [personalized-names]]
         [sleuth.commands :only [process-command process-game-over-commands
                                 process-accuse-commands]]
-        [sleuth.personalize :only [new-personalize process-personalize-input]]
+        [sleuth.personalize :only [new-personalize swap-current-box]]
+        [sleuth.utils :only [keywordize]]
         [sleuth.libtcod]))
 
 ; Definitions ------------------------------------------------------------
@@ -18,8 +20,8 @@
   (assoc game :uis [(->UI :menu)]))
 
 ; Menu ------------------------------------------------------------------
-(defn new-game [game]
-  (let [world (new-world)
+(defn new-game [game personalized?]
+  (let [world (new-world personalized?)
         player (make-player world)]
     (-> game
       (assoc :world world)
@@ -28,7 +30,7 @@
 
 (defmethod process-input :menu [game input]
   (cond
-    (= (.c input) (int \a)) (new-game game)
+    (= (.c input) (int \a)) (new-game game false)
     (= (.c input) (int \b)) (-> game
                                 (assoc-in [:uis] [(->UI :personalize)])
                                 (assoc-in [:personalize] (new-personalize)))
@@ -47,6 +49,33 @@
     (assoc game :instructions (rest (game :instructions)))))
 
 ; Personalize -------------------------------------------------------------
+(defn switch-to-sleuth-ui
+  [game]
+  (reset! personalized-names (:name-list (:personalize game)))
+  (as-> game game
+        (dissoc game :personalize)
+        (new-game game true)))
+
+(defn process-personalize-input
+  "Process names entered in personalize gui."
+  [game]
+  (let [current-box (:current-box (:personalize game))]
+    (if (= current-box :box-one)
+      (assoc-in game [:personalize :current-box] (swap-current-box current-box))
+      (let [first-name (get-in game [:personalize :gui :box-one :data])
+            last-name (get-in game [:personalize :gui :box-two :data])
+            full-name (keywordize (str first-name " " last-name))
+            name-list (:name-list (:personalize game))
+            game         (-> game
+                             (assoc-in [:personalize :name-list] (conj name-list full-name))
+                             (assoc-in [:personalize :current-box] (swap-current-box current-box))
+                             (assoc-in [:personalize :gui :box-one :data] "")
+                             (assoc-in [:personalize :gui :box-two :data] "")
+                             (assoc-in [:personalize :suspect-number] (inc (:suspect-number (:personalize game)))))]
+        (if (= (:suspect-number (:personalize game)) 8)
+          (switch-to-sleuth-ui game)
+          game)))))
+
 (defmethod process-input :personalize [game input]
   (let [current-box (:current-box (:personalize game))
         input-box (current-box (:gui (:personalize game)))

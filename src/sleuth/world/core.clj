@@ -12,7 +12,7 @@
 
 
 ; World Functions ------------------------------------------------------------
-(defn new-world []
+(defn new-world [personalized?]
   "Create a new random world."
   (let [new-house (rand-nth ["resources/house22.txt"])
         world (->World (load-house new-house) "" "" {} {}
@@ -21,7 +21,8 @@
                         :murderer-is-suspicious false
                         :murderer-is-stalking false
                         :game-lost false
-                        :assemble false}
+                        :assemble false
+                        :personalized personalized?}
                        {} {})
         world (assoc-in world [:items] (random-items))
         world (assoc-in world [:murder-case :weapon] (random-item world))

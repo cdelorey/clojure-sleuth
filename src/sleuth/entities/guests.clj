@@ -11,6 +11,7 @@
                   is-staring-at-floor])
 
 (def guest-names (promise))
+(def personalized-names (atom nil))
 (def guest-descriptions (promise))
 
 ; Guest Functions -----------------------------------------------------------------------------
@@ -154,7 +155,10 @@
 (defn create-guests
   [world]
   "Creates guests with their alibis"
-  (let [names (shuffle @guest-names)
+  (let [names-list (if (:personalized (:flags world))
+                       (apply list @personalized-names)
+                       @guest-names)
+        names (shuffle names-list)
         [victim
          murderer
          alone
@@ -164,7 +168,7 @@
          suspect4] names
         rooms (shuffle (get-item-rooms))
         [room1 room2 room3] rooms
-        guest-list (remove #{victim} @guest-names)
+        guest-list (apply list (remove #{victim} names))
         world (place-guests guest-list world)]
     (as-> world world
         (assoc-in world [:murder-case :victim] victim)

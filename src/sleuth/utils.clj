@@ -1,9 +1,9 @@
 (ns sleuth.utils)
 
 (defn keywordize
-  "Turns a string into a valid clojure keyword."
+  "Turns a string into a valid clojure keyword, replacing any spaces with dashes."
   [input]
-  (str ":" (clojure.string/replace input #" " "-")))
+  (keyword (clojure.string/replace input #" " "-")))
 
 (defn keyword-to-string
   "Converts a keyword to a string, replacing any dashes with spaces."

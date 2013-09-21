@@ -127,9 +127,12 @@ Personalize
 08/24/13
 *DONE* add basic personalize ui
 *DONE* save personalized names into name list
+09/21/13
+*DONE* enable use of personalized list in game
 
-* enable use of personalized list in game
 * make cursor display in personalized ui
+* add opening sequence
+* add opening text
 
 Text Re-write
 
