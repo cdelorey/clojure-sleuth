@@ -49,8 +49,8 @@
      ; examine the floor
      (= object "floor")
      (let [guest (get-current-guest world)]
-       (if (and (:guests-stare-at-floor (:flags world))
-                (not (nil? guest))
+       (if (and (not (nil? guest))
+                (:is-staring-at-floor (get-in world [:entities :guests guest]))
                 found-magnifying-glass)
         (let [player-location (get-player-location world)
               guest-location (get-in world [:entities :guests guest :location])]

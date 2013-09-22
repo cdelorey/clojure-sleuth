@@ -25,7 +25,7 @@
 (defn random-name
   "Returns a random name from the given names list"
   [names]
-  (rand-nth names))
+  (rand-nth names)) 
 
 (defn get-guests
   "Returns a list of guests from the given names with random locations.
