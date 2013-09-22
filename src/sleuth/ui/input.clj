@@ -91,6 +91,11 @@
 
    (= (.vk input) key-space) (assoc-in game [:personalize :gui current-box :data]
                                           (str data " "))
+
+   (= (.vk input) key-escape) (-> game
+                                (dissoc :personalize)
+                                (assoc :uis [(->UI :menu)]))
+
    :else game)))
 
 

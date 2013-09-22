@@ -133,8 +133,8 @@ Personalize
 *DONE* remove test code (player, magnifying glass placement)
 *DONE* fix staring at floor in examine floor command
 *DONE* make cursor display in personalized ui
+*DONE* add esc to personalize screen
 
-* add esc from personalize screen
 * add opening sequence
 * add opening text
 
