@@ -47,5 +47,5 @@
 (defn place-magnifying-glass 
   "Add the magnifying glass to a random room in game."
   [world]
-  (assoc-in world [:items (rand-nth (keys room-items))] 
+  (assoc-in world [:items (rand-nth (keys @room-items))] 
             [:magnifying-glass "A magnifying glass is lying on the floor."]))

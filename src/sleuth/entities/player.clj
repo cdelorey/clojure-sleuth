@@ -12,7 +12,7 @@
 
 ; Player Functions ------------------------------------------------------------
 (defn make-player [world]
-  (->Player :player "@" [2 2]))
+  (->Player :player "@" [21 17]))
 
 (defn get-player-location [world]
   (get-in world [:entities :player :location]))

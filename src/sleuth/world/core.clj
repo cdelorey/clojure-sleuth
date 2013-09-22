@@ -30,8 +30,7 @@
         world (assoc-in world [:murder-case :turn-count] 0)
         world (random-passages world)
         world (create-guests world)
-        world (assoc-in world [:items :dining-room] [:magnifying-glass "a magnifying glass"])] ;testing
-        ;world (place-magnifying-glass world)]
+        world (place-magnifying-glass world)]
     world))
 
 

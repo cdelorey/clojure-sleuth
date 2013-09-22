@@ -16,6 +16,7 @@
    :conservatory (->Rect 24 11 14 5)
    :main-hall (->Rect 16 1 7 12)
    :main-hall2 (->Rect 20 13 3 4)
+   :main-hall3 (->Rect 21 17 1 1)
    :lower-stairs (->Rect 16 13 3 3)
    :master-bathroom (->Rect 41 1 14 4)
    :library (->Rect 41 6 14 5)

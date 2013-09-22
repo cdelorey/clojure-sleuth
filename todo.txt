@@ -119,7 +119,7 @@
 *DONE* add guest movement
 *DONE* make sure there is a guest staring at floor in murder room
 *DONE* only display guests in same room as player
-*DONE* remove test code (print statements, player and magnifying glass placement)
+*DONE* remove test code (print statements)
 
 
 Personalize
@@ -129,7 +129,9 @@ Personalize
 *DONE* save personalized names into name list
 09/21/13
 *DONE* enable use of personalized list in game
+*DONE* remove test code (player, magnifying glass placement)
 
+* fix staring at floor in examine floor command
 * make cursor display in personalized ui
 * add opening sequence
 * add opening text
