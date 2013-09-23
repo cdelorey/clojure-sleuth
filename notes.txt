@@ -67,3 +67,9 @@ add guest movement:
 -------------------
 * move guests at random when player enters a room. A random guest may be moved to an empty room.
 * place-guest function already moves a guest to a random empty room
+
+Opening text:
+-------------
+*victim* was brutally murdered only hours ago. The body was removed by persons unknown from
+the murder scene. You are now standing at the front door of the *victim's last name* estate.
+The door is open.

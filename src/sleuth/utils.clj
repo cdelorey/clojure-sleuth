@@ -26,7 +26,6 @@
   [word]
   (first (clojure.string/split (keyword-to-name word) #" ")))
 
-
 (defn abs [i]
   (if (neg? i)
     (- i)

@@ -134,18 +134,23 @@ Personalize
 *DONE* fix staring at floor in examine floor command
 *DONE* make cursor display in personalized ui
 *DONE* add esc to personalize screen
+*DONE* add opening text
 
 * add opening sequence
-* add opening text
-
-Text Re-write
 
 
 Polish:
-* switch to libtcod clojars dependency
-* refactor game-over functions
-* add more accuse text
 * change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
 * allow for more item name variations on commandline
-* try moving by 2 on horizontal axis (will have to account for walls)
+* switch to libtcod clojars dependency
 * add random house colors
+
+Text Re-write
+* add randomized guest names
+* new opening text
+* new items/item descriptions
+* new room descriptions
+* new guest descriptions
+* new alibis
+* new accuse text
+* new lose text

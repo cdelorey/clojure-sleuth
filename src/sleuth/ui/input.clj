@@ -2,6 +2,7 @@
   (:use [sleuth.ui.core :only [->UI instructions]]
         [sleuth.world.core :only [new-world]]
         [sleuth.world.rooms :only [get-room-description]]
+        [sleuth.world.text :only [random-opening]]
         [sleuth.entities.player :only [move-player make-player]]
         [sleuth.entities.guests :only [personalized-names]]
         [sleuth.commands :only [process-command process-game-over-commands
@@ -26,6 +27,7 @@
     (-> game
       (assoc :world world)
       (assoc-in [:world :entities :player] player)
+      (assoc-in [:world :message] (random-opening world))
       (assoc :uis [(->UI :sleuth)]))))
 
 (defmethod process-input :menu [game input]

@@ -6,6 +6,7 @@
         [sleuth.world.rooms :only [load-rooms]]
         [sleuth.world.items :only [load-items]]
         [sleuth.world.alibis :only [load-alibis]]
+        [sleuth.world.text :only [load-text]]
         [sleuth.entities.guests :only [load-guests]]
         [sleuth.libtcod]
         [clj-native.direct :only [loadlib]]))
@@ -39,7 +40,8 @@
   (load-alibis "resources/alibis.yaml")
   (load-items "resources/items.yaml")
   (load-guests "resources/guests.yaml")
-  (load-rooms "resources/rooms.yaml"))
+  (load-rooms "resources/rooms.yaml")
+  (load-text))
 
 (defn -main
   []
