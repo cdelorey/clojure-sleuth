@@ -4,6 +4,7 @@
         [sleuth.entities.guests :only [move-guests move-murderer]]
         [sleuth.utils :only [keyword-to-string]]))
 
+
 ; Definitions ------------------------------------------------------------
 (defmulti update
   (fn [game]
@@ -30,6 +31,10 @@
 ; Personalize ------------------------------------------------------------
 (defmethod update :personalize [game]
   "Does nothing."
+  game)
+
+; Opening ----------------------------------------------------------------
+(defmethod update :opening [game]
   game)
 
 

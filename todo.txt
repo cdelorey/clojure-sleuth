@@ -135,13 +135,14 @@ Personalize
 *DONE* make cursor display in personalized ui
 *DONE* add esc to personalize screen
 *DONE* add opening text
+09/29/13
+*DONE* add opening sequence
 
-* add opening sequence
-
+* refactor multimethods (add default case)
 
 Polish:
-* change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
 * allow for more item name variations on commandline
+* change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
 * switch to libtcod clojars dependency
 * add random house colors
 

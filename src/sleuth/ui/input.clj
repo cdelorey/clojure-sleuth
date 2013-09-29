@@ -28,7 +28,7 @@
       (assoc :world world)
       (assoc-in [:world :entities :player] player)
       (assoc-in [:world :message] (random-opening world))
-      (assoc :uis [(->UI :sleuth)]))))
+      (assoc :uis [(->UI :opening)]))))
 
 (defmethod process-input :menu [game input]
   (cond
@@ -51,7 +51,7 @@
     (assoc game :instructions (rest (game :instructions)))))
 
 ; Personalize -------------------------------------------------------------
-(defn switch-to-sleuth-ui
+(defn switch-to-opening-ui
   [game]
   (reset! personalized-names (:name-list (:personalize game)))
   (as-> game game
@@ -75,7 +75,7 @@
                              (assoc-in [:personalize :gui :box-two :data] "")
                              (assoc-in [:personalize :suspect-number] (inc (:suspect-number (:personalize game)))))]
         (if (= (:suspect-number (:personalize game)) 8)
-          (switch-to-sleuth-ui game)
+          (switch-to-opening-ui game)
           game)))))
 
 (defmethod process-input :personalize [game input]
@@ -100,6 +100,10 @@
 
    :else game)))
 
+
+; Opening -----------------------------------------------------------------
+(defmethod process-input :opening [game input]
+  (assoc game :uis [(->UI :sleuth)]))
 
 ; Sleuth ------------------------------------------------------------------
 (defn move

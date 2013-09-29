@@ -2,7 +2,7 @@
   (:require [clj-yaml.core :as yaml]))
 
 ;Definitions ------------------------------------------------------------------
-(def instructions 
+(def instructions
   (yaml/parse-string (slurp "resources/instructions.yaml")))
 
 ;Data Structures --------------------------------------------------------------

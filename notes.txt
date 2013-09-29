@@ -73,3 +73,15 @@ Opening text:
 *victim* was brutally murdered only hours ago. The body was removed by persons unknown from
 the murder scene. You are now standing at the front door of the *victim's last name* estate.
 The door is open.
+
+Opening Sequence:
+It is a dark and stormy night. A murder is being commited ...
+
+Events
+------
+* add an init function that is called when a new ui is pushed onto the stack. This init
+function can set up event code (go blocks that will put values into channels when an
+event takes place). The update function can check these channels for values and call the
+appropriate functions. 
+* where will the event channel be stored? the game structure?  
+* change the state multimethods to a protocol

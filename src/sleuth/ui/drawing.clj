@@ -52,6 +52,11 @@
     (draw-boxes screen (:gui (:personalize game)))
     (draw-cursor screen (:personalize game))))
 
+; Opening -----------------------------------------------------------------
+(defmethod draw-ui :opening [ui game screen]
+  (console-print screen 10 10 (str "It is a dark and stormy night."
+                                   " A murder is being committed ...")))
+
 ; Sleuth ------------------------------------------------------------------
 (defn draw-house [screen tiles]
   (doseq [y (range 0 (count tiles))
