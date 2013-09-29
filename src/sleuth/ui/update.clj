@@ -10,34 +10,6 @@
   (fn [game]
     (:kind (last (:uis game)))))
 
-; Start ------------------------------------------------------------------
-(defmethod update :start [game]
-  "Does nothing yet. Will use this to animate sleuth letters in start screen."
-  game)
-
-
-; Menu -------------------------------------------------------------------
-(defmethod update :menu [game]
-  "Does nothing."
-  game)
-
-
-; Instructions -----------------------------------------------------------
-(defmethod update :instructions [game]
-  "Does nothing."
-  game)
-
-
-; Personalize ------------------------------------------------------------
-(defmethod update :personalize [game]
-  "Does nothing."
-  game)
-
-; Opening ----------------------------------------------------------------
-(defmethod update :opening [game]
-  game)
-
-
 ; Sleuth -----------------------------------------------------------------
 (defn new-turn
   "Updates turn count and checks for events."
@@ -104,7 +76,7 @@
    :else game))
 
 
-; Game Over --------------------------------------------------------------
-(defmethod update :game-over [game]
+; Default ---------------------------------------------------------------------
+(defmethod update :default [game]
   "Does nothing."
   game)
