@@ -137,14 +137,15 @@ Personalize
 *DONE* add opening text
 09/29/13
 *DONE* add opening sequence
+*DONE* refactor multimethods (add default case)
+10/09/13
+*DONE* fix examine bug
 
-* refactor multimethods (add default case)
-
-Polish:
 * allow for more item name variations on commandline
-* change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
-* switch to libtcod clojars dependency
+* add color module to libtcod wrapper
 * add random house colors
+* make libtcod check for os (macro?)
+* switch to libtcod clojars dependency
 
 Text Re-write
 * add randomized guest names
@@ -152,6 +153,7 @@ Text Re-write
 * new items/item descriptions
 * new room descriptions
 * new guest descriptions
-* new alibis
+* new alibis 
+    * change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
 * new accuse text
 * new lose text

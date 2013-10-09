@@ -1,5 +1,5 @@
 (ns sleuth.world.text
-	(:use [sleuth.utils :only [keyword-to-name]])
+	(:use [sleuth.utils :only [keyword-to-name keyword-to-string]])
 	(:require [clj-yaml.core :as yaml]))
 
 ;; data structures ------------------------------------------------------------
@@ -25,6 +25,13 @@
     (-> text
         (clojure.string/replace #"\*victim\*" victim)
         (clojure.string/replace #"\*victim-last\*" victim-last))))
+
+(defn contained? 
+  [key-word input-string]
+  (let [thing (keyword-to-string key-word)]
+    (if (< (count input-string) 3)
+      false
+      ())))
 
 
 (defn random-opening [world]

@@ -12,7 +12,7 @@
   ; This could be more clearly named
   "Return true if the given keyword matches the given object string."
   [object word]
-  (= (keywordize object) (str word)))
+  (= (keywordize object) word))
 
 (defn examined?
   "Return true if a the object in room-name has been examined"
