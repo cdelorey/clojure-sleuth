@@ -8,8 +8,7 @@
         [sleuth.world.alibis :only [load-alibis]]
         [sleuth.world.text :only [load-text]]
         [sleuth.entities.guests :only [load-guests]]
-        [sleuth.libtcod]
-        [clj-native.direct :only [loadlib]]))
+        [domina.events :only [listen!]]))
 
 
 
@@ -43,10 +42,12 @@
   (load-rooms "resources/rooms.yaml")
   (load-text))
 
-(defn -main
+(defn start
   []
-  (loadlib libtcod)
-  (console-set-custom-font "resources/terminal16x16_gs_ro.png" font-layout-ascii-in-row 16 16)
-  (console-init-root 80 25 "Test" false tcod-renderer-sdl)
+  ;(loadlib libtcod)
+  ;(console-set-custom-font "resources/terminal16x16_gs_ro.png" font-layout-ascii-in-row 16 16)
+  ;(console-init-root 80 25 "Test" false tcod-renderer-sdl)
   (load-text-files)
-  (run-game (new-game) root))
+  (run-game (new-game) nil))
+
+(listen! js/window :load start)

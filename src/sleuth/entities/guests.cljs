@@ -10,22 +10,22 @@
 (defrecord Guest [name alibi num-questions location description
                   is-staring-at-floor])
 
-(def guest-names (promise))
+(def guest-names (atom nil))
 (def personalized-names (atom nil))
-(def guest-descriptions (promise))
+(def guest-descriptions (atom nil))
 
 ; Guest Functions -----------------------------------------------------------------------------
 (defn load-guests
   "Loads guest text from filename"
   [filename]
-  (let [items-map (yaml/parse-string (slurp "resources/guests.yaml"))]
-    (deliver guest-names (map keyword (:guest-names items-map)))
-    (deliver guest-descriptions (:guest-descriptions items-map))))
+  (let [items-map {}];(yaml/parse-string (slurp "resources/guests.yaml"))]
+    (reset! guest-names (map keyword (:guest-names items-map)))
+    (reset! guest-descriptions (:guest-descriptions items-map))))
 
 (defn random-name
   "Returns a random name from the given names list"
   [names]
-  (rand-nth names)) 
+  (rand-nth names))
 
 (defn get-guests
   "Returns a list of guests from the given names with random locations.

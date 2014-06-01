@@ -58,18 +58,18 @@
 
 
 ; House -----------------------------------------------------------------------
-(defn load-house [filename]
-  (with-open  [r (clojure.java.io/reader filename)]
-    (let [[cols rows] house-size]
-      (letfn [(read-tile []
-                (let [tile (char (.read r))]
-                  (case tile
-                    \# (tiles :vwall)
-                    \* (tiles :fwall)
-                    \_ (tiles :hwall)
-                    \- (tiles :stairs)
-                    \space (tiles :floor)
-                    (println tile))))
-              (read-row []
-                (vec (repeatedly cols read-tile)))]
-        (vec (repeatedly rows read-row))))))
+(defn load-house [filename]) ;; use node.js file reading
+;  (with-open  [r (clojure.java.io/reader filename)]
+;    (let [[cols rows] house-size]
+;      (letfn [(read-tile []
+;                (let [tile (char (.read r))]
+;                  (case tile
+;                    \# (tiles :vwall)
+;                    \* (tiles :fwall)
+;                    \_ (tiles :hwall)
+;                    \- (tiles :stairs)
+;                    \space (tiles :floor)
+;                    (println tile))))
+;              (read-row []
+;                (vec (repeatedly cols read-tile)))]
+;        (vec (repeatedly rows read-row))))))

@@ -3,12 +3,12 @@
 	(:require [clj-yaml.core :as yaml]))
 
 ;; data structures ------------------------------------------------------------
-(def openings (promise))
+(def openings (atom nil))
 
 ;; text loading ---------------------------------------------------------------
 (defn load-opening []
-  (let [openings-vector (:opening (yaml/parse-string (slurp "resources/opening.yaml")))]
-    (deliver openings openings-vector)))
+  (let [openings-vector []];(:opening (yaml/parse-string (slurp "resources/opening.yaml")))]
+    (reset! openings openings-vector)))
 
 (defn load-text []
   (do
@@ -20,13 +20,13 @@
   tags (eg. *victim*, *murderer*, ...) with the appropriate name."
   [world text]
   (let [victim (keyword-to-name (:victim (:murder-case world)))
-        victim-last (second (clojure.string/split  
+        victim-last (second (clojure.string/split
                               (keyword-to-name (:victim (:murder-case world))) #"\s"))]
     (-> text
         (clojure.string/replace #"\*victim\*" victim)
         (clojure.string/replace #"\*victim-last\*" victim-last))))
 
-(defn contained? 
+(defn contained?
   [key-word input-string]
   (let [thing (keyword-to-string key-word)]
     (if (< (count input-string) 3)

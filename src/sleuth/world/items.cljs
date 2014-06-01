@@ -1,16 +1,16 @@
 (ns sleuth.world.items
   (:require [clj-yaml.core :as yaml]))
 
-(def room-items (promise))
-(def item-descriptions (promise))
+(def room-items (atom nil))
+(def item-descriptions (atom nil))
 
 ; Item Functions --------------------------------------------------------------
 (defn load-items
   "Loads item text from filename"
   [filename]
-  (let [items-map (yaml/parse-string (slurp "resources/items.yaml"))]
-    (deliver room-items (:room-items items-map))
-    (deliver item-descriptions (:item-descriptions items-map))))
+  (let [items-map {}];(yaml/parse-string (slurp "resources/items.yaml"))]
+    (reset! room-items (:room-items items-map))
+    (reset! item-descriptions (:item-descriptions items-map))))
 
 (defn random-items []
   (into {} (for [[k v] @room-items]
@@ -44,8 +44,8 @@
   [item-name]
   (item-name @item-descriptions))
 
-(defn place-magnifying-glass 
+(defn place-magnifying-glass
   "Add the magnifying glass to a random room in game."
   [world]
-  (assoc-in world [:items (rand-nth (keys @room-items))] 
+  (assoc-in world [:items (rand-nth (keys @room-items))]
             [:magnifying-glass "A magnifying glass is lying on the floor."]))

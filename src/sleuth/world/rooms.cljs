@@ -38,14 +38,14 @@
    :doorway-study (->Rect 63 10 1 1)})
 
 
-(def room-descriptions (promise))
+(def room-descriptions (atom nil))
 
 ; Room Functions ---------------------------------------------------------------
 (defn load-rooms
   "Load room text from filename"
   [filename]
-  (let [rooms-map (yaml/parse-string (slurp "resources/rooms.yaml"))]
-    (deliver room-descriptions (:room-descriptions rooms-map))))
+  (let [rooms-map {}];(yaml/parse-string (slurp "resources/rooms.yaml"))]
+    (reset! room-descriptions (:room-descriptions rooms-map))))
 
 (defn in-rect?
  "Return true if the given coordinates are contained in the given rect."

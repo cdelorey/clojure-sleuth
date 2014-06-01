@@ -8,8 +8,7 @@
         [sleuth.commands :only [process-command process-game-over-commands
                                 process-accuse-commands]]
         [sleuth.personalize :only [new-personalize swap-current-box]]
-        [sleuth.utils :only [keywordize]]
-        [sleuth.libtcod]))
+        [sleuth.utils :only [keywordize]]))
 
 ; Definitions ------------------------------------------------------------
 (defmulti process-input
@@ -83,20 +82,20 @@
         input-box (current-box (:gui (:personalize game)))
         data (:data input-box)]
   (cond
-   (= (.vk input) key-backspace) (assoc-in game [:personalize :gui current-box :data]
-                                              (subs data 0 (max (- (count data) 1) 0)))
+   ;(= (.vk input) key-backspace) (assoc-in game [:personalize :gui current-box :data]
+   ;                                           (subs data 0 (max (- (count data) 1) 0)))
 
-   (= (.vk input) key-enter) (process-personalize-input game)
+   ;(= (.vk input) key-enter) (process-personalize-input game)
 
-   (= (.vk input) key-char) (assoc-in game [:personalize :gui current-box :data]
-                                         (str data (char (.c input))))
+   ;(= (.vk input) key-char) (assoc-in game [:personalize :gui current-box :data]
+   ;                                      (str data (char (.c input))))
 
-   (= (.vk input) key-space) (assoc-in game [:personalize :gui current-box :data]
-                                          (str data " "))
+   ;(= (.vk input) key-space) (assoc-in game [:personalize :gui current-box :data]
+   ;                                       (str data " "))
 
-   (= (.vk input) key-escape) (-> game
-                                (dissoc :personalize)
-                                (assoc :uis [(->UI :menu)]))
+   ;(= (.vk input) key-escape) (-> game
+   ;                             (dissoc :personalize)
+   ;                             (assoc :uis [(->UI :menu)]))
 
    :else game)))
 
@@ -120,48 +119,48 @@
   Takes a move function so different uis can process movement differently."
   [game input move-function]
   (cond
-   (= (.vk input) key-left) (move-function :w game)
-   (= (.vk input) key-down) (move-function :s game)
-   (= (.vk input) key-up) (move-function :n game)
-   (= (.vk input) key-right) (move-function :e game)
+   ;(= (.vk input) key-left) (move-function :w game)
+   ;(= (.vk input) key-down) (move-function :s game)
+   ;(= (.vk input) key-up) (move-function :n game)
+   ;(= (.vk input) key-right) (move-function :e game)
    :else game))
 
 (defn process-commandline-input
-  [game input command-function]
+  [game input command-function])
   "Process commandline input.
 
   Takes a command function so different uis can process commands differently."
-  (cond
-   (= (.vk input) key-backspace) (let [world (:world game)
-                                        {:keys [commandline]} world]
-                                    (assoc-in game [:world :commandline]
-                                              (subs commandline 0
-                                                    (max (- (count commandline) 1) 0))))
+  ;(cond
+   ;(= (.vk input) key-backspace) (let [world (:world game)
+   ;                                     {:keys [commandline]} world]
+   ;                                 (assoc-in game [:world :commandline]
+   ;                                           (subs commandline 0
+   ;                                                 (max (- (count commandline) 1) 0))))
 
-   (= (.vk input) key-enter) (let [new-game (command-function game)]
-                                (assoc-in new-game [:world :commandline] ""))
+   ;(= (.vk input) key-enter) (let [new-game (command-function game)]
+   ;                             (assoc-in new-game [:world :commandline] ""))
 
-   (= (.vk input) key-char) (let [world (:world game)
-                                   {:keys [commandline]} world]
-                               (assoc-in game [:world :commandline]
-                                         (str commandline (char (.c input)))))
+   ;(= (.vk input) key-char) (let [world (:world game)
+   ;                                {:keys [commandline]} world]
+   ;                            (assoc-in game [:world :commandline]
+   ;                                      (str commandline (char (.c input)))))
 
-   (= (.vk input) key-space) (let [world (:world game)
-                                    {:keys [commandline]} world]
-                                (assoc-in game [:world :commandline]
-                                          (str commandline " ")))
-   :else game))
+   ;(= (.vk input) key-space) (let [world (:world game)
+   ;                                 {:keys [commandline]} world]
+   ;                             (assoc-in game [:world :commandline]
+   ;                                       (str commandline " ")))
+   ;:else game))
 
-(defmethod process-input :sleuth [game input]
-  (cond
+(defmethod process-input :sleuth [game input])
+  ;(cond
    ; return to menu
-   (= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
+   ;(= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
 
    ; commandline keys
-   (contains? #{key-backspace key-enter key-char key-space} (.vk input))
-   (process-commandline-input game input process-command)
+   ;(contains? #{key-backspace key-enter key-char key-space} (.vk input))
+   ;(process-commandline-input game input process-command)
 
-   :else (process-movement-keys game input move)))
+   ;:else (process-movement-keys game input move)))
 
 ; Assemble ----------------------------------------------------------------
 (defn assemble-move
@@ -170,24 +169,24 @@
   (update-in game [:world] move-player direction))
 
 
-(defmethod process-input :assemble [game input]
-    (cond
-     (contains? #{key-backspace key-enter key-char key-space} (.vk input))
-     (process-commandline-input game input process-accuse-commands)
+(defmethod process-input :assemble [game input])
+    ;(cond
+    ; (contains? #{key-backspace key-enter key-char key-space} (.vk input))
+    ; (process-commandline-input game input process-accuse-commands)
 
-     :else (process-movement-keys game input assemble-move)))
+     ;:else (process-movement-keys game input assemble-move)))
 
 ; Game Over ---------------------------------------------------------------
 (defmethod process-input :game-over [game input]
   (let [game (assoc-in game [:world :message] "Quit or Restart?")]
     (cond
-     (contains? #{key-backspace key-enter key-char key-space} (.vk input))
-     (process-commandline-input game input process-game-over-commands)
+     ;(contains? #{key-backspace key-enter key-char key-space} (.vk input))
+     ;(process-commandline-input game input process-game-over-commands)
 
      :else game)))
 
 ; Input processing -------------------------------------------------------
 (defn get-input
   "Gets user's keypress."
-  [game screen]
-  (assoc game :input (console-wait-for-keypress true)))
+  [game screen])
+  ;(assoc game :input (console-wait-for-keypress true)))

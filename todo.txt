@@ -141,11 +141,21 @@ Personalize
 10/09/13
 *DONE* fix examine bug
 
+
+Switch to Clojurescript/Node
+-----------------------------
+05/31/14
+* switch to cljs/node
+* convert file reading to use node.js
+* convert libtcod code to use javascript library
+* convert yaml code to use javascript library
+
+
+TODO:
+-----
+* improve test coverage
 * allow for more item name variations on commandline
-* add color module to libtcod wrapper
 * add random house colors
-* make libtcod check for os (macro?)
-* switch to libtcod clojars dependency
 
 Text Re-write
 * add randomized guest names
@@ -153,7 +163,9 @@ Text Re-write
 * new items/item descriptions
 * new room descriptions
 * new guest descriptions
-* new alibis 
-    * change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
+* new alibis
+* change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
 * new accuse text
 * new lose text
+
+* deploy to heroku

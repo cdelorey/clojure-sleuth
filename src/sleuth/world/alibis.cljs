@@ -6,48 +6,48 @@
 ; Alibi components ----------------------------------------------------------------------------
 
 ; used at beginning of an alibi the first time a suspect is asked.
-(def openers (promise))
+(def openers (atom nil))
 ; used at beginning of an alibi when the guest has already been asked
-(def repeat-openers (promise))
+(def repeat-openers (atom nil))
 ; Alibis
-(def alibis (promise))
+(def alibis (atom nil))
 ; alone alibi
-(def alone-alibi (promise))
+(def alone-alibi (atom nil))
 ; Additional things guests will say when asked the first time.
-(def additions (promise))
+(def additions (atom nil))
 ; Additional comments by guest who was alone all night.
-(def alone-additions (promise))
+(def alone-additions (atom nil))
 ; Additional things guests will say when asked for the first time
 ; that include an accusation of another guest.
-(def accusations (promise))
+(def accusations (atom nil))
 ; said after a repeat opener
-(def repeats (promise))
+(def repeats (atom nil))
 ; said when a guest refuses to answer questions
-(def refuse (promise))
+(def refuse (atom nil))
 ; said the second time a guest is asked
-(def finished (promise))
+(def finished (atom nil))
 ; text displayed when player loses from questioning murderer too much
-(def lose-questioning (promise))
+(def lose-questioning (atom nil))
 ; text displayed when player loses from running out of time
-(def lose-time (promise))
+(def lose-time (atom nil))
 
 ; Alibi Functions -----------------------------------------------------------------------------
 (defn load-alibis
   "Loads alibi components from filename"
   [filename]
-  (let [alibis-map (yaml/parse-string (slurp filename))]
-    (deliver openers (:openers alibis-map))
-    (deliver repeat-openers (:repeat-openers alibis-map))
-    (deliver alibis (:alibis alibis-map))
-    (deliver alone-alibi (:alone-alibi alibis-map))
-    (deliver additions (:additions alibis-map))
-    (deliver alone-additions (:alone-additions alibis-map))
-    (deliver accusations (:accusations alibis-map))
-    (deliver repeats (:repeats alibis-map))
-    (deliver refuse (:refuse alibis-map))
-    (deliver finished (:finished alibis-map))
-    (deliver lose-questioning (:lose-questioning alibis-map))
-    (deliver lose-time (:lose-time alibis-map))))
+  (let [alibis-map {}];(yaml/parse-string (slurp filename))]
+    (reset! openers (:openers alibis-map))
+    (reset! repeat-openers (:repeat-openers alibis-map))
+    (reset! alibis (:alibis alibis-map))
+    (reset! alone-alibi (:alone-alibi alibis-map))
+    (reset! additions (:additions alibis-map))
+    (reset! alone-additions (:alone-additions alibis-map))
+    (reset! accusations (:accusations alibis-map))
+    (reset! repeats (:repeats alibis-map))
+    (reset! refuse (:refuse alibis-map))
+    (reset! finished (:finished alibis-map))
+    (reset! lose-questioning (:lose-questioning alibis-map))
+    (reset! lose-time (:lose-time alibis-map))))
 
 (defn get-lose-questioning
   "Returns the lose-questioning text with the proper values filled in"
