@@ -1,8 +1,7 @@
 (ns sleuth.world.rooms
   (:use [sleuth.world.items :only [get-item-description get-item-rooms]]
         [sleuth.world.tiles :only [set-tile]]
-        [sleuth.utils :only [keyword-to-name]])
-  (:require [clj-yaml.core :as yaml]))
+        [sleuth.utils :only [keyword-to-name]]))
 
 ; Data Structures -------------------------------------------------------------
 (defrecord Rect [x y width height])
@@ -43,9 +42,9 @@
 ; Room Functions ---------------------------------------------------------------
 (defn load-rooms
   "Load room text from filename"
-  [filename]
-  (let [rooms-map {}];(yaml/parse-string (slurp "resources/rooms.yaml"))]
-    (reset! room-descriptions (:room-descriptions rooms-map))))
+  [filename])
+  ;(let [rooms-map {}];(yaml/parse-string (slurp "resources/rooms.yaml"))]
+  ;  (reset! room-descriptions (:room-descriptions rooms-map))))
 
 (defn in-rect?
  "Return true if the given coordinates are contained in the given rect."

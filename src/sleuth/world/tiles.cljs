@@ -2,6 +2,7 @@
 
 ; Constants ------------------------------------------------------------------
 (def house-size [79 17])
+(def fs (js/require "nw.fs"))
 
 ; Data Structures ------------------------------------------------------------
 (defrecord Tile [kind glyph color])
@@ -58,18 +59,19 @@
 
 
 ; House -----------------------------------------------------------------------
-(defn load-house [filename]) ;; use node.js file reading
-;  (with-open  [r (clojure.java.io/reader filename)]
-;    (let [[cols rows] house-size]
-;      (letfn [(read-tile []
-;                (let [tile (char (.read r))]
-;                  (case tile
-;                    \# (tiles :vwall)
-;                    \* (tiles :fwall)
-;                    \_ (tiles :hwall)
-;                    \- (tiles :stairs)
-;                    \space (tiles :floor)
-;                    (println tile))))
-;              (read-row []
-;                (vec (repeatedly cols read-tile)))]
-;        (vec (repeatedly rows read-row))))))
+(defn load-house [filename]
+  (let [file-descriptor (.openSync fs filename "r")
+        [cols rows] house-size]
+    (letfn [(read-tile []
+                       (let [tile (char (.readSync fs file-descriptor (js/Buffer. 1) 0 1))]
+                         (case tile
+                           \# (tiles :vwall)
+                           \* (tiles :fwall)
+                           \_ (tiles :hwall)
+                           \- (tiles :stairs)
+                           \space (tiles :floor)
+                           (println tile))))
+            (read-row []
+                      (vec (repeatedly cols read-tile)))]
+      (vec (repeatedly rows read-row)))
+    (.closeSync fs file-descriptor)))

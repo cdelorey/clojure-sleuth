@@ -145,8 +145,10 @@ Personalize
 Switch to Clojurescript/Node
 -----------------------------
 05/31/14
-* switch to cljs/node
-* convert file reading to use node.js
+*DONE* switch to cljs/node
+06/01/14
+*DONE* convert file reading to use node.js
+
 * convert libtcod code to use javascript library
 * convert yaml code to use javascript library
 

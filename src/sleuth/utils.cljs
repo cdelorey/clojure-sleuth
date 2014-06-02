@@ -1,5 +1,8 @@
 (ns sleuth.utils)
 
+(def fs (js/require "nw.fs"))
+(def line-reader (js/require "line-reader")) ;; https://github.com/nickewing/line-reader
+
 (defn keywordize
   "Turns a string into a valid clojure keyword, replacing any spaces with dashes."
   [input]
@@ -31,9 +34,13 @@
     (- i)
     i))
 
+
 (defn get-lines-from-file
   "Returns a sequence of the lines in filename."
-  [filename]) ;; use node.js file reading
+  [filename]
+  (seq (.split (.toString (.readFileSync fs filename)) "\n")))
+
+
   ;(let [reader (clojure.java.io/reader filename)]
   ;  (doall (line-seq reader))
   ;  (.close reader)))
