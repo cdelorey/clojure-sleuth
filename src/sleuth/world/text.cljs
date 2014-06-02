@@ -4,10 +4,12 @@
 
 ;; data structures ------------------------------------------------------------
 (def openings (atom nil))
+(def yaml (js/require "js-yaml"))
 
 ;; text loading ---------------------------------------------------------------
 (defn load-opening []
-  (let [openings-vector []];(:opening (yaml/parse-string (slurp "resources/opening.yaml")))]
+  (let [yaml-object (.safeLoad yaml (.readFileSync "resources/opening.yaml" "utf8"))
+        openings-vector (vector (js->clj yaml-object :keywordize-keys true))]
     (reset! openings openings-vector)))
 
 (defn load-text []

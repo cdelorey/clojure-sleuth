@@ -1,14 +1,15 @@
-(ns sleuth.world.items
-  (:require [clj-yaml.core :as yaml]))
+(ns sleuth.world.items)
 
 (def room-items (atom nil))
 (def item-descriptions (atom nil))
+(def yaml (js/require "js-yaml"))
 
 ; Item Functions --------------------------------------------------------------
 (defn load-items
   "Loads item text from filename"
   [filename]
-  (let [items-map {}];(yaml/parse-string (slurp "resources/items.yaml"))]
+  (let [yaml-object (.safeLoad yaml (.readFileSync "resources/items.yaml" "utf8"))
+        items-map (js->clj yaml-object :keywordize-keys true)]
     (reset! room-items (:room-items items-map))
     (reset! item-descriptions (:item-descriptions items-map))))
 

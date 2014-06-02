@@ -1,7 +1,8 @@
 (ns sleuth.world.alibis
   (:use [sleuth.utils :only [keyword-to-first-name keyword-to-string]]
-        [sleuth.world.rooms :only [random-room current-room]])
-  (:require [clj-yaml.core :as yaml]))
+        [sleuth.world.rooms :only [random-room current-room]]))
+
+(def yaml (js/require "js-yaml"))
 
 ; Alibi components ----------------------------------------------------------------------------
 
@@ -35,7 +36,8 @@
 (defn load-alibis
   "Loads alibi components from filename"
   [filename]
-  (let [alibis-map {}];(yaml/parse-string (slurp filename))]
+  (let [yaml-object (.safeLoad yaml (.readFileSync filename "utf8"))
+        alibis-map (js->clj yaml-object :keywordize-keys true)]
     (reset! openers (:openers alibis-map))
     (reset! repeat-openers (:repeat-openers alibis-map))
     (reset! alibis (:alibis alibis-map))

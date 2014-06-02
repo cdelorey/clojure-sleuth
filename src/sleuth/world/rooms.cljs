@@ -38,13 +38,15 @@
 
 
 (def room-descriptions (atom nil))
+(def yaml (js/require "js-yaml"))
 
 ; Room Functions ---------------------------------------------------------------
 (defn load-rooms
   "Load room text from filename"
-  [filename])
-  ;(let [rooms-map {}];(yaml/parse-string (slurp "resources/rooms.yaml"))]
-  ;  (reset! room-descriptions (:room-descriptions rooms-map))))
+  [filename]
+  (let [yaml-object (.safeLoad yaml (.readFileSync "resources/rooms.yaml" "utf8"))
+        rooms-map (js->clj yaml-object :keywordize-keys true)]
+    (reset! room-descriptions (:room-descriptions rooms-map))))
 
 (defn in-rect?
  "Return true if the given coordinates are contained in the given rect."

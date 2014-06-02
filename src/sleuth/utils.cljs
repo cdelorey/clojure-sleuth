@@ -1,7 +1,6 @@
 (ns sleuth.utils)
 
 (def fs (js/require "nw.fs"))
-(def line-reader (js/require "line-reader")) ;; https://github.com/nickewing/line-reader
 
 (defn keywordize
   "Turns a string into a valid clojure keyword, replacing any spaces with dashes."
@@ -33,7 +32,6 @@
   (if (neg? i)
     (- i)
     i))
-
 
 (defn get-lines-from-file
   "Returns a sequence of the lines in filename."

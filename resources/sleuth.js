@@ -487,6 +487,19 @@ goog.base = function(me, opt_methodName, var_args) {
 goog.scope = function(fn) {
   fn.call(goog.global)
 };
+goog.provide("goog.debug.Error");
+goog.debug.Error = function(opt_msg) {
+  if(Error.captureStackTrace) {
+    Error.captureStackTrace(this, goog.debug.Error)
+  }else {
+    this.stack = (new Error).stack || ""
+  }
+  if(opt_msg) {
+    this.message = String(opt_msg)
+  }
+};
+goog.inherits(goog.debug.Error, Error);
+goog.debug.Error.prototype.name = "CustomError";
 goog.provide("goog.string");
 goog.provide("goog.string.Unicode");
 goog.string.Unicode = {NBSP:"\u00a0"};
@@ -927,19 +940,6 @@ goog.string.parseInt = function(value) {
   }
   return NaN
 };
-goog.provide("goog.debug.Error");
-goog.debug.Error = function(opt_msg) {
-  if(Error.captureStackTrace) {
-    Error.captureStackTrace(this, goog.debug.Error)
-  }else {
-    this.stack = (new Error).stack || ""
-  }
-  if(opt_msg) {
-    this.message = String(opt_msg)
-  }
-};
-goog.inherits(goog.debug.Error, Error);
-goog.debug.Error.prototype.name = "CustomError";
 goog.provide("goog.asserts");
 goog.provide("goog.asserts.AssertionError");
 goog.require("goog.debug.Error");
@@ -21916,7 +21916,6 @@ sleuth.world.tiles.load_house = function load_house(filename) {
 goog.provide("sleuth.utils");
 goog.require("cljs.core");
 sleuth.utils.fs = require("nw.fs");
-sleuth.utils.line_reader = require("line-reader");
 sleuth.utils.keywordize = function keywordize(input) {
   return cljs.core.keyword.call(null, clojure.string.replace.call(null, input, / /, "-"))
 };
@@ -21952,37 +21951,38 @@ goog.events.EventWrapper.prototype.unlisten = function(src, listener, opt_capt, 
 };
 goog.provide("sleuth.world.items");
 goog.require("cljs.core");
-goog.require("clj_yaml.core");
 sleuth.world.items.room_items = cljs.core.atom.call(null, null);
 sleuth.world.items.item_descriptions = cljs.core.atom.call(null, null);
+sleuth.world.items.yaml = require("js-yaml");
 sleuth.world.items.load_items = function load_items(filename) {
-  var items_map = cljs.core.ObjMap.EMPTY;
+  var yaml_object = sleuth.world.items.yaml.safeLoad("resources/items.yaml".readFileSync("utf8"));
+  var items_map = cljs.core.js__GT_clj.call(null, yaml_object, "\ufdd0:keywordize-keys", true);
   cljs.core.reset_BANG_.call(null, sleuth.world.items.room_items, (new cljs.core.Keyword("\ufdd0:room-items")).call(null, items_map));
   return cljs.core.reset_BANG_.call(null, sleuth.world.items.item_descriptions, (new cljs.core.Keyword("\ufdd0:item-descriptions")).call(null, items_map))
 };
 sleuth.world.items.random_items = function random_items() {
   return cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, function() {
-    var iter__3042__auto__ = function iter__4053(s__4054) {
+    var iter__3042__auto__ = function iter__3960(s__3961) {
       return new cljs.core.LazySeq(null, false, function() {
-        var s__4054__$1 = s__4054;
+        var s__3961__$1 = s__3961;
         while(true) {
-          var temp__4092__auto__ = cljs.core.seq.call(null, s__4054__$1);
+          var temp__4092__auto__ = cljs.core.seq.call(null, s__3961__$1);
           if(temp__4092__auto__) {
-            var s__4054__$2 = temp__4092__auto__;
-            if(cljs.core.chunked_seq_QMARK_.call(null, s__4054__$2)) {
-              var c__3040__auto__ = cljs.core.chunk_first.call(null, s__4054__$2);
+            var s__3961__$2 = temp__4092__auto__;
+            if(cljs.core.chunked_seq_QMARK_.call(null, s__3961__$2)) {
+              var c__3040__auto__ = cljs.core.chunk_first.call(null, s__3961__$2);
               var size__3041__auto__ = cljs.core.count.call(null, c__3040__auto__);
-              var b__4056 = cljs.core.chunk_buffer.call(null, size__3041__auto__);
+              var b__3963 = cljs.core.chunk_buffer.call(null, size__3041__auto__);
               if(function() {
-                var i__4055 = 0;
+                var i__3962 = 0;
                 while(true) {
-                  if(i__4055 < size__3041__auto__) {
-                    var vec__4059 = cljs.core._nth.call(null, c__3040__auto__, i__4055);
-                    var k = cljs.core.nth.call(null, vec__4059, 0, null);
-                    var v = cljs.core.nth.call(null, vec__4059, 1, null);
-                    cljs.core.chunk_append.call(null, b__4056, cljs.core.PersistentVector.fromArray([k, cljs.core.rand_nth.call(null, cljs.core.vec.call(null, v))], true));
-                    var G__4061 = i__4055 + 1;
-                    i__4055 = G__4061;
+                  if(i__3962 < size__3041__auto__) {
+                    var vec__3966 = cljs.core._nth.call(null, c__3040__auto__, i__3962);
+                    var k = cljs.core.nth.call(null, vec__3966, 0, null);
+                    var v = cljs.core.nth.call(null, vec__3966, 1, null);
+                    cljs.core.chunk_append.call(null, b__3963, cljs.core.PersistentVector.fromArray([k, cljs.core.rand_nth.call(null, cljs.core.vec.call(null, v))], true));
+                    var G__3968 = i__3962 + 1;
+                    i__3962 = G__3968;
                     continue
                   }else {
                     return true
@@ -21990,15 +21990,15 @@ sleuth.world.items.random_items = function random_items() {
                   break
                 }
               }()) {
-                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__4056), iter__4053.call(null, cljs.core.chunk_rest.call(null, s__4054__$2)))
+                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3963), iter__3960.call(null, cljs.core.chunk_rest.call(null, s__3961__$2)))
               }else {
-                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__4056), null)
+                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3963), null)
               }
             }else {
-              var vec__4060 = cljs.core.first.call(null, s__4054__$2);
-              var k = cljs.core.nth.call(null, vec__4060, 0, null);
-              var v = cljs.core.nth.call(null, vec__4060, 1, null);
-              return cljs.core.cons.call(null, cljs.core.PersistentVector.fromArray([k, cljs.core.rand_nth.call(null, cljs.core.vec.call(null, v))], true), iter__4053.call(null, cljs.core.rest.call(null, s__4054__$2)))
+              var vec__3967 = cljs.core.first.call(null, s__3961__$2);
+              var k = cljs.core.nth.call(null, vec__3967, 0, null);
+              var v = cljs.core.nth.call(null, vec__3967, 1, null);
+              return cljs.core.cons.call(null, cljs.core.PersistentVector.fromArray([k, cljs.core.rand_nth.call(null, cljs.core.vec.call(null, v))], true), iter__3960.call(null, cljs.core.rest.call(null, s__3961__$2)))
             }
           }else {
             return null
@@ -22072,22 +22072,22 @@ sleuth.world.rooms.Rect.prototype.cljs$core$ILookup$_lookup$arity$2 = function(t
   var self__ = this;
   return this__2900__auto__.cljs$core$ILookup$_lookup$arity$3(this__2900__auto__, k__2901__auto__, null)
 };
-sleuth.world.rooms.Rect.prototype.cljs$core$ILookup$_lookup$arity$3 = function(this__2902__auto__, k4075, else__2903__auto__) {
+sleuth.world.rooms.Rect.prototype.cljs$core$ILookup$_lookup$arity$3 = function(this__2902__auto__, k3887, else__2903__auto__) {
   var self__ = this;
-  if(k4075 === "\ufdd0:x") {
+  if(k3887 === "\ufdd0:x") {
     return self__.x
   }else {
-    if(k4075 === "\ufdd0:y") {
+    if(k3887 === "\ufdd0:y") {
       return self__.y
     }else {
-      if(k4075 === "\ufdd0:width") {
+      if(k3887 === "\ufdd0:width") {
         return self__.width
       }else {
-        if(k4075 === "\ufdd0:height") {
+        if(k3887 === "\ufdd0:height") {
           return self__.height
         }else {
           if("\ufdd0:else") {
-            return cljs.core.get.call(null, self__.__extmap, k4075, else__2903__auto__)
+            return cljs.core.get.call(null, self__.__extmap, k3887, else__2903__auto__)
           }else {
             return null
           }
@@ -22096,23 +22096,23 @@ sleuth.world.rooms.Rect.prototype.cljs$core$ILookup$_lookup$arity$3 = function(t
     }
   }
 };
-sleuth.world.rooms.Rect.prototype.cljs$core$IAssociative$_assoc$arity$3 = function(this__2907__auto__, k__2908__auto__, G__4074) {
+sleuth.world.rooms.Rect.prototype.cljs$core$IAssociative$_assoc$arity$3 = function(this__2907__auto__, k__2908__auto__, G__3886) {
   var self__ = this;
-  var pred__4077 = cljs.core.identical_QMARK_;
-  var expr__4078 = k__2908__auto__;
-  if(pred__4077.call(null, "\ufdd0:x", expr__4078)) {
-    return new sleuth.world.rooms.Rect(G__4074, self__.y, self__.width, self__.height, self__.__meta, self__.__extmap, null)
+  var pred__3889 = cljs.core.identical_QMARK_;
+  var expr__3890 = k__2908__auto__;
+  if(pred__3889.call(null, "\ufdd0:x", expr__3890)) {
+    return new sleuth.world.rooms.Rect(G__3886, self__.y, self__.width, self__.height, self__.__meta, self__.__extmap, null)
   }else {
-    if(pred__4077.call(null, "\ufdd0:y", expr__4078)) {
-      return new sleuth.world.rooms.Rect(self__.x, G__4074, self__.width, self__.height, self__.__meta, self__.__extmap, null)
+    if(pred__3889.call(null, "\ufdd0:y", expr__3890)) {
+      return new sleuth.world.rooms.Rect(self__.x, G__3886, self__.width, self__.height, self__.__meta, self__.__extmap, null)
     }else {
-      if(pred__4077.call(null, "\ufdd0:width", expr__4078)) {
-        return new sleuth.world.rooms.Rect(self__.x, self__.y, G__4074, self__.height, self__.__meta, self__.__extmap, null)
+      if(pred__3889.call(null, "\ufdd0:width", expr__3890)) {
+        return new sleuth.world.rooms.Rect(self__.x, self__.y, G__3886, self__.height, self__.__meta, self__.__extmap, null)
       }else {
-        if(pred__4077.call(null, "\ufdd0:height", expr__4078)) {
-          return new sleuth.world.rooms.Rect(self__.x, self__.y, self__.width, G__4074, self__.__meta, self__.__extmap, null)
+        if(pred__3889.call(null, "\ufdd0:height", expr__3890)) {
+          return new sleuth.world.rooms.Rect(self__.x, self__.y, self__.width, G__3886, self__.__meta, self__.__extmap, null)
         }else {
-          return new sleuth.world.rooms.Rect(self__.x, self__.y, self__.width, self__.height, self__.__meta, cljs.core.assoc.call(null, self__.__extmap, k__2908__auto__, G__4074), null)
+          return new sleuth.world.rooms.Rect(self__.x, self__.y, self__.width, self__.height, self__.__meta, cljs.core.assoc.call(null, self__.__extmap, k__2908__auto__, G__3886), null)
         }
       }
     }
@@ -22161,9 +22161,9 @@ sleuth.world.rooms.Rect.prototype.cljs$core$IEquiv$_equiv$arity$2 = function(thi
     return false
   }
 };
-sleuth.world.rooms.Rect.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(this__2899__auto__, G__4074) {
+sleuth.world.rooms.Rect.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(this__2899__auto__, G__3886) {
   var self__ = this;
-  return new sleuth.world.rooms.Rect(self__.x, self__.y, self__.width, self__.height, G__4074, self__.__extmap, self__.__hash)
+  return new sleuth.world.rooms.Rect(self__.x, self__.y, self__.width, self__.height, G__3886, self__.__extmap, self__.__hash)
 };
 sleuth.world.rooms.Rect.prototype.cljs$core$IMeta$_meta$arity$1 = function(this__2898__auto__) {
   var self__ = this;
@@ -22187,8 +22187,8 @@ sleuth.world.rooms.Rect.cljs$lang$ctorPrWriter = function(this__2935__auto__, wr
 sleuth.world.rooms.__GT_Rect = function __GT_Rect(x, y, width, height) {
   return new sleuth.world.rooms.Rect(x, y, width, height)
 };
-sleuth.world.rooms.map__GT_Rect = function map__GT_Rect(G__4076) {
-  return new sleuth.world.rooms.Rect((new cljs.core.Keyword("\ufdd0:x")).call(null, G__4076), (new cljs.core.Keyword("\ufdd0:y")).call(null, G__4076), (new cljs.core.Keyword("\ufdd0:width")).call(null, G__4076), (new cljs.core.Keyword("\ufdd0:height")).call(null, G__4076), null, cljs.core.dissoc.call(null, G__4076, "\ufdd0:x", "\ufdd0:y", "\ufdd0:width", "\ufdd0:height"))
+sleuth.world.rooms.map__GT_Rect = function map__GT_Rect(G__3888) {
+  return new sleuth.world.rooms.Rect((new cljs.core.Keyword("\ufdd0:x")).call(null, G__3888), (new cljs.core.Keyword("\ufdd0:y")).call(null, G__3888), (new cljs.core.Keyword("\ufdd0:width")).call(null, G__3888), (new cljs.core.Keyword("\ufdd0:height")).call(null, G__3888), null, cljs.core.dissoc.call(null, G__3888, "\ufdd0:x", "\ufdd0:y", "\ufdd0:width", "\ufdd0:height"))
 };
 sleuth.world.rooms.room_rects = cljs.core.PersistentHashMap.fromArrays(["\ufdd0:living-room", "\ufdd0:lower-stairs", "\ufdd0:doorway-conservatory", "\ufdd0:upstairs-hall", "\ufdd0:doorway-master-bathroom", "\ufdd0:secret-passage", "\ufdd0:guest-room", "\ufdd0:doorway-master-bedroom", "\ufdd0:doorway-living-room", "\ufdd0:master-bathroom", "\ufdd0:doorway-kitchen", "\ufdd0:upper-stairs", "\ufdd0:doorway-library", "\ufdd0:dining-room", "\ufdd0:library", "\ufdd0:main-hall3", "\ufdd0:main-hall2", "\ufdd0:conservatory", 
 "\ufdd0:doorway-pantry", "\ufdd0:main-hall", "\ufdd0:study", "\ufdd0:doorway-dining-room", "\ufdd0:master-bedroom", "\ufdd0:doorway-guest-room", "\ufdd0:upstairs-hall2", "\ufdd0:doorway-study", "\ufdd0:pantry", "\ufdd0:kitchen"], [sleuth.world.rooms.__GT_Rect.call(null, 1, 10, 14, 6), sleuth.world.rooms.__GT_Rect.call(null, 16, 13, 3, 3), sleuth.world.rooms.__GT_Rect.call(null, 23, 13, 1, 1), sleuth.world.rooms.__GT_Rect.call(null, 56, 1, 7, 12), sleuth.world.rooms.__GT_Rect.call(null, 55, 2, 1, 
@@ -22196,19 +22196,22 @@ sleuth.world.rooms.room_rects = cljs.core.PersistentHashMap.fromArrays(["\ufdd0:
 41, 6, 14, 5), sleuth.world.rooms.__GT_Rect.call(null, 21, 17, 1, 1), sleuth.world.rooms.__GT_Rect.call(null, 20, 13, 3, 4), sleuth.world.rooms.__GT_Rect.call(null, 24, 11, 14, 5), sleuth.world.rooms.__GT_Rect.call(null, 30, 6, 3, 1), sleuth.world.rooms.__GT_Rect.call(null, 16, 1, 7, 12), sleuth.world.rooms.__GT_Rect.call(null, 64, 9, 14, 7), sleuth.world.rooms.__GT_Rect.call(null, 15, 3, 1, 1), sleuth.world.rooms.__GT_Rect.call(null, 64, 1, 14, 7), sleuth.world.rooms.__GT_Rect.call(null, 55, 14, 
 1, 1), sleuth.world.rooms.__GT_Rect.call(null, 56, 13, 3, 3), sleuth.world.rooms.__GT_Rect.call(null, 63, 10, 1, 1), sleuth.world.rooms.__GT_Rect.call(null, 24, 7, 14, 3), sleuth.world.rooms.__GT_Rect.call(null, 24, 1, 14, 5)]);
 sleuth.world.rooms.room_descriptions = cljs.core.atom.call(null, null);
+sleuth.world.rooms.yaml = require("js-yaml");
 sleuth.world.rooms.load_rooms = function load_rooms(filename) {
-  return null
+  var yaml_object = sleuth.world.rooms.yaml.safeLoad("resources/rooms.yaml".readFileSync("utf8"));
+  var rooms_map = cljs.core.js__GT_clj.call(null, yaml_object, "\ufdd0:keywordize-keys", true);
+  return cljs.core.reset_BANG_.call(null, sleuth.world.rooms.room_descriptions, (new cljs.core.Keyword("\ufdd0:room-descriptions")).call(null, rooms_map))
 };
-sleuth.world.rooms.in_rect_QMARK_ = function in_rect_QMARK_(p__4080, rect) {
-  var vec__4083 = p__4080;
-  var x_coord = cljs.core.nth.call(null, vec__4083, 0, null);
-  var y_coord = cljs.core.nth.call(null, vec__4083, 1, null);
-  var map__4084 = rect;
-  var map__4084__$1 = cljs.core.seq_QMARK_.call(null, map__4084) ? cljs.core.apply.call(null, cljs.core.hash_map, map__4084) : map__4084;
-  var height = cljs.core.get.call(null, map__4084__$1, "\ufdd0:height");
-  var width = cljs.core.get.call(null, map__4084__$1, "\ufdd0:width");
-  var y = cljs.core.get.call(null, map__4084__$1, "\ufdd0:y");
-  var x = cljs.core.get.call(null, map__4084__$1, "\ufdd0:x");
+sleuth.world.rooms.in_rect_QMARK_ = function in_rect_QMARK_(p__3892, rect) {
+  var vec__3895 = p__3892;
+  var x_coord = cljs.core.nth.call(null, vec__3895, 0, null);
+  var y_coord = cljs.core.nth.call(null, vec__3895, 1, null);
+  var map__3896 = rect;
+  var map__3896__$1 = cljs.core.seq_QMARK_.call(null, map__3896) ? cljs.core.apply.call(null, cljs.core.hash_map, map__3896) : map__3896;
+  var height = cljs.core.get.call(null, map__3896__$1, "\ufdd0:height");
+  var width = cljs.core.get.call(null, map__3896__$1, "\ufdd0:width");
+  var y = cljs.core.get.call(null, map__3896__$1, "\ufdd0:y");
+  var x = cljs.core.get.call(null, map__3896__$1, "\ufdd0:x");
   if(cljs.core.truth_(function() {
     var and__3941__auto__ = function() {
       var and__3941__auto__ = x_coord >= x;
@@ -22237,31 +22240,31 @@ sleuth.world.rooms.in_rect_QMARK_ = function in_rect_QMARK_(p__4080, rect) {
 sleuth.world.rooms.get_rect = function get_rect(room_name) {
   return room_name.call(null, sleuth.world.rooms.room_rects)
 };
-sleuth.world.rooms.in_room_QMARK_ = function in_room_QMARK_(p__4086, room_name) {
-  var vec__4088 = p__4086;
-  var x_coord = cljs.core.nth.call(null, vec__4088, 0, null);
-  var y_coord = cljs.core.nth.call(null, vec__4088, 1, null);
+sleuth.world.rooms.in_room_QMARK_ = function in_room_QMARK_(p__3898, room_name) {
+  var vec__3900 = p__3898;
+  var x_coord = cljs.core.nth.call(null, vec__3900, 0, null);
+  var y_coord = cljs.core.nth.call(null, vec__3900, 1, null);
   var rect = sleuth.world.rooms.get_rect.call(null, room_name);
   return sleuth.world.rooms.in_rect_QMARK_.call(null, cljs.core.PersistentVector.fromArray([x_coord, y_coord], true), rect)
 };
-sleuth.world.rooms.get_room = function get_room(p__4089) {
-  var vec__4091 = p__4089;
-  var x = cljs.core.nth.call(null, vec__4091, 0, null);
-  var y = cljs.core.nth.call(null, vec__4091, 1, null);
-  return cljs.core.filter.call(null, function(p1__4085_SHARP_) {
-    return sleuth.world.rooms.in_rect_QMARK_.call(null, cljs.core.PersistentVector.fromArray([x, y], true), cljs.core.second.call(null, p1__4085_SHARP_))
+sleuth.world.rooms.get_room = function get_room(p__3901) {
+  var vec__3903 = p__3901;
+  var x = cljs.core.nth.call(null, vec__3903, 0, null);
+  var y = cljs.core.nth.call(null, vec__3903, 1, null);
+  return cljs.core.filter.call(null, function(p1__3897_SHARP_) {
+    return sleuth.world.rooms.in_rect_QMARK_.call(null, cljs.core.PersistentVector.fromArray([x, y], true), cljs.core.second.call(null, p1__3897_SHARP_))
   }, sleuth.world.rooms.room_rects)
 };
-sleuth.world.rooms.get_room_name = function get_room_name(p__4092) {
-  var vec__4094 = p__4092;
-  var x = cljs.core.nth.call(null, vec__4094, 0, null);
-  var y = cljs.core.nth.call(null, vec__4094, 1, null);
+sleuth.world.rooms.get_room_name = function get_room_name(p__3904) {
+  var vec__3906 = p__3904;
+  var x = cljs.core.nth.call(null, vec__3906, 0, null);
+  var y = cljs.core.nth.call(null, vec__3906, 1, null);
   return cljs.core.first.call(null, cljs.core.keys.call(null, sleuth.world.rooms.get_room.call(null, cljs.core.PersistentVector.fromArray([x, y], true))))
 };
 sleuth.world.rooms.current_room = function current_room(world) {
-  var vec__4096 = cljs.core.get_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:player", "\ufdd0:location"], true));
-  var x = cljs.core.nth.call(null, vec__4096, 0, null);
-  var y = cljs.core.nth.call(null, vec__4096, 1, null);
+  var vec__3908 = cljs.core.get_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:player", "\ufdd0:location"], true));
+  var x = cljs.core.nth.call(null, vec__3908, 0, null);
+  var y = cljs.core.nth.call(null, vec__3908, 1, null);
   return sleuth.world.rooms.get_room_name.call(null, cljs.core.PersistentVector.fromArray([x, y], true))
 };
 sleuth.world.rooms.get_doorway = function get_doorway(room) {
@@ -22276,9 +22279,9 @@ sleuth.world.rooms.get_doorway = function get_doorway(room) {
 sleuth.world.rooms.lock_current_room = function lock_current_room(world) {
   var room = sleuth.world.rooms.current_room.call(null, world);
   if(cljs.core._EQ_.call(null, room, "\ufdd0:pantry")) {
-    var vec__4098 = sleuth.world.rooms.get_doorway.call(null, room);
-    var x = cljs.core.nth.call(null, vec__4098, 0, null);
-    var y = cljs.core.nth.call(null, vec__4098, 1, null);
+    var vec__3910 = sleuth.world.rooms.get_doorway.call(null, room);
+    var x = cljs.core.nth.call(null, vec__3910, 0, null);
+    var y = cljs.core.nth.call(null, vec__3910, 1, null);
     return sleuth.world.tiles.set_tile.call(null, sleuth.world.tiles.set_tile.call(null, sleuth.world.tiles.set_tile.call(null, world, cljs.core.PersistentVector.fromArray([x, y], true), "\ufdd0:hdoor"), cljs.core.PersistentVector.fromArray([x + 2, y], true), "\ufdd0:hdoor"), cljs.core.PersistentVector.fromArray([x + 1, y], true), "\ufdd0:hdoor")
   }else {
     if(cljs.core._EQ_.call(null, room, "\ufdd0:secret-passage")) {
@@ -22295,27 +22298,27 @@ sleuth.world.rooms.lock_current_room = function lock_current_room(world) {
 sleuth.world.rooms.get_current_guest = function get_current_guest(world) {
   var room_name = sleuth.world.rooms.current_room.call(null, world);
   return cljs.core.first.call(null, cljs.core.remove.call(null, cljs.core.nil_QMARK_, function() {
-    var iter__3042__auto__ = function iter__4107(s__4108) {
+    var iter__3042__auto__ = function iter__3919(s__3920) {
       return new cljs.core.LazySeq(null, false, function() {
-        var s__4108__$1 = s__4108;
+        var s__3920__$1 = s__3920;
         while(true) {
-          var temp__4092__auto__ = cljs.core.seq.call(null, s__4108__$1);
+          var temp__4092__auto__ = cljs.core.seq.call(null, s__3920__$1);
           if(temp__4092__auto__) {
-            var s__4108__$2 = temp__4092__auto__;
-            if(cljs.core.chunked_seq_QMARK_.call(null, s__4108__$2)) {
-              var c__3040__auto__ = cljs.core.chunk_first.call(null, s__4108__$2);
+            var s__3920__$2 = temp__4092__auto__;
+            if(cljs.core.chunked_seq_QMARK_.call(null, s__3920__$2)) {
+              var c__3040__auto__ = cljs.core.chunk_first.call(null, s__3920__$2);
               var size__3041__auto__ = cljs.core.count.call(null, c__3040__auto__);
-              var b__4110 = cljs.core.chunk_buffer.call(null, size__3041__auto__);
+              var b__3922 = cljs.core.chunk_buffer.call(null, size__3041__auto__);
               if(function() {
-                var i__4109 = 0;
+                var i__3921 = 0;
                 while(true) {
-                  if(i__4109 < size__3041__auto__) {
-                    var vec__4113 = cljs.core._nth.call(null, c__3040__auto__, i__4109);
-                    var k = cljs.core.nth.call(null, vec__4113, 0, null);
-                    var v = cljs.core.nth.call(null, vec__4113, 1, null);
-                    cljs.core.chunk_append.call(null, b__4110, cljs.core._EQ_.call(null, (new cljs.core.Keyword("\ufdd0:room")).call(null, v), room_name) ? k : null);
-                    var G__4115 = i__4109 + 1;
-                    i__4109 = G__4115;
+                  if(i__3921 < size__3041__auto__) {
+                    var vec__3925 = cljs.core._nth.call(null, c__3040__auto__, i__3921);
+                    var k = cljs.core.nth.call(null, vec__3925, 0, null);
+                    var v = cljs.core.nth.call(null, vec__3925, 1, null);
+                    cljs.core.chunk_append.call(null, b__3922, cljs.core._EQ_.call(null, (new cljs.core.Keyword("\ufdd0:room")).call(null, v), room_name) ? k : null);
+                    var G__3927 = i__3921 + 1;
+                    i__3921 = G__3927;
                     continue
                   }else {
                     return true
@@ -22323,15 +22326,15 @@ sleuth.world.rooms.get_current_guest = function get_current_guest(world) {
                   break
                 }
               }()) {
-                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__4110), iter__4107.call(null, cljs.core.chunk_rest.call(null, s__4108__$2)))
+                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3922), iter__3919.call(null, cljs.core.chunk_rest.call(null, s__3920__$2)))
               }else {
-                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__4110), null)
+                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3922), null)
               }
             }else {
-              var vec__4114 = cljs.core.first.call(null, s__4108__$2);
-              var k = cljs.core.nth.call(null, vec__4114, 0, null);
-              var v = cljs.core.nth.call(null, vec__4114, 1, null);
-              return cljs.core.cons.call(null, cljs.core._EQ_.call(null, (new cljs.core.Keyword("\ufdd0:room")).call(null, v), room_name) ? k : null, iter__4107.call(null, cljs.core.rest.call(null, s__4108__$2)))
+              var vec__3926 = cljs.core.first.call(null, s__3920__$2);
+              var k = cljs.core.nth.call(null, vec__3926, 0, null);
+              var v = cljs.core.nth.call(null, vec__3926, 1, null);
+              return cljs.core.cons.call(null, cljs.core._EQ_.call(null, (new cljs.core.Keyword("\ufdd0:room")).call(null, v), room_name) ? k : null, iter__3919.call(null, cljs.core.rest.call(null, s__3920__$2)))
             }
           }else {
             return null
@@ -22360,10 +22363,10 @@ sleuth.world.rooms.get_guest_description = function get_guest_description(room_n
     }
   }
 };
-sleuth.world.rooms.get_room_description = function get_room_description(p__4116, world) {
-  var vec__4118 = p__4116;
-  var x = cljs.core.nth.call(null, vec__4118, 0, null);
-  var y = cljs.core.nth.call(null, vec__4118, 1, null);
+sleuth.world.rooms.get_room_description = function get_room_description(p__3928, world) {
+  var vec__3930 = p__3928;
+  var x = cljs.core.nth.call(null, vec__3930, 0, null);
+  var y = cljs.core.nth.call(null, vec__3930, 1, null);
   var room_name = sleuth.world.rooms.get_room_name.call(null, cljs.core.PersistentVector.fromArray([x, y], true));
   var guest_description = sleuth.world.rooms.get_guest_description.call(null, room_name, world);
   var item_description = sleuth.world.items.get_item_description.call(null, room_name, world);
@@ -22405,8 +22408,8 @@ sleuth.world.rooms.random_room = function() {
     while(true) {
       var room = random_room.call(null);
       if(cljs.core.truth_(cljs.core.some.call(null, cljs.core.PersistentHashSet.fromArray([room, null], true), room_list))) {
-        var G__4119 = room_list;
-        room_list = G__4119;
+        var G__3931 = room_list;
+        room_list = G__3931;
         continue
       }else {
         return room
@@ -22455,10 +22458,10 @@ sleuth.world.rooms.random_coords = function() {
   random_coords.cljs$core$IFn$_invoke$arity$1 = random_coords__1;
   return random_coords
 }();
-sleuth.world.rooms.is_doorway = function is_doorway(p__4120) {
-  var vec__4122 = p__4120;
-  var x = cljs.core.nth.call(null, vec__4122, 0, null);
-  var y = cljs.core.nth.call(null, vec__4122, 1, null);
+sleuth.world.rooms.is_doorway = function is_doorway(p__3932) {
+  var vec__3934 = p__3932;
+  var x = cljs.core.nth.call(null, vec__3934, 0, null);
+  var y = cljs.core.nth.call(null, vec__3934, 1, null);
   var room_name = sleuth.world.rooms.get_room_name.call(null, cljs.core.PersistentVector.fromArray([x, y], true));
   if(cljs.core.truth_(cljs.core.name.call(null, room_name).startsWith("doorway"))) {
     return true
@@ -22466,10 +22469,10 @@ sleuth.world.rooms.is_doorway = function is_doorway(p__4120) {
     return false
   }
 };
-sleuth.world.rooms.is_item_room = function is_item_room(p__4123) {
-  var vec__4125 = p__4123;
-  var x = cljs.core.nth.call(null, vec__4125, 0, null);
-  var y = cljs.core.nth.call(null, vec__4125, 1, null);
+sleuth.world.rooms.is_item_room = function is_item_room(p__3935) {
+  var vec__3937 = p__3935;
+  var x = cljs.core.nth.call(null, vec__3937, 0, null);
+  var y = cljs.core.nth.call(null, vec__3937, 1, null);
   var room_name = sleuth.world.rooms.get_room_name.call(null, cljs.core.PersistentVector.fromArray([x, y], true));
   if(cljs.core.truth_(cljs.core.some.call(null, cljs.core.PersistentHashSet.fromArray([room_name, null], true), sleuth.world.items.get_item_rooms.call(null)))) {
     return true
@@ -22477,13 +22480,13 @@ sleuth.world.rooms.is_item_room = function is_item_room(p__4123) {
     return false
   }
 };
-sleuth.world.rooms.has_entered_room = function has_entered_room(p__4126, p__4127) {
-  var vec__4130 = p__4126;
-  var x1 = cljs.core.nth.call(null, vec__4130, 0, null);
-  var y1 = cljs.core.nth.call(null, vec__4130, 1, null);
-  var vec__4131 = p__4127;
-  var x2 = cljs.core.nth.call(null, vec__4131, 0, null);
-  var y2 = cljs.core.nth.call(null, vec__4131, 1, null);
+sleuth.world.rooms.has_entered_room = function has_entered_room(p__3938, p__3939) {
+  var vec__3942 = p__3938;
+  var x1 = cljs.core.nth.call(null, vec__3942, 0, null);
+  var y1 = cljs.core.nth.call(null, vec__3942, 1, null);
+  var vec__3943 = p__3939;
+  var x2 = cljs.core.nth.call(null, vec__3943, 0, null);
+  var y2 = cljs.core.nth.call(null, vec__3943, 1, null);
   if(cljs.core.truth_(function() {
     var and__3941__auto__ = sleuth.world.rooms.is_doorway.call(null, cljs.core.PersistentVector.fromArray([x1, y1], true));
     if(cljs.core.truth_(and__3941__auto__)) {
@@ -22501,9 +22504,9 @@ goog.provide("sleuth.world.alibis");
 goog.require("cljs.core");
 goog.require("sleuth.utils");
 goog.require("sleuth.world.rooms");
-goog.require("clj_yaml.core");
 goog.require("sleuth.world.rooms");
 goog.require("sleuth.utils");
+sleuth.world.alibis.yaml = require("js-yaml");
 sleuth.world.alibis.openers = cljs.core.atom.call(null, null);
 sleuth.world.alibis.repeat_openers = cljs.core.atom.call(null, null);
 sleuth.world.alibis.alibis = cljs.core.atom.call(null, null);
@@ -22517,7 +22520,8 @@ sleuth.world.alibis.finished = cljs.core.atom.call(null, null);
 sleuth.world.alibis.lose_questioning = cljs.core.atom.call(null, null);
 sleuth.world.alibis.lose_time = cljs.core.atom.call(null, null);
 sleuth.world.alibis.load_alibis = function load_alibis(filename) {
-  var alibis_map = cljs.core.ObjMap.EMPTY;
+  var yaml_object = sleuth.world.alibis.yaml.safeLoad(filename.readFileSync("utf8"));
+  var alibis_map = cljs.core.js__GT_clj.call(null, yaml_object, "\ufdd0:keywordize-keys", true);
   cljs.core.reset_BANG_.call(null, sleuth.world.alibis.openers, (new cljs.core.Keyword("\ufdd0:openers")).call(null, alibis_map));
   cljs.core.reset_BANG_.call(null, sleuth.world.alibis.repeat_openers, (new cljs.core.Keyword("\ufdd0:repeat-openers")).call(null, alibis_map));
   cljs.core.reset_BANG_.call(null, sleuth.world.alibis.alibis, (new cljs.core.Keyword("\ufdd0:alibis")).call(null, alibis_map));
@@ -22547,8 +22551,8 @@ sleuth.world.alibis.get_lose_time = function get_lose_time(world) {
   return cljs.core.format.call(null, cljs.core.first.call(null, cljs.core.deref.call(null, sleuth.world.alibis.lose_time)), murderer, current_room, victim, room, weapon)
 };
 sleuth.world.alibis.get_murderer_alibi = function get_murderer_alibi(murderer, guests) {
-  var alone = cljs.core.ffirst.call(null, cljs.core.filter.call(null, function(p1__4034_SHARP_) {
-    return cljs.core._EQ_.call(null, (new cljs.core.Keyword("\ufdd0:alibi")).call(null, cljs.core.second.call(null, p1__4034_SHARP_)), "\ufdd0:alone")
+  var alone = cljs.core.ffirst.call(null, cljs.core.filter.call(null, function(p1__3947_SHARP_) {
+    return cljs.core._EQ_.call(null, (new cljs.core.Keyword("\ufdd0:alibi")).call(null, cljs.core.second.call(null, p1__3947_SHARP_)), "\ufdd0:alone")
   }, guests));
   var guests__$1 = cljs.core.dissoc.call(null, guests, murderer);
   var guests__$2 = cljs.core.dissoc.call(null, guests__$1, alone);
@@ -22558,11 +22562,11 @@ sleuth.world.alibis.get_murderer_alibi = function get_murderer_alibi(murderer, g
 sleuth.world.alibis.get_alibi = function get_alibi(guest, guests) {
   var alibi = cljs.core.get_in.call(null, guests, cljs.core.PersistentVector.fromArray([guest, "\ufdd0:alibi"], true));
   var room = cljs.core.get_in.call(null, guests, cljs.core.PersistentVector.fromArray([guest, "\ufdd0:alibi-room"], true));
-  var G__4036 = alibi;
-  if(cljs.core._EQ_.call(null, "\ufdd0:alone", G__4036)) {
+  var G__3949 = alibi;
+  if(cljs.core._EQ_.call(null, "\ufdd0:alone", G__3949)) {
     return cljs.core.format.call(null, cljs.core.first.call(null, cljs.core.deref.call(null, sleuth.world.alibis.alone_alibi)), sleuth.utils.keyword_to_string.call(null, room))
   }else {
-    if(cljs.core._EQ_.call(null, "\ufdd0:murderer", G__4036)) {
+    if(cljs.core._EQ_.call(null, "\ufdd0:murderer", G__3949)) {
       return sleuth.world.alibis.get_murderer_alibi.call(null, guest, guests)
     }else {
       if("\ufdd0:else") {
@@ -22582,10 +22586,10 @@ sleuth.world.alibis.get_alibis = function get_alibis(guests) {
     }else {
       var guest = cljs.core.first.call(null, guest_names);
       var guests__$2 = cljs.core.assoc_in.call(null, guests__$1, cljs.core.PersistentVector.fromArray([guest, "\ufdd0:alibi-string"], true), sleuth.world.alibis.get_alibi.call(null, guest, guests__$1));
-      var G__4037 = guests__$2;
-      var G__4038 = cljs.core.rest.call(null, guest_names);
-      guests__$1 = G__4037;
-      guest_names = G__4038;
+      var G__3950 = guests__$2;
+      var G__3951 = cljs.core.rest.call(null, guest_names);
+      guests__$1 = G__3950;
+      guest_names = G__3951;
       continue
     }
     break
@@ -22649,7 +22653,6 @@ goog.require("sleuth.world.alibis");
 goog.require("sleuth.utils");
 goog.require("sleuth.world.items");
 goog.require("sleuth.world.rooms");
-goog.require("clj_yaml.core");
 goog.require("sleuth.utils");
 goog.require("sleuth.world.alibis");
 goog.require("sleuth.world.items");
@@ -22689,28 +22692,28 @@ sleuth.entities.guests.Guest.prototype.cljs$core$ILookup$_lookup$arity$2 = funct
   var self__ = this;
   return this__2900__auto__.cljs$core$ILookup$_lookup$arity$3(this__2900__auto__, k__2901__auto__, null)
 };
-sleuth.entities.guests.Guest.prototype.cljs$core$ILookup$_lookup$arity$3 = function(this__2902__auto__, k3914, else__2903__auto__) {
+sleuth.entities.guests.Guest.prototype.cljs$core$ILookup$_lookup$arity$3 = function(this__2902__auto__, k3887, else__2903__auto__) {
   var self__ = this;
-  if(k3914 === "\ufdd0:name") {
+  if(k3887 === "\ufdd0:name") {
     return self__.name
   }else {
-    if(k3914 === "\ufdd0:alibi") {
+    if(k3887 === "\ufdd0:alibi") {
       return self__.alibi
     }else {
-      if(k3914 === "\ufdd0:num-questions") {
+      if(k3887 === "\ufdd0:num-questions") {
         return self__.num_questions
       }else {
-        if(k3914 === "\ufdd0:location") {
+        if(k3887 === "\ufdd0:location") {
           return self__.location
         }else {
-          if(k3914 === "\ufdd0:description") {
+          if(k3887 === "\ufdd0:description") {
             return self__.description
           }else {
-            if(k3914 === "\ufdd0:is-staring-at-floor") {
+            if(k3887 === "\ufdd0:is-staring-at-floor") {
               return self__.is_staring_at_floor
             }else {
               if("\ufdd0:else") {
-                return cljs.core.get.call(null, self__.__extmap, k3914, else__2903__auto__)
+                return cljs.core.get.call(null, self__.__extmap, k3887, else__2903__auto__)
               }else {
                 return null
               }
@@ -22721,29 +22724,29 @@ sleuth.entities.guests.Guest.prototype.cljs$core$ILookup$_lookup$arity$3 = funct
     }
   }
 };
-sleuth.entities.guests.Guest.prototype.cljs$core$IAssociative$_assoc$arity$3 = function(this__2907__auto__, k__2908__auto__, G__3913) {
+sleuth.entities.guests.Guest.prototype.cljs$core$IAssociative$_assoc$arity$3 = function(this__2907__auto__, k__2908__auto__, G__3886) {
   var self__ = this;
-  var pred__3916 = cljs.core.identical_QMARK_;
-  var expr__3917 = k__2908__auto__;
-  if(pred__3916.call(null, "\ufdd0:name", expr__3917)) {
-    return new sleuth.entities.guests.Guest(G__3913, self__.alibi, self__.num_questions, self__.location, self__.description, self__.is_staring_at_floor, self__.__meta, self__.__extmap, null)
+  var pred__3889 = cljs.core.identical_QMARK_;
+  var expr__3890 = k__2908__auto__;
+  if(pred__3889.call(null, "\ufdd0:name", expr__3890)) {
+    return new sleuth.entities.guests.Guest(G__3886, self__.alibi, self__.num_questions, self__.location, self__.description, self__.is_staring_at_floor, self__.__meta, self__.__extmap, null)
   }else {
-    if(pred__3916.call(null, "\ufdd0:alibi", expr__3917)) {
-      return new sleuth.entities.guests.Guest(self__.name, G__3913, self__.num_questions, self__.location, self__.description, self__.is_staring_at_floor, self__.__meta, self__.__extmap, null)
+    if(pred__3889.call(null, "\ufdd0:alibi", expr__3890)) {
+      return new sleuth.entities.guests.Guest(self__.name, G__3886, self__.num_questions, self__.location, self__.description, self__.is_staring_at_floor, self__.__meta, self__.__extmap, null)
     }else {
-      if(pred__3916.call(null, "\ufdd0:num-questions", expr__3917)) {
-        return new sleuth.entities.guests.Guest(self__.name, self__.alibi, G__3913, self__.location, self__.description, self__.is_staring_at_floor, self__.__meta, self__.__extmap, null)
+      if(pred__3889.call(null, "\ufdd0:num-questions", expr__3890)) {
+        return new sleuth.entities.guests.Guest(self__.name, self__.alibi, G__3886, self__.location, self__.description, self__.is_staring_at_floor, self__.__meta, self__.__extmap, null)
       }else {
-        if(pred__3916.call(null, "\ufdd0:location", expr__3917)) {
-          return new sleuth.entities.guests.Guest(self__.name, self__.alibi, self__.num_questions, G__3913, self__.description, self__.is_staring_at_floor, self__.__meta, self__.__extmap, null)
+        if(pred__3889.call(null, "\ufdd0:location", expr__3890)) {
+          return new sleuth.entities.guests.Guest(self__.name, self__.alibi, self__.num_questions, G__3886, self__.description, self__.is_staring_at_floor, self__.__meta, self__.__extmap, null)
         }else {
-          if(pred__3916.call(null, "\ufdd0:description", expr__3917)) {
-            return new sleuth.entities.guests.Guest(self__.name, self__.alibi, self__.num_questions, self__.location, G__3913, self__.is_staring_at_floor, self__.__meta, self__.__extmap, null)
+          if(pred__3889.call(null, "\ufdd0:description", expr__3890)) {
+            return new sleuth.entities.guests.Guest(self__.name, self__.alibi, self__.num_questions, self__.location, G__3886, self__.is_staring_at_floor, self__.__meta, self__.__extmap, null)
           }else {
-            if(pred__3916.call(null, "\ufdd0:is-staring-at-floor", expr__3917)) {
-              return new sleuth.entities.guests.Guest(self__.name, self__.alibi, self__.num_questions, self__.location, self__.description, G__3913, self__.__meta, self__.__extmap, null)
+            if(pred__3889.call(null, "\ufdd0:is-staring-at-floor", expr__3890)) {
+              return new sleuth.entities.guests.Guest(self__.name, self__.alibi, self__.num_questions, self__.location, self__.description, G__3886, self__.__meta, self__.__extmap, null)
             }else {
-              return new sleuth.entities.guests.Guest(self__.name, self__.alibi, self__.num_questions, self__.location, self__.description, self__.is_staring_at_floor, self__.__meta, cljs.core.assoc.call(null, self__.__extmap, k__2908__auto__, G__3913), null)
+              return new sleuth.entities.guests.Guest(self__.name, self__.alibi, self__.num_questions, self__.location, self__.description, self__.is_staring_at_floor, self__.__meta, cljs.core.assoc.call(null, self__.__extmap, k__2908__auto__, G__3886), null)
             }
           }
         }
@@ -22796,9 +22799,9 @@ sleuth.entities.guests.Guest.prototype.cljs$core$IEquiv$_equiv$arity$2 = functio
     return false
   }
 };
-sleuth.entities.guests.Guest.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(this__2899__auto__, G__3913) {
+sleuth.entities.guests.Guest.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(this__2899__auto__, G__3886) {
   var self__ = this;
-  return new sleuth.entities.guests.Guest(self__.name, self__.alibi, self__.num_questions, self__.location, self__.description, self__.is_staring_at_floor, G__3913, self__.__extmap, self__.__hash)
+  return new sleuth.entities.guests.Guest(self__.name, self__.alibi, self__.num_questions, self__.location, self__.description, self__.is_staring_at_floor, G__3886, self__.__extmap, self__.__hash)
 };
 sleuth.entities.guests.Guest.prototype.cljs$core$IMeta$_meta$arity$1 = function(this__2898__auto__) {
   var self__ = this;
@@ -22822,15 +22825,17 @@ sleuth.entities.guests.Guest.cljs$lang$ctorPrWriter = function(this__2935__auto_
 sleuth.entities.guests.__GT_Guest = function __GT_Guest(name, alibi, num_questions, location, description, is_staring_at_floor) {
   return new sleuth.entities.guests.Guest(name, alibi, num_questions, location, description, is_staring_at_floor)
 };
-sleuth.entities.guests.map__GT_Guest = function map__GT_Guest(G__3915) {
-  return new sleuth.entities.guests.Guest((new cljs.core.Keyword("\ufdd0:name")).call(null, G__3915), (new cljs.core.Keyword("\ufdd0:alibi")).call(null, G__3915), (new cljs.core.Keyword("\ufdd0:num-questions")).call(null, G__3915), (new cljs.core.Keyword("\ufdd0:location")).call(null, G__3915), (new cljs.core.Keyword("\ufdd0:description")).call(null, G__3915), (new cljs.core.Keyword("\ufdd0:is-staring-at-floor")).call(null, G__3915), null, cljs.core.dissoc.call(null, G__3915, "\ufdd0:name", "\ufdd0:alibi", 
+sleuth.entities.guests.map__GT_Guest = function map__GT_Guest(G__3888) {
+  return new sleuth.entities.guests.Guest((new cljs.core.Keyword("\ufdd0:name")).call(null, G__3888), (new cljs.core.Keyword("\ufdd0:alibi")).call(null, G__3888), (new cljs.core.Keyword("\ufdd0:num-questions")).call(null, G__3888), (new cljs.core.Keyword("\ufdd0:location")).call(null, G__3888), (new cljs.core.Keyword("\ufdd0:description")).call(null, G__3888), (new cljs.core.Keyword("\ufdd0:is-staring-at-floor")).call(null, G__3888), null, cljs.core.dissoc.call(null, G__3888, "\ufdd0:name", "\ufdd0:alibi", 
   "\ufdd0:num-questions", "\ufdd0:location", "\ufdd0:description", "\ufdd0:is-staring-at-floor"))
 };
 sleuth.entities.guests.guest_names = cljs.core.atom.call(null, null);
 sleuth.entities.guests.personalized_names = cljs.core.atom.call(null, null);
 sleuth.entities.guests.guest_descriptions = cljs.core.atom.call(null, null);
+sleuth.entities.guests.yaml = require("js-yaml");
 sleuth.entities.guests.load_guests = function load_guests(filename) {
-  var items_map = cljs.core.ObjMap.EMPTY;
+  var yaml_object = sleuth.entities.guests.yaml.safeLoad(filename.readFileSync("utf8"));
+  var items_map = cljs.core.js__GT_clj.call(null, yaml_object, "\ufdd0:keywordize-keys", true);
   cljs.core.reset_BANG_.call(null, sleuth.entities.guests.guest_names, cljs.core.map.call(null, cljs.core.keyword, (new cljs.core.Keyword("\ufdd0:guest-names")).call(null, items_map)));
   return cljs.core.reset_BANG_.call(null, sleuth.entities.guests.guest_descriptions, (new cljs.core.Keyword("\ufdd0:guest-descriptions")).call(null, items_map))
 };
@@ -22839,25 +22844,25 @@ sleuth.entities.guests.random_name = function random_name(names) {
 };
 sleuth.entities.guests.get_guests = function get_guests(names) {
   return cljs.core.into.call(null, cljs.core.ObjMap.EMPTY, function() {
-    var iter__3042__auto__ = function iter__3923(s__3924) {
+    var iter__3042__auto__ = function iter__3896(s__3897) {
       return new cljs.core.LazySeq(null, false, function() {
-        var s__3924__$1 = s__3924;
+        var s__3897__$1 = s__3897;
         while(true) {
-          var temp__4092__auto__ = cljs.core.seq.call(null, s__3924__$1);
+          var temp__4092__auto__ = cljs.core.seq.call(null, s__3897__$1);
           if(temp__4092__auto__) {
-            var s__3924__$2 = temp__4092__auto__;
-            if(cljs.core.chunked_seq_QMARK_.call(null, s__3924__$2)) {
-              var c__3040__auto__ = cljs.core.chunk_first.call(null, s__3924__$2);
+            var s__3897__$2 = temp__4092__auto__;
+            if(cljs.core.chunked_seq_QMARK_.call(null, s__3897__$2)) {
+              var c__3040__auto__ = cljs.core.chunk_first.call(null, s__3897__$2);
               var size__3041__auto__ = cljs.core.count.call(null, c__3040__auto__);
-              var b__3926 = cljs.core.chunk_buffer.call(null, size__3041__auto__);
+              var b__3899 = cljs.core.chunk_buffer.call(null, size__3041__auto__);
               if(function() {
-                var i__3925 = 0;
+                var i__3898 = 0;
                 while(true) {
-                  if(i__3925 < size__3041__auto__) {
-                    var n = cljs.core._nth.call(null, c__3040__auto__, i__3925);
-                    cljs.core.chunk_append.call(null, b__3926, cljs.core.PersistentVector.fromArray([n, sleuth.entities.guests.__GT_Guest.call(null, sleuth.utils.keyword_to_name.call(null, n), " ", 0, cljs.core.PersistentVector.fromArray([0, 0], true), " ", false)], true));
-                    var G__3927 = i__3925 + 1;
-                    i__3925 = G__3927;
+                  if(i__3898 < size__3041__auto__) {
+                    var n = cljs.core._nth.call(null, c__3040__auto__, i__3898);
+                    cljs.core.chunk_append.call(null, b__3899, cljs.core.PersistentVector.fromArray([n, sleuth.entities.guests.__GT_Guest.call(null, sleuth.utils.keyword_to_name.call(null, n), " ", 0, cljs.core.PersistentVector.fromArray([0, 0], true), " ", false)], true));
+                    var G__3900 = i__3898 + 1;
+                    i__3898 = G__3900;
                     continue
                   }else {
                     return true
@@ -22865,13 +22870,13 @@ sleuth.entities.guests.get_guests = function get_guests(names) {
                   break
                 }
               }()) {
-                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3926), iter__3923.call(null, cljs.core.chunk_rest.call(null, s__3924__$2)))
+                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3899), iter__3896.call(null, cljs.core.chunk_rest.call(null, s__3897__$2)))
               }else {
-                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3926), null)
+                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3899), null)
               }
             }else {
-              var n = cljs.core.first.call(null, s__3924__$2);
-              return cljs.core.cons.call(null, cljs.core.PersistentVector.fromArray([n, sleuth.entities.guests.__GT_Guest.call(null, sleuth.utils.keyword_to_name.call(null, n), " ", 0, cljs.core.PersistentVector.fromArray([0, 0], true), " ", false)], true), iter__3923.call(null, cljs.core.rest.call(null, s__3924__$2)))
+              var n = cljs.core.first.call(null, s__3897__$2);
+              return cljs.core.cons.call(null, cljs.core.PersistentVector.fromArray([n, sleuth.entities.guests.__GT_Guest.call(null, sleuth.utils.keyword_to_name.call(null, n), " ", 0, cljs.core.PersistentVector.fromArray([0, 0], true), " ", false)], true), iter__3896.call(null, cljs.core.rest.call(null, s__3897__$2)))
             }
           }else {
             return null
@@ -22886,27 +22891,27 @@ sleuth.entities.guests.get_guests = function get_guests(names) {
 sleuth.entities.guests.get_guest_names = function get_guest_names(world) {
   var guests = cljs.core.get_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:guests"], true));
   return cljs.core.into.call(null, cljs.core.PersistentVector.EMPTY, function() {
-    var iter__3042__auto__ = function iter__3936(s__3937) {
+    var iter__3042__auto__ = function iter__3909(s__3910) {
       return new cljs.core.LazySeq(null, false, function() {
-        var s__3937__$1 = s__3937;
+        var s__3910__$1 = s__3910;
         while(true) {
-          var temp__4092__auto__ = cljs.core.seq.call(null, s__3937__$1);
+          var temp__4092__auto__ = cljs.core.seq.call(null, s__3910__$1);
           if(temp__4092__auto__) {
-            var s__3937__$2 = temp__4092__auto__;
-            if(cljs.core.chunked_seq_QMARK_.call(null, s__3937__$2)) {
-              var c__3040__auto__ = cljs.core.chunk_first.call(null, s__3937__$2);
+            var s__3910__$2 = temp__4092__auto__;
+            if(cljs.core.chunked_seq_QMARK_.call(null, s__3910__$2)) {
+              var c__3040__auto__ = cljs.core.chunk_first.call(null, s__3910__$2);
               var size__3041__auto__ = cljs.core.count.call(null, c__3040__auto__);
-              var b__3939 = cljs.core.chunk_buffer.call(null, size__3041__auto__);
+              var b__3912 = cljs.core.chunk_buffer.call(null, size__3041__auto__);
               if(function() {
-                var i__3938 = 0;
+                var i__3911 = 0;
                 while(true) {
-                  if(i__3938 < size__3041__auto__) {
-                    var vec__3942 = cljs.core._nth.call(null, c__3040__auto__, i__3938);
-                    var k = cljs.core.nth.call(null, vec__3942, 0, null);
-                    var v = cljs.core.nth.call(null, vec__3942, 1, null);
-                    cljs.core.chunk_append.call(null, b__3939, sleuth.utils.keyword_to_first_name.call(null, (new cljs.core.Keyword("\ufdd0:name")).call(null, v)));
-                    var G__3944 = i__3938 + 1;
-                    i__3938 = G__3944;
+                  if(i__3911 < size__3041__auto__) {
+                    var vec__3915 = cljs.core._nth.call(null, c__3040__auto__, i__3911);
+                    var k = cljs.core.nth.call(null, vec__3915, 0, null);
+                    var v = cljs.core.nth.call(null, vec__3915, 1, null);
+                    cljs.core.chunk_append.call(null, b__3912, sleuth.utils.keyword_to_first_name.call(null, (new cljs.core.Keyword("\ufdd0:name")).call(null, v)));
+                    var G__3917 = i__3911 + 1;
+                    i__3911 = G__3917;
                     continue
                   }else {
                     return true
@@ -22914,15 +22919,15 @@ sleuth.entities.guests.get_guest_names = function get_guest_names(world) {
                   break
                 }
               }()) {
-                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3939), iter__3936.call(null, cljs.core.chunk_rest.call(null, s__3937__$2)))
+                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3912), iter__3909.call(null, cljs.core.chunk_rest.call(null, s__3910__$2)))
               }else {
-                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3939), null)
+                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3912), null)
               }
             }else {
-              var vec__3943 = cljs.core.first.call(null, s__3937__$2);
-              var k = cljs.core.nth.call(null, vec__3943, 0, null);
-              var v = cljs.core.nth.call(null, vec__3943, 1, null);
-              return cljs.core.cons.call(null, sleuth.utils.keyword_to_first_name.call(null, (new cljs.core.Keyword("\ufdd0:name")).call(null, v)), iter__3936.call(null, cljs.core.rest.call(null, s__3937__$2)))
+              var vec__3916 = cljs.core.first.call(null, s__3910__$2);
+              var k = cljs.core.nth.call(null, vec__3916, 0, null);
+              var v = cljs.core.nth.call(null, vec__3916, 1, null);
+              return cljs.core.cons.call(null, sleuth.utils.keyword_to_first_name.call(null, (new cljs.core.Keyword("\ufdd0:name")).call(null, v)), iter__3909.call(null, cljs.core.rest.call(null, s__3910__$2)))
             }
           }else {
             return null
@@ -22961,15 +22966,15 @@ sleuth.entities.guests.update_guest_staring_flags = function update_guest_starin
 };
 sleuth.entities.guests.move_guests = function move_guests(world) {
   var guests = cljs.core.get_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:guests"], true));
-  var vec__3948 = cljs.core.get_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:player", "\ufdd0:location"], true));
-  var player_x = cljs.core.nth.call(null, vec__3948, 0, null);
-  var player_y = cljs.core.nth.call(null, vec__3948, 1, null);
+  var vec__3921 = cljs.core.get_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:player", "\ufdd0:location"], true));
+  var player_x = cljs.core.nth.call(null, vec__3921, 0, null);
+  var player_y = cljs.core.nth.call(null, vec__3921, 1, null);
   var current_room = sleuth.world.rooms.current_room.call(null, world);
   var rect = sleuth.world.rooms.get_rect.call(null, current_room);
   var guest_x = (new cljs.core.Keyword("\ufdd0:x")).call(null, rect) + 4;
   var guest_y = cljs.core._EQ_.call(null, current_room, "\ufdd0:secret-passage") ? player_y : cljs.core.truth_(sleuth.world.rooms.in_room_QMARK_.call(null, cljs.core.PersistentVector.fromArray([player_x, player_y - 1], true), current_room)) ? player_y - 1 : "\ufdd0:else" ? player_y + 1 : null;
-  return cljs.core.assoc_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:guests"], true), cljs.core.zipmap.call(null, cljs.core.keys.call(null, guests), cljs.core.map.call(null, function(p1__3945_SHARP_, p2__3946_SHARP_) {
-    return cljs.core.assoc_in.call(null, p1__3945_SHARP_, cljs.core.PersistentVector.fromArray(["\ufdd0:location"], true), cljs.core.PersistentVector.fromArray([p2__3946_SHARP_, guest_y], true))
+  return cljs.core.assoc_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:guests"], true), cljs.core.zipmap.call(null, cljs.core.keys.call(null, guests), cljs.core.map.call(null, function(p1__3918_SHARP_, p2__3919_SHARP_) {
+    return cljs.core.assoc_in.call(null, p1__3918_SHARP_, cljs.core.PersistentVector.fromArray(["\ufdd0:location"], true), cljs.core.PersistentVector.fromArray([p2__3919_SHARP_, guest_y], true))
   }, cljs.core.vals.call(null, guests), cljs.core.range.call(null, guest_x, guest_x + 6))))
 };
 sleuth.entities.guests.move_murderer = function move_murderer(world) {
@@ -22977,9 +22982,9 @@ sleuth.entities.guests.move_murderer = function move_murderer(world) {
     return world
   }else {
     var murderer = cljs.core.get_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:murder-case", "\ufdd0:murderer"], true));
-    var vec__3950 = cljs.core.get_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:player", "\ufdd0:location"], true));
-    var player_x = cljs.core.nth.call(null, vec__3950, 0, null);
-    var player_y = cljs.core.nth.call(null, vec__3950, 1, null);
+    var vec__3923 = cljs.core.get_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:player", "\ufdd0:location"], true));
+    var player_x = cljs.core.nth.call(null, vec__3923, 0, null);
+    var player_y = cljs.core.nth.call(null, vec__3923, 1, null);
     var murderer_x = cljs.core.truth_(sleuth.world.rooms.in_room_QMARK_.call(null, cljs.core.PersistentVector.fromArray([player_x + 1, player_y], true), sleuth.world.rooms.current_room.call(null, world))) ? player_x + 1 : player_x - 1;
     return cljs.core.assoc_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:guests", murderer, "\ufdd0:location"], true), cljs.core.PersistentVector.fromArray([murderer_x, player_y], true))
   }
@@ -23003,28 +23008,28 @@ sleuth.entities.guests.place_guest = function place_guest(world, guest_name) {
   var guests = cljs.core.get_in.call(null, world, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:guests"], true));
   var rooms = cljs.core.into.call(null, cljs.core.PersistentVector.EMPTY, function() {
     var iter__3042__auto__ = function(guests) {
-      return function iter__3959(s__3960) {
+      return function iter__3932(s__3933) {
         return new cljs.core.LazySeq(null, false, function(guests) {
           return function() {
-            var s__3960__$1 = s__3960;
+            var s__3933__$1 = s__3933;
             while(true) {
-              var temp__4092__auto__ = cljs.core.seq.call(null, s__3960__$1);
+              var temp__4092__auto__ = cljs.core.seq.call(null, s__3933__$1);
               if(temp__4092__auto__) {
-                var s__3960__$2 = temp__4092__auto__;
-                if(cljs.core.chunked_seq_QMARK_.call(null, s__3960__$2)) {
-                  var c__3040__auto__ = cljs.core.chunk_first.call(null, s__3960__$2);
+                var s__3933__$2 = temp__4092__auto__;
+                if(cljs.core.chunked_seq_QMARK_.call(null, s__3933__$2)) {
+                  var c__3040__auto__ = cljs.core.chunk_first.call(null, s__3933__$2);
                   var size__3041__auto__ = cljs.core.count.call(null, c__3040__auto__);
-                  var b__3962 = cljs.core.chunk_buffer.call(null, size__3041__auto__);
+                  var b__3935 = cljs.core.chunk_buffer.call(null, size__3041__auto__);
                   if(function() {
-                    var i__3961 = 0;
+                    var i__3934 = 0;
                     while(true) {
-                      if(i__3961 < size__3041__auto__) {
-                        var vec__3965 = cljs.core._nth.call(null, c__3040__auto__, i__3961);
-                        var k = cljs.core.nth.call(null, vec__3965, 0, null);
-                        var v = cljs.core.nth.call(null, vec__3965, 1, null);
-                        cljs.core.chunk_append.call(null, b__3962, (new cljs.core.Keyword("\ufdd0:room")).call(null, v));
-                        var G__3967 = i__3961 + 1;
-                        i__3961 = G__3967;
+                      if(i__3934 < size__3041__auto__) {
+                        var vec__3938 = cljs.core._nth.call(null, c__3040__auto__, i__3934);
+                        var k = cljs.core.nth.call(null, vec__3938, 0, null);
+                        var v = cljs.core.nth.call(null, vec__3938, 1, null);
+                        cljs.core.chunk_append.call(null, b__3935, (new cljs.core.Keyword("\ufdd0:room")).call(null, v));
+                        var G__3940 = i__3934 + 1;
+                        i__3934 = G__3940;
                         continue
                       }else {
                         return true
@@ -23032,15 +23037,15 @@ sleuth.entities.guests.place_guest = function place_guest(world, guest_name) {
                       break
                     }
                   }()) {
-                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3962), iter__3959.call(null, cljs.core.chunk_rest.call(null, s__3960__$2)))
+                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3935), iter__3932.call(null, cljs.core.chunk_rest.call(null, s__3933__$2)))
                   }else {
-                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3962), null)
+                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__3935), null)
                   }
                 }else {
-                  var vec__3966 = cljs.core.first.call(null, s__3960__$2);
-                  var k = cljs.core.nth.call(null, vec__3966, 0, null);
-                  var v = cljs.core.nth.call(null, vec__3966, 1, null);
-                  return cljs.core.cons.call(null, (new cljs.core.Keyword("\ufdd0:room")).call(null, v), iter__3959.call(null, cljs.core.rest.call(null, s__3960__$2)))
+                  var vec__3939 = cljs.core.first.call(null, s__3933__$2);
+                  var k = cljs.core.nth.call(null, vec__3939, 0, null);
+                  var v = cljs.core.nth.call(null, vec__3939, 1, null);
+                  return cljs.core.cons.call(null, (new cljs.core.Keyword("\ufdd0:room")).call(null, v), iter__3932.call(null, cljs.core.rest.call(null, s__3933__$2)))
                 }
               }else {
                 return null
@@ -23092,10 +23097,10 @@ sleuth.entities.guests.place_guests = function place_guests(guest_list, world) {
       var guest = sleuth.entities.guests.get_guests.call(null, cljs.core.PersistentVector.fromArray([guest_name], true));
       var world__$2 = cljs.core.assoc_in.call(null, world__$1, cljs.core.PersistentVector.fromArray(["\ufdd0:entities", "\ufdd0:guests", guest_name], true), guest_name.call(null, guest));
       var world__$3 = sleuth.entities.guests.place_guest.call(null, world__$2, guest_name);
-      var G__3968 = cljs.core.rest.call(null, guest_list__$1);
-      var G__3969 = world__$3;
-      guest_list__$1 = G__3968;
-      world__$1 = G__3969;
+      var G__3941 = cljs.core.rest.call(null, guest_list__$1);
+      var G__3942 = world__$3;
+      guest_list__$1 = G__3941;
+      world__$1 = G__3942;
       continue
     }
     break
@@ -23104,19 +23109,19 @@ sleuth.entities.guests.place_guests = function place_guests(guest_list, world) {
 sleuth.entities.guests.create_guests = function create_guests(world) {
   var names_list = cljs.core.truth_((new cljs.core.Keyword("\ufdd0:personalized")).call(null, (new cljs.core.Keyword("\ufdd0:flags")).call(null, world))) ? cljs.core.apply.call(null, cljs.core.list, cljs.core.deref.call(null, sleuth.entities.guests.personalized_names)) : cljs.core.deref.call(null, sleuth.entities.guests.guest_names);
   var names = cljs.core.shuffle.call(null, names_list);
-  var vec__3972 = names;
-  var victim = cljs.core.nth.call(null, vec__3972, 0, null);
-  var murderer = cljs.core.nth.call(null, vec__3972, 1, null);
-  var alone = cljs.core.nth.call(null, vec__3972, 2, null);
-  var suspect1 = cljs.core.nth.call(null, vec__3972, 3, null);
-  var suspect2 = cljs.core.nth.call(null, vec__3972, 4, null);
-  var suspect3 = cljs.core.nth.call(null, vec__3972, 5, null);
-  var suspect4 = cljs.core.nth.call(null, vec__3972, 6, null);
+  var vec__3945 = names;
+  var victim = cljs.core.nth.call(null, vec__3945, 0, null);
+  var murderer = cljs.core.nth.call(null, vec__3945, 1, null);
+  var alone = cljs.core.nth.call(null, vec__3945, 2, null);
+  var suspect1 = cljs.core.nth.call(null, vec__3945, 3, null);
+  var suspect2 = cljs.core.nth.call(null, vec__3945, 4, null);
+  var suspect3 = cljs.core.nth.call(null, vec__3945, 5, null);
+  var suspect4 = cljs.core.nth.call(null, vec__3945, 6, null);
   var rooms = cljs.core.shuffle.call(null, sleuth.world.items.get_item_rooms.call(null));
-  var vec__3973 = rooms;
-  var room1 = cljs.core.nth.call(null, vec__3973, 0, null);
-  var room2 = cljs.core.nth.call(null, vec__3973, 1, null);
-  var room3 = cljs.core.nth.call(null, vec__3973, 2, null);
+  var vec__3946 = rooms;
+  var room1 = cljs.core.nth.call(null, vec__3946, 0, null);
+  var room2 = cljs.core.nth.call(null, vec__3946, 1, null);
+  var room3 = cljs.core.nth.call(null, vec__3946, 2, null);
   var guest_list = cljs.core.apply.call(null, cljs.core.list, cljs.core.remove.call(null, cljs.core.PersistentHashSet.fromArray([victim, null], true), names));
   var world__$1 = sleuth.entities.guests.place_guests.call(null, guest_list, world);
   var world__$2 = world__$1;
@@ -23708,8 +23713,10 @@ goog.require("sleuth.utils");
 goog.require("clj_yaml.core");
 goog.require("sleuth.utils");
 sleuth.world.text.openings = cljs.core.atom.call(null, null);
+sleuth.world.text.yaml = require("js-yaml");
 sleuth.world.text.load_opening = function load_opening() {
-  var openings_vector = cljs.core.PersistentVector.EMPTY;
+  var yaml_object = sleuth.world.text.yaml.safeLoad("resources/opening.yaml".readFileSync("utf8"));
+  var openings_vector = cljs.core.vector.call(null, cljs.core.js__GT_clj.call(null, yaml_object, "\ufdd0:keywordize-keys", true));
   return cljs.core.reset_BANG_.call(null, sleuth.world.text.openings, openings_vector)
 };
 sleuth.world.text.load_text = function load_text() {
@@ -27896,179 +27903,16 @@ goog.events.getUniqueId = function(identifier) {
 goog.debug.entryPointRegistry.register(function(transformer) {
   goog.events.handleBrowserEvent_ = transformer(goog.events.handleBrowserEvent_)
 });
-goog.provide("clojure.string");
+goog.provide("domina.support");
 goog.require("cljs.core");
-goog.require("goog.string.StringBuffer");
-goog.require("goog.string");
-clojure.string.seq_reverse = function seq_reverse(coll) {
-  return cljs.core.reduce.call(null, cljs.core.conj, cljs.core.List.EMPTY, coll)
-};
-clojure.string.reverse = function reverse(s) {
-  return s.split("").reverse().join("")
-};
-clojure.string.replace = function replace(s, match, replacement) {
-  if(cljs.core.string_QMARK_.call(null, match)) {
-    return s.replace(new RegExp(goog.string.regExpEscape(match), "g"), replacement)
-  }else {
-    if(cljs.core.truth_(match.hasOwnProperty("source"))) {
-      return s.replace(new RegExp(match.source, "g"), replacement)
-    }else {
-      if("\ufdd0:else") {
-        throw[cljs.core.str("Invalid match arg: "), cljs.core.str(match)].join("");
-      }else {
-        return null
-      }
-    }
-  }
-};
-clojure.string.replace_first = function replace_first(s, match, replacement) {
-  return s.replace(match, replacement)
-};
-clojure.string.join = function() {
-  var join = null;
-  var join__1 = function(coll) {
-    return cljs.core.apply.call(null, cljs.core.str, coll)
-  };
-  var join__2 = function(separator, coll) {
-    return cljs.core.apply.call(null, cljs.core.str, cljs.core.interpose.call(null, separator, coll))
-  };
-  join = function(separator, coll) {
-    switch(arguments.length) {
-      case 1:
-        return join__1.call(this, separator);
-      case 2:
-        return join__2.call(this, separator, coll)
-    }
-    throw new Error("Invalid arity: " + arguments.length);
-  };
-  join.cljs$core$IFn$_invoke$arity$1 = join__1;
-  join.cljs$core$IFn$_invoke$arity$2 = join__2;
-  return join
-}();
-clojure.string.upper_case = function upper_case(s) {
-  return s.toUpperCase()
-};
-clojure.string.lower_case = function lower_case(s) {
-  return s.toLowerCase()
-};
-clojure.string.capitalize = function capitalize(s) {
-  if(cljs.core.count.call(null, s) < 2) {
-    return clojure.string.upper_case.call(null, s)
-  }else {
-    return[cljs.core.str(clojure.string.upper_case.call(null, cljs.core.subs.call(null, s, 0, 1))), cljs.core.str(clojure.string.lower_case.call(null, cljs.core.subs.call(null, s, 1)))].join("")
-  }
-};
-clojure.string.split = function() {
-  var split = null;
-  var split__2 = function(s, re) {
-    return cljs.core.vec.call(null, [cljs.core.str(s)].join("").split(re))
-  };
-  var split__3 = function(s, re, limit) {
-    if(limit < 1) {
-      return cljs.core.vec.call(null, [cljs.core.str(s)].join("").split(re))
-    }else {
-      var s__$1 = s;
-      var limit__$1 = limit;
-      var parts = cljs.core.PersistentVector.EMPTY;
-      while(true) {
-        if(cljs.core._EQ_.call(null, limit__$1, 1)) {
-          return cljs.core.conj.call(null, parts, s__$1)
-        }else {
-          var temp__4090__auto__ = cljs.core.re_find.call(null, re, s__$1);
-          if(cljs.core.truth_(temp__4090__auto__)) {
-            var m = temp__4090__auto__;
-            var index = s__$1.indexOf(m);
-            var G__5749 = s__$1.substring(index + cljs.core.count.call(null, m));
-            var G__5750 = limit__$1 - 1;
-            var G__5751 = cljs.core.conj.call(null, parts, s__$1.substring(0, index));
-            s__$1 = G__5749;
-            limit__$1 = G__5750;
-            parts = G__5751;
-            continue
-          }else {
-            return cljs.core.conj.call(null, parts, s__$1)
-          }
-        }
-        break
-      }
-    }
-  };
-  split = function(s, re, limit) {
-    switch(arguments.length) {
-      case 2:
-        return split__2.call(this, s, re);
-      case 3:
-        return split__3.call(this, s, re, limit)
-    }
-    throw new Error("Invalid arity: " + arguments.length);
-  };
-  split.cljs$core$IFn$_invoke$arity$2 = split__2;
-  split.cljs$core$IFn$_invoke$arity$3 = split__3;
-  return split
-}();
-clojure.string.split_lines = function split_lines(s) {
-  return clojure.string.split.call(null, s, /\n|\r\n/)
-};
-clojure.string.trim = function trim(s) {
-  return goog.string.trim(s)
-};
-clojure.string.triml = function triml(s) {
-  return goog.string.trimLeft(s)
-};
-clojure.string.trimr = function trimr(s) {
-  return goog.string.trimRight(s)
-};
-clojure.string.trim_newline = function trim_newline(s) {
-  var index = s.length;
-  while(true) {
-    if(index === 0) {
-      return""
-    }else {
-      var ch = cljs.core.get.call(null, s, index - 1);
-      if(function() {
-        var or__3943__auto__ = cljs.core._EQ_.call(null, ch, "\n");
-        if(or__3943__auto__) {
-          return or__3943__auto__
-        }else {
-          return cljs.core._EQ_.call(null, ch, "\r")
-        }
-      }()) {
-        var G__5752 = index - 1;
-        index = G__5752;
-        continue
-      }else {
-        return s.substring(0, index)
-      }
-    }
-    break
-  }
-};
-clojure.string.blank_QMARK_ = function blank_QMARK_(s) {
-  return goog.string.isEmptySafe(s)
-};
-clojure.string.escape = function escape(s, cmap) {
-  var buffer = new goog.string.StringBuffer;
-  var length = s.length;
-  var index = 0;
-  while(true) {
-    if(cljs.core._EQ_.call(null, length, index)) {
-      return buffer.toString()
-    }else {
-      var ch = s.charAt(index);
-      var temp__4090__auto___5753 = cljs.core.get.call(null, cmap, ch);
-      if(cljs.core.truth_(temp__4090__auto___5753)) {
-        var replacement_5754 = temp__4090__auto___5753;
-        buffer.append([cljs.core.str(replacement_5754)].join(""))
-      }else {
-        buffer.append(ch)
-      }
-      var G__5755 = index + 1;
-      index = G__5755;
-      continue
-    }
-    break
-  }
-};
+goog.require("goog.events");
+goog.require("goog.dom");
+var div_5747 = document.createElement("div");
+var test_html_5748 = "   <link/><table></table><a href='/a' style='top:1px;float:left;opacity:.55;'>a</a><input type='checkbox'/>";
+div_5747.innerHTML = test_html_5748;
+domina.support.leading_whitespace_QMARK_ = cljs.core._EQ_.call(null, div_5747.firstChild.nodeType, 3);
+domina.support.extraneous_tbody_QMARK_ = cljs.core._EQ_.call(null, div_5747.getElementsByTagName("tbody").length, 0);
+domina.support.unscoped_html_elements_QMARK_ = cljs.core._EQ_.call(null, div_5747.getElementsByTagName("link").length, 0);
 goog.provide("goog.dom.xml");
 goog.require("goog.dom");
 goog.require("goog.dom.NodeType");
@@ -28753,16 +28597,179 @@ goog.dom.forms.setSelectMultiple_ = function(el, opt_value) {
     }
   }
 };
-goog.provide("domina.support");
+goog.provide("clojure.string");
 goog.require("cljs.core");
-goog.require("goog.events");
-goog.require("goog.dom");
-var div_5747 = document.createElement("div");
-var test_html_5748 = "   <link/><table></table><a href='/a' style='top:1px;float:left;opacity:.55;'>a</a><input type='checkbox'/>";
-div_5747.innerHTML = test_html_5748;
-domina.support.leading_whitespace_QMARK_ = cljs.core._EQ_.call(null, div_5747.firstChild.nodeType, 3);
-domina.support.extraneous_tbody_QMARK_ = cljs.core._EQ_.call(null, div_5747.getElementsByTagName("tbody").length, 0);
-domina.support.unscoped_html_elements_QMARK_ = cljs.core._EQ_.call(null, div_5747.getElementsByTagName("link").length, 0);
+goog.require("goog.string.StringBuffer");
+goog.require("goog.string");
+clojure.string.seq_reverse = function seq_reverse(coll) {
+  return cljs.core.reduce.call(null, cljs.core.conj, cljs.core.List.EMPTY, coll)
+};
+clojure.string.reverse = function reverse(s) {
+  return s.split("").reverse().join("")
+};
+clojure.string.replace = function replace(s, match, replacement) {
+  if(cljs.core.string_QMARK_.call(null, match)) {
+    return s.replace(new RegExp(goog.string.regExpEscape(match), "g"), replacement)
+  }else {
+    if(cljs.core.truth_(match.hasOwnProperty("source"))) {
+      return s.replace(new RegExp(match.source, "g"), replacement)
+    }else {
+      if("\ufdd0:else") {
+        throw[cljs.core.str("Invalid match arg: "), cljs.core.str(match)].join("");
+      }else {
+        return null
+      }
+    }
+  }
+};
+clojure.string.replace_first = function replace_first(s, match, replacement) {
+  return s.replace(match, replacement)
+};
+clojure.string.join = function() {
+  var join = null;
+  var join__1 = function(coll) {
+    return cljs.core.apply.call(null, cljs.core.str, coll)
+  };
+  var join__2 = function(separator, coll) {
+    return cljs.core.apply.call(null, cljs.core.str, cljs.core.interpose.call(null, separator, coll))
+  };
+  join = function(separator, coll) {
+    switch(arguments.length) {
+      case 1:
+        return join__1.call(this, separator);
+      case 2:
+        return join__2.call(this, separator, coll)
+    }
+    throw new Error("Invalid arity: " + arguments.length);
+  };
+  join.cljs$core$IFn$_invoke$arity$1 = join__1;
+  join.cljs$core$IFn$_invoke$arity$2 = join__2;
+  return join
+}();
+clojure.string.upper_case = function upper_case(s) {
+  return s.toUpperCase()
+};
+clojure.string.lower_case = function lower_case(s) {
+  return s.toLowerCase()
+};
+clojure.string.capitalize = function capitalize(s) {
+  if(cljs.core.count.call(null, s) < 2) {
+    return clojure.string.upper_case.call(null, s)
+  }else {
+    return[cljs.core.str(clojure.string.upper_case.call(null, cljs.core.subs.call(null, s, 0, 1))), cljs.core.str(clojure.string.lower_case.call(null, cljs.core.subs.call(null, s, 1)))].join("")
+  }
+};
+clojure.string.split = function() {
+  var split = null;
+  var split__2 = function(s, re) {
+    return cljs.core.vec.call(null, [cljs.core.str(s)].join("").split(re))
+  };
+  var split__3 = function(s, re, limit) {
+    if(limit < 1) {
+      return cljs.core.vec.call(null, [cljs.core.str(s)].join("").split(re))
+    }else {
+      var s__$1 = s;
+      var limit__$1 = limit;
+      var parts = cljs.core.PersistentVector.EMPTY;
+      while(true) {
+        if(cljs.core._EQ_.call(null, limit__$1, 1)) {
+          return cljs.core.conj.call(null, parts, s__$1)
+        }else {
+          var temp__4090__auto__ = cljs.core.re_find.call(null, re, s__$1);
+          if(cljs.core.truth_(temp__4090__auto__)) {
+            var m = temp__4090__auto__;
+            var index = s__$1.indexOf(m);
+            var G__5749 = s__$1.substring(index + cljs.core.count.call(null, m));
+            var G__5750 = limit__$1 - 1;
+            var G__5751 = cljs.core.conj.call(null, parts, s__$1.substring(0, index));
+            s__$1 = G__5749;
+            limit__$1 = G__5750;
+            parts = G__5751;
+            continue
+          }else {
+            return cljs.core.conj.call(null, parts, s__$1)
+          }
+        }
+        break
+      }
+    }
+  };
+  split = function(s, re, limit) {
+    switch(arguments.length) {
+      case 2:
+        return split__2.call(this, s, re);
+      case 3:
+        return split__3.call(this, s, re, limit)
+    }
+    throw new Error("Invalid arity: " + arguments.length);
+  };
+  split.cljs$core$IFn$_invoke$arity$2 = split__2;
+  split.cljs$core$IFn$_invoke$arity$3 = split__3;
+  return split
+}();
+clojure.string.split_lines = function split_lines(s) {
+  return clojure.string.split.call(null, s, /\n|\r\n/)
+};
+clojure.string.trim = function trim(s) {
+  return goog.string.trim(s)
+};
+clojure.string.triml = function triml(s) {
+  return goog.string.trimLeft(s)
+};
+clojure.string.trimr = function trimr(s) {
+  return goog.string.trimRight(s)
+};
+clojure.string.trim_newline = function trim_newline(s) {
+  var index = s.length;
+  while(true) {
+    if(index === 0) {
+      return""
+    }else {
+      var ch = cljs.core.get.call(null, s, index - 1);
+      if(function() {
+        var or__3943__auto__ = cljs.core._EQ_.call(null, ch, "\n");
+        if(or__3943__auto__) {
+          return or__3943__auto__
+        }else {
+          return cljs.core._EQ_.call(null, ch, "\r")
+        }
+      }()) {
+        var G__5752 = index - 1;
+        index = G__5752;
+        continue
+      }else {
+        return s.substring(0, index)
+      }
+    }
+    break
+  }
+};
+clojure.string.blank_QMARK_ = function blank_QMARK_(s) {
+  return goog.string.isEmptySafe(s)
+};
+clojure.string.escape = function escape(s, cmap) {
+  var buffer = new goog.string.StringBuffer;
+  var length = s.length;
+  var index = 0;
+  while(true) {
+    if(cljs.core._EQ_.call(null, length, index)) {
+      return buffer.toString()
+    }else {
+      var ch = s.charAt(index);
+      var temp__4090__auto___5753 = cljs.core.get.call(null, cmap, ch);
+      if(cljs.core.truth_(temp__4090__auto___5753)) {
+        var replacement_5754 = temp__4090__auto___5753;
+        buffer.append([cljs.core.str(replacement_5754)].join(""))
+      }else {
+        buffer.append(ch)
+      }
+      var G__5755 = index + 1;
+      index = G__5755;
+      continue
+    }
+    break
+  }
+};
 goog.provide("domina");
 goog.require("cljs.core");
 goog.require("domina.support");

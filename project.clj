@@ -6,7 +6,9 @@
                  [domina "1.0.2-SNAPSHOT"]]
   :profiles {:dev {:dependencies [[speclj "2.5.0"]]}}
   :plugins [[speclj "2.5.0"]
-            [lein-cljsbuild "0.3.2"]]
+            [lein-cljsbuild "0.3.2"]
+            [lein-npm "0.4.0"]]
+  :node-dependencies [[js-yaml "3.0.2"]]
   :test-paths ["spec"]
   :main sleuth.core
 
