@@ -3,6 +3,7 @@
         [sleuth.world.rooms :only [random-room current-room]]))
 
 (def yaml (js/require "js-yaml"))
+(def fs (js/require "fs"))
 
 ; Alibi components ----------------------------------------------------------------------------
 
@@ -36,7 +37,7 @@
 (defn load-alibis
   "Loads alibi components from filename"
   [filename]
-  (let [yaml-object (.safeLoad yaml (.readFileSync filename "utf8"))
+  (let [yaml-object (.safeLoad yaml (.readFileSync fs filename "utf8"))
         alibis-map (js->clj yaml-object :keywordize-keys true)]
     (reset! openers (:openers alibis-map))
     (reset! repeat-openers (:repeat-openers alibis-map))

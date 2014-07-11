@@ -39,12 +39,13 @@
 
 (def room-descriptions (atom nil))
 (def yaml (js/require "js-yaml"))
+(def fs (js/require "fs"))
 
 ; Room Functions ---------------------------------------------------------------
 (defn load-rooms
   "Load room text from filename"
   [filename]
-  (let [yaml-object (.safeLoad yaml (.readFileSync "resources/rooms.yaml" "utf8"))
+  (let [yaml-object (.safeLoad yaml (.readFileSync fs "resources/rooms.yaml" "utf8"))
         rooms-map (js->clj yaml-object :keywordize-keys true)]
     (reset! room-descriptions (:room-descriptions rooms-map))))
 

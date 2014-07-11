@@ -14,12 +14,13 @@
 (def guest-descriptions (atom nil))
 
 (def yaml (js/require "js-yaml"))
+(def fs (js/require "fs"))
 
 ; Guest Functions -----------------------------------------------------------------------------
 (defn load-guests
   "Loads guest text from filename"
   [filename]
-  (let [yaml-object (.safeLoad yaml (.readFileSync filename "utf8"))
+  (let [yaml-object (.safeLoad yaml (.readFileSync fs filename "utf8"))
         items-map (js->clj yaml-object :keywordize-keys true)]
     (reset! guest-names (map keyword (:guest-names items-map)))
     (reset! guest-descriptions (:guest-descriptions items-map))))

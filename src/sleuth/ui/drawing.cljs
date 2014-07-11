@@ -1,6 +1,5 @@
 (ns sleuth.ui.drawing
-  (:use [sleuth.utils :only [map2d]]
-        [sleuth.world.rooms :only [get-current-guest]]))
+  (:use [sleuth.world.rooms :only [get-current-guest]]))
 
 ; Definitions -------------------------------------------------------------
 (def screen-cols 80)

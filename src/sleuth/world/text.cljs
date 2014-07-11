@@ -1,14 +1,14 @@
 (ns sleuth.world.text
-	(:use [sleuth.utils :only [keyword-to-name keyword-to-string]])
-	(:require [clj-yaml.core :as yaml]))
+	(:use [sleuth.utils :only [keyword-to-name keyword-to-string]]))
 
 ;; data structures ------------------------------------------------------------
 (def openings (atom nil))
 (def yaml (js/require "js-yaml"))
+(def fs (js/require "fs"))
 
 ;; text loading ---------------------------------------------------------------
 (defn load-opening []
-  (let [yaml-object (.safeLoad yaml (.readFileSync "resources/opening.yaml" "utf8"))
+  (let [yaml-object (.safeLoad yaml (.readFileSync fs "resources/opening.yaml" "utf8"))
         openings-vector (vector (js->clj yaml-object :keywordize-keys true))]
     (reset! openings openings-vector)))
 

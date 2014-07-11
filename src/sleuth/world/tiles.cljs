@@ -2,7 +2,7 @@
 
 ; Constants ------------------------------------------------------------------
 (def house-size [79 17])
-(def fs (js/require "nw.fs"))
+(def fs (js/require "fs"))
 
 ; Data Structures ------------------------------------------------------------
 (defrecord Tile [kind glyph color])

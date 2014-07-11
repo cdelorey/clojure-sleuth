@@ -183,8 +183,8 @@
 (defn accuse
   "Accuses a guest of murder, displays the appropriate message, and ends game"
   ; TODO: write more ending text and move it to separate file
-  [world arguments]
-  (let [accused (clojure.string/capitalize (first (clojure.string/split arguments #" ")))
+  [world args]
+  (let [accused (clojure.string/capitalize (first (clojure.string/split args #" ")))
         victim (keyword-to-first-name (get-in world [:murder-case :victim]))
         murderer (keyword-to-first-name (get-in world [:murder-case :murderer]))
         weapon (keyword-to-string (get-in world [:murder-case :weapon]))

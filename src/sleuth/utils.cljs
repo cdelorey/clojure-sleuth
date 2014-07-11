@@ -1,6 +1,6 @@
 (ns sleuth.utils)
 
-(def fs (js/require "nw.fs"))
+(def fs (js/require "fs"))
 
 (defn keywordize
   "Turns a string into a valid clojure keyword, replacing any spaces with dashes."

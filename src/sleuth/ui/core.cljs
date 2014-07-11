@@ -1,9 +1,12 @@
-(ns sleuth.ui.core
-  (:require [clj-yaml.core :as yaml]))
+(ns sleuth.ui.core)
+
+(def yaml (js/require "js-yaml"))
+(def fs (js/require "fs"))
 
 ;Definitions ------------------------------------------------------------------
-(def instructions)
-  ;(yaml/parse-string (slurp "resources/instructions.yaml")))
+(def instructions
+  (.safeLoad yaml (.readFileSync fs "resources/instructions.yaml" "utf8")))
 
 ;Data Structures --------------------------------------------------------------
 (defrecord UI [kind])
+

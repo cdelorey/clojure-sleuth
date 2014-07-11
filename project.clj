@@ -2,15 +2,14 @@
   :description "Clojure clone of the murder myster game Sleuth"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [domina "1.0.2-SNAPSHOT"]]
+  :dependencies [[org.clojure/clojure "1.5.1"]]
   :profiles {:dev {:dependencies [[speclj "2.5.0"]]}}
   :plugins [[speclj "2.5.0"]
-            [lein-cljsbuild "0.3.2"]
+            [lein-cljsbuild "1.0.3"]
             [lein-npm "0.4.0"]]
   :node-dependencies [[js-yaml "3.0.2"]]
   :test-paths ["spec"]
-  :main sleuth.core
+  :main "resources/sleuth.js"
 
   :cljsbuild
   {:builds
@@ -18,6 +17,7 @@
     {:source-paths ["src/sleuth"]
      :compiler
      {:output-to "resources/sleuth.js"
-      :optimizations :whitespace
+      :optimizations :simple
+			:target :nodejs
       :pretty-print true}}}}
   )
