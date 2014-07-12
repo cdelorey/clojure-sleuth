@@ -1,7 +1,9 @@
 (ns sleuth.world.rooms
   (:use [sleuth.world.items :only [get-item-description get-item-rooms]]
         [sleuth.world.tiles :only [set-tile]]
-        [sleuth.utils :only [keyword-to-name]]))
+        [sleuth.utils :only [keyword-to-name]])
+	(:require [goog.string :as gstring]
+						[goog.string.format :as gformat]))
 
 ; Data Structures -------------------------------------------------------------
 (defrecord Rect [x y width height])
@@ -138,7 +140,7 @@
       (if (get-in world [:entities :guests guest-name :is-staring-at-floor])
         (str  (keyword-to-name guest-name) " is staring at the floor.")
         (let [n (get-in world [:entities :guests guest-name :name])]
-          (format description n))))))
+          (gstring/gformat description n))))))
 
 (defn get-room-description
   "Return a room description for the coordinates [x y]"
