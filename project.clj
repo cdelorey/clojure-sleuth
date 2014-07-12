@@ -5,9 +5,7 @@
   :dependencies [[org.clojure/clojure "1.5.1"]]
   :profiles {:dev {:dependencies [[speclj "2.5.0"]]}}
   :plugins [[speclj "2.5.0"]
-            [lein-cljsbuild "1.0.3"]
-            [lein-npm "0.4.0"]]
-  :node-dependencies [[js-yaml "3.0.2"]]
+            [lein-cljsbuild "1.0.3"]]
   :test-paths ["spec"]
   :main "resources/sleuth.js"
 
@@ -18,6 +16,5 @@
      :compiler
      {:output-to "resources/sleuth.js"
       :optimizations :simple
-			:target :nodejs
       :pretty-print true}}}}
   )

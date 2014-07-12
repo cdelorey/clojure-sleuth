@@ -1,7 +1,0 @@
-{
-  "name": "sleuth",
-  "main": "index.html",
-  "window": {
-    "toolbar": false
-  }
-}

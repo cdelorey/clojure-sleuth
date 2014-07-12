@@ -47,6 +47,7 @@
   ;(loadlib libtcod)
   ;(console-set-custom-font "resources/terminal16x16_gs_ro.png" font-layout-ascii-in-row 16 16)
   ;(console-init-root 80 25 "Test" false tcod-renderer-sdl)
+	;(.write js/document "test")
   (load-text-files)
   (run-game (new-game) nil))
 
