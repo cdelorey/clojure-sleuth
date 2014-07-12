@@ -2,10 +2,10 @@
   (:use [sleuth.utils :only [keyword-to-first-name keyword-to-string]]
         [sleuth.world.rooms :only [random-room current-room]])
 	(:require [goog.string :as gstring]
-						[goog.string.format :as gformat]))
+						[goog.string.format :as gformat]
+						[ajax.core :refer [GET]]))
 
 (def yaml (js/require "js-yaml"))
-(def fs (js/require "fs"))
 
 ; Alibi components ----------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@
 (defn load-alibis
   "Loads alibi components from filename"
   [filename]
-  (let [yaml-object (.safeLoad yaml (.readFileSync fs filename "utf8"))
+  (let [yaml-object (.safeLoad yaml (GET filename))
         alibis-map (js->clj yaml-object :keywordize-keys true)]
     (reset! openers (:openers alibis-map))
     (reset! repeat-openers (:repeat-openers alibis-map))

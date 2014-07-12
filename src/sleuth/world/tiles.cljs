@@ -1,8 +1,8 @@
-(ns sleuth.world.tiles)
+(ns sleuth.world.tiles
+	(:require [ajax.core :refer [GET]]))
 
 ; Constants ------------------------------------------------------------------
 (def house-size [79 17])
-(def fs (js/require "fs"))
 
 ; Data Structures ------------------------------------------------------------
 (defrecord Tile [kind glyph color])

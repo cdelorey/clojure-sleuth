@@ -207,10 +207,11 @@ __DONE__ convert file reading to use node.js
 ### 06/02/14
 __DONE__ convert yaml code to use javascript library
 
-
 ### 07/11/14
 __DONE__ fix yaml code and other changes for clojurescript
 
 ### 07/12/14
 __DONE__ replace instances of format function with google closure format function
 __DONE__ fix node bug
+__DONE__ scrap node
+__DONE__ convert file loading functions to use ajax requests

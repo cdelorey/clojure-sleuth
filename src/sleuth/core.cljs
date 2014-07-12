@@ -7,8 +7,8 @@
         [sleuth.world.items :only [load-items]]
         [sleuth.world.alibis :only [load-alibis]]
         [sleuth.world.text :only [load-text]]
-        [sleuth.entities.guests :only [load-guests]])
-	(:require [cljs.nodejs :as nodejs]))
+        [sleuth.entities.guests :only [load-guests]]
+				[domina.events :only [listen!]]))
 
 
 
@@ -47,9 +47,13 @@
   ;(loadlib libtcod)
   ;(console-set-custom-font "resources/terminal16x16_gs_ro.png" font-layout-ascii-in-row 16 16)
   ;(console-init-root 80 25 "Test" false tcod-renderer-sdl)
-	;(.write js/document "test")
+	(.write js/document "test")
   (load-text-files)
   (run-game (new-game) nil))
 
-(nodejs/enable-util-print!)
-(set! *main-cli-fn* start)
+
+(defn test
+	[]
+	(.write js/document "this is a test"))
+
+(listen! js/window :load test)

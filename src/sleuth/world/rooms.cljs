@@ -3,7 +3,8 @@
         [sleuth.world.tiles :only [set-tile]]
         [sleuth.utils :only [keyword-to-name]])
 	(:require [goog.string :as gstring]
-						[goog.string.format :as gformat]))
+						[goog.string.format :as gformat]
+						[ajax.core :refer [GET]]))
 
 ; Data Structures -------------------------------------------------------------
 (defrecord Rect [x y width height])
@@ -41,13 +42,12 @@
 
 (def room-descriptions (atom nil))
 (def yaml (js/require "js-yaml"))
-(def fs (js/require "fs"))
 
 ; Room Functions ---------------------------------------------------------------
 (defn load-rooms
   "Load room text from filename"
   [filename]
-  (let [yaml-object (.safeLoad yaml (.readFileSync fs "resources/rooms.yaml" "utf8"))
+  (let [yaml-object (.safeLoad yaml (GET "resources/rooms.yaml"))
         rooms-map (js->clj yaml-object :keywordize-keys true)]
     (reset! room-descriptions (:room-descriptions rooms-map))))
 

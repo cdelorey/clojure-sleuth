@@ -1,11 +1,11 @@
-(ns sleuth.ui.core)
+(ns sleuth.ui.core
+	(:require [ajax.core :refer [GET]]))
 
 (def yaml (js/require "js-yaml"))
-(def fs (js/require "fs"))
 
 ;Definitions ------------------------------------------------------------------
 (def instructions
-  (.safeLoad yaml (.readFileSync fs "resources/instructions.yaml" "utf8")))
+  (.safeLoad yaml (GET "/resources/instructions.yaml")))
 
 ;Data Structures --------------------------------------------------------------
 (defrecord UI [kind])

@@ -1,6 +1,5 @@
-(ns sleuth.utils)
-
-(def fs (js/require "fs"))
+(ns sleuth.utils
+	(:require [ajax.core :refer [GET]]))
 
 (defn keywordize
   "Turns a string into a valid clojure keyword, replacing any spaces with dashes."
@@ -36,7 +35,7 @@
 (defn get-lines-from-file
   "Returns a sequence of the lines in filename."
   [filename]
-  (seq (.split (.toString (.readFileSync fs filename)) "\n")))
+  (seq (.split (.toString (GET filename)) "\n")))
 
 
   ;(let [reader (clojure.java.io/reader filename)]
