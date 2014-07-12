@@ -2,3 +2,5 @@
 *.un~
 *.swp
 resources/sleuth.js
+node_modules/
+npm-debug.log

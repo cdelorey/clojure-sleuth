@@ -213,3 +213,4 @@ __DONE__ fix yaml code and other changes for clojurescript
 
 ### 07/12/14
 __DONE__ replace instances of format function with google closure format function
+__DONE__ fix node bug

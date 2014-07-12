@@ -7,7 +7,8 @@
         [sleuth.world.items :only [load-items]]
         [sleuth.world.alibis :only [load-alibis]]
         [sleuth.world.text :only [load-text]]
-        [sleuth.entities.guests :only [load-guests]]))
+        [sleuth.entities.guests :only [load-guests]])
+	(:require [cljs.nodejs :as nodejs]))
 
 
 
@@ -49,4 +50,5 @@
   (load-text-files)
   (run-game (new-game) nil))
 
-(start)
+(nodejs/enable-util-print!)
+(set! *main-cli-fn* start)
