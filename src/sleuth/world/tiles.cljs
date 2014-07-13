@@ -59,19 +59,19 @@
 
 
 ; House -----------------------------------------------------------------------
-(defn load-house [filename]
-  (let [file-descriptor (.openSync fs filename "r")
-        [cols rows] house-size]
-    (letfn [(read-tile []
-                       (let [tile (char (.readSync fs file-descriptor (js/Buffer. 1) 0 1))]
-                         (case tile
-                           \# (tiles :vwall)
-                           \* (tiles :fwall)
-                           \_ (tiles :hwall)
-                           \- (tiles :stairs)
-                           \space (tiles :floor)
-                           (println tile))))
-            (read-row []
-                      (vec (repeatedly cols read-tile)))]
-      (vec (repeatedly rows read-row)))
-    (.closeSync fs file-descriptor)))
+(defn load-house [filename])
+;  (let [file-descriptor (.openSync fs filename "r")
+;        [cols rows] house-size]
+;    (letfn [(read-tile []
+;                       (let [tile (char (.readSync fs file-descriptor (js/Buffer. 1) 0 1))]
+;                         (case tile
+;                           \# (tiles :vwall)
+;                           \* (tiles :fwall)
+;                           \_ (tiles :hwall)
+;                           \- (tiles :stairs)
+;                           \space (tiles :floor)
+;                           (println tile))))
+;            (read-row []
+;                      (vec (repeatedly cols read-tile)))]
+;      (vec (repeatedly rows read-row)))
+;    (.closeSync fs file-descriptor)))

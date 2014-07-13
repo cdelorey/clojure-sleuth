@@ -1,11 +1,9 @@
 (ns sleuth.ui.core
-	(:require [ajax.core :refer [GET]]))
-
-(def yaml (js/require "js-yaml"))
+  (:use [sleuth.utils :only [parse-file]]))
 
 ;Definitions ------------------------------------------------------------------
 (def instructions
-  (.safeLoad yaml (GET "/resources/instructions.yaml")))
+  (parse-file "/resources/instructions.yaml"))
 
 ;Data Structures --------------------------------------------------------------
 (defrecord UI [kind])

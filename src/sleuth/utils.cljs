@@ -37,6 +37,12 @@
   [filename]
   (seq (.split (.toString (GET filename)) "\n")))
 
+(defn parse-file
+  "Parses a text file and returns a clojure object"
+  [filename]
+  ; todo: write function
+  )
+
 
   ;(let [reader (clojure.java.io/reader filename)]
   ;  (doall (line-seq reader))

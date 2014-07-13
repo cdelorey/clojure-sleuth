@@ -1,11 +1,8 @@
 (ns sleuth.world.alibis
-  (:use [sleuth.utils :only [keyword-to-first-name keyword-to-string]]
+  (:use [sleuth.utils :only [keyword-to-first-name keyword-to-string parse-file]]
         [sleuth.world.rooms :only [random-room current-room]])
 	(:require [goog.string :as gstring]
-						[goog.string.format :as gformat]
-						[ajax.core :refer [GET]]))
-
-(def yaml (js/require "js-yaml"))
+						[goog.string.format :as gformat]))
 
 ; Alibi components ----------------------------------------------------------------------------
 
@@ -39,8 +36,9 @@
 (defn load-alibis
   "Loads alibi components from filename"
   [filename]
-  (let [yaml-object (.safeLoad yaml (GET filename))
-        alibis-map (js->clj yaml-object :keywordize-keys true)]
+  (let ;[yaml-object (parse-file filename) ; TODO: fix this for new parse-file function
+        ;alibis-map (js->clj yaml-object :keywordize-keys true)]
+        [alibis-map (parse-file filename)]
     (reset! openers (:openers alibis-map))
     (reset! repeat-openers (:repeat-openers alibis-map))
     (reset! alibis (:alibis alibis-map))

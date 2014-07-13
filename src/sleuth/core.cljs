@@ -7,8 +7,7 @@
         [sleuth.world.items :only [load-items]]
         [sleuth.world.alibis :only [load-alibis]]
         [sleuth.world.text :only [load-text]]
-        [sleuth.entities.guests :only [load-guests]]
-				[domina.events :only [listen!]]))
+        [sleuth.entities.guests :only [load-guests]]))
 
 
 
@@ -51,9 +50,5 @@
   (load-text-files)
   (run-game (new-game) nil))
 
+(set! (.-onload js/window) start)
 
-(defn test
-	[]
-	(.write js/document "this is a test"))
-
-(listen! js/window :load test)

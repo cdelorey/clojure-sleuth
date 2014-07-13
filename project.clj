@@ -18,5 +18,6 @@
      :compiler
      {:output-to "resources/sleuth.js"
       :optimizations :simple
-      :pretty-print true}}}}
+      :pretty-print true
+      :externs ["externs.js"]}}}}
   )

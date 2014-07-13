@@ -1,5 +1,9 @@
 # TODO:
 ---------
+- convert yaml files to json
+- write parse-file function
+- rewrite load-house function
+- remove file-loading commented out code
 - convert libtcod code to use javascript library
 - improve test coverage
 - allow for more item name variations on commandline
@@ -215,3 +219,7 @@ __DONE__ replace instances of format function with google closure format functio
 __DONE__ fix node bug
 __DONE__ scrap node
 __DONE__ convert file loading functions to use ajax requests
+
+### 07/13/14
+__DONE__ remove js-yaml
+__DONE__ refactor file loading

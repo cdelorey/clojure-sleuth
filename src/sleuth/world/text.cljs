@@ -1,15 +1,14 @@
 (ns sleuth.world.text
-	(:use [sleuth.utils :only [keyword-to-name keyword-to-string]])
-	(:require [ajax.core :refer [GET]]))
+	(:use [sleuth.utils :only [keyword-to-name keyword-to-string parse-file]]))
 
 ;; data structures ------------------------------------------------------------
 (def openings (atom nil))
-(def yaml (js/require "js-yaml"))
 
 ;; text loading ---------------------------------------------------------------
 (defn load-opening []
-  (let [yaml-object (.safeLoad yaml (GET "resources/opening.yaml"))
-        openings-vector (vector (js->clj yaml-object :keywordize-keys true))]
+  (let ;[yaml-object (.safeLoad yaml (GET "resources/opening.yaml"))
+       ; openings-vector (vector (js->clj yaml-object :keywordize-keys true))]
+       [openings-vector (parse-file "resources/opening.yaml")]
     (reset! openings openings-vector)))
 
 (defn load-text []

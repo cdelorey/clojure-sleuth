@@ -3,7 +3,7 @@
                                    get-current-guest]]
         [sleuth.world.items :only [get-item-rooms]]
         [sleuth.world.alibis :only [get-alibis]]
-        [sleuth.utils :only [keyword-to-string keyword-to-name keyword-to-first-name]]))
+        [sleuth.utils :only [keyword-to-string keyword-to-name keyword-to-first-name parse-file]]))
 
 ; Data Structures --------------------------------------------------------------------------
 (defrecord Guest [name alibi num-questions location description
@@ -13,15 +13,13 @@
 (def personalized-names (atom nil))
 (def guest-descriptions (atom nil))
 
-(def yaml (js/require "js-yaml"))
-(def fs (js/require "fs"))
-
 ; Guest Functions -----------------------------------------------------------------------------
 (defn load-guests
   "Loads guest text from filename"
   [filename]
-  (let [yaml-object (.safeLoad yaml (.readFileSync fs filename "utf8"))
-        items-map (js->clj yaml-object :keywordize-keys true)]
+  (let ;[yaml-object (.safeLoad yaml (.readFileSync fs filename "utf8"))
+        ;items-map (js->clj yaml-object :keywordize-keys true)]
+        [items-map (parse-file filename)]
     (reset! guest-names (map keyword (:guest-names items-map)))
     (reset! guest-descriptions (:guest-descriptions items-map))))
 
