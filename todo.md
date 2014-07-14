@@ -2,7 +2,6 @@
 ---------
 - fix get-lines-from-file
 - add unit test for parse-file function
-- convert yaml files to json
 - rewrite load-house function
 - remove file-loading commented out code
 - convert libtcod code to use javascript library
@@ -20,6 +19,7 @@ Text Re-write
 - change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
 - new accuse text
 - new lose text
+- new instructions
 
 - put on github pages
 
@@ -231,3 +231,4 @@ __DONE__ refactor json5 files
 ### 07/14/14
 __DONE__ fix parse-file function
 __DONE__ change json5 files to plain text
+__DONE__ convert yaml files to json

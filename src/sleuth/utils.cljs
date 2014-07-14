@@ -42,4 +42,4 @@
   "Parses a json5 file and returns a clojure object"
   [filename]
 	(GET filename {:handler
-								 #(.log js/console (js->clj (.parse js/JSON5 %) :keywordize-keys true))}))
+								 #(js->clj (.parse js/JSON5 %) :keywordize-keys true)}))
