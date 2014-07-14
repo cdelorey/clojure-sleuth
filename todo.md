@@ -1,6 +1,5 @@
 # TODO:
 ---------
-- fix get-lines-from-file
 - add unit test for parse-file function
 - rewrite load-house function
 - remove file-loading commented out code
@@ -232,3 +231,4 @@ __DONE__ refactor json5 files
 __DONE__ fix parse-file function
 __DONE__ change json5 files to plain text
 __DONE__ convert yaml files to json
+__DONE__ fix get-lines-from-file
