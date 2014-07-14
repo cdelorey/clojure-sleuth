@@ -1,6 +1,7 @@
 (ns sleuth.tile-spec
-  (:require [speclj.core :refer :all]
-            [sleuth.world.tiles :refer :all]))
+  (:require [specljs.core]
+            [sleuth.world.tiles :refer [set-tile]])
+	(:require-macros [specljs.core :refer [describe with it should=]]))
 
 (describe "set-tile"
           (with test-world (set-tile {:tiles []} [0 0] :door))

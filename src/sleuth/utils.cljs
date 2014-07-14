@@ -35,7 +35,7 @@
 (defn get-lines-from-file
   "Returns a sequence of the lines in filename."
   [filename]
-	(GET filename {:handler #(seq (.split (str %) "\n"))})
+	(GET filename {:handler #(seq (.split (str %) "\n"))}))
 
 (defn parse-file
   "Parses a json5 file and returns a clojure object"

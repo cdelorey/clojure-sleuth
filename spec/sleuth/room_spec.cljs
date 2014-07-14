@@ -1,6 +1,9 @@
 (ns sleuth.room-spec
-  (:require [speclj.core :refer :all]
-            [sleuth.world.rooms :refer :all])
+  (:require [specljs.core]
+            [sleuth.world.rooms :refer [in-rect? room-rects current-room get-doorway
+																			 lock-current-room]])
+	(:require-macros [specljs.core :refer [describe it should should-not with should=
+																				 should-be-nil]])
   (:use [sleuth.world.tiles :only [get-tile]]))
 
 (describe "in-rect?"

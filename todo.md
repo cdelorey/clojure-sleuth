@@ -1,6 +1,10 @@
 # TODO:
 ---------
-- add unit test for parse-file function
+- replace java string functions with clojurescript equivalents (.contains, .startsWith, ...)
+- make parse-file unit test pass. (should not be returning null. this is probably because
+:opening is called on the object before the callback runs, so nothing is there yet. This
+could be a really annoying problem. core.async? How to ensure that the objects are loaded
+before they are used? pass a callback to parse-file that is called after object is assigned.)
 - rewrite load-house function
 - remove file-loading commented out code
 - convert libtcod code to use javascript library
@@ -232,3 +236,5 @@ __DONE__ fix parse-file function
 __DONE__ change json5 files to plain text
 __DONE__ convert yaml files to json
 __DONE__ fix get-lines-from-file
+__DONE__ convert unit tests to specljs
+__DONE__ add unit test for parse-file function

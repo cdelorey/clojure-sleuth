@@ -1,6 +1,7 @@
 (ns sleuth.tile-spec
-  (:require [speclj.core :refer :all]
-            [sleuth.entities.guests :refer :all]))
+  (:require [specljs.core]
+            [sleuth.entities.guests :refer [->Guest get-guest-names]])
+	(:require-macros [specljs.core :refer [before with describe it should=]]))
 
 (before
  (with test-world (assoc-in {} [:entities :guests] (assoc {}
