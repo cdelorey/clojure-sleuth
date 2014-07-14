@@ -1,5 +1,5 @@
-(ns sleuth.state.update
-  (:use [sleuth.state.core :only [->State]]
+(ns sleuth.ui.update
+  (:use [sleuth.ui.core :only [->UI]]
         [sleuth.world.rooms :only [lock-current-room current-room]]
         [sleuth.entities.guests :only [move-guests move-murderer]]
         [sleuth.utils :only [keyword-to-string]]))
@@ -8,7 +8,7 @@
 ; Definitions ------------------------------------------------------------
 (defmulti update
   (fn [game]
-    (:name (last (:states game)))))
+    (:kind (last (:uis game)))))
 
 ; Sleuth -----------------------------------------------------------------
 (defn new-turn
@@ -27,7 +27,7 @@
 
 
 (defn assemble-guests
-  "Switch to assemble state"
+  "Switch to assemble ui"
   [game]
   (let [current-room (keyword-to-string (current-room (:world game)))
         assemble-text (str "The suspects have all gathered here in the " current-room
@@ -35,17 +35,17 @@
     (as-> game game
         (assoc-in game [:world] (move-guests (:world game)))
         (assoc-in game [:world] (lock-current-room (:world game)))
-        (assoc-in game [:states] [(->State :assemble)])
+        (assoc-in game [:uis] [(->UI :assemble)])
         (assoc-in game [:world :message] assemble-text))))
 
 (defn lose-game
-  "Lose game and switch to game-over state."
+  "Lose game and switch to game-over ui."
   [game]
   (let [lose-text (get-in game [:world :murder-case :lose-text])]
     (as-> game game
         (assoc-in game [:world] (move-murderer (:world game)))
         (assoc-in game [:world] (lock-current-room (:world game)))
-        (assoc-in game [:states] [(->State :game-over)])
+        (assoc-in game [:uis] [(->UI :game-over)])
         (assoc-in game [:world :message] lose-text))))
 
 (defmethod update :sleuth
@@ -61,12 +61,12 @@
 
 ; Assemble --------------------------------------------------------------
 (defn game-over
-  "Switch to game-over state after an accusation."
+  "Switch to game-over ui after an accusation."
   [game]
   (let [turn-count (get-in game [:world :murder-case :turn-count])]
     (-> game
         (assoc-in [:world :message] (str "The game is over after " turn-count " turns"))
-        (assoc-in [:states] [(->State :game-over)]))))
+        (assoc-in [:uis] [(->UI :game-over)]))))
 
 
 (defmethod update :assemble [game]

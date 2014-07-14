@@ -1,11 +1,11 @@
-(ns sleuth.state.core
+(ns sleuth.ui.core
   (:use [sleuth.utils :only [parse-file]]))
 
 ;Definitions ------------------------------------------------------------------
 (def instructions (atom nil))
 
 ;Data Structures --------------------------------------------------------------
-(defrecord State [name])
+(defrecord UI [kind])
 
 ;Functions --------------------------------------------------------------------
 (defn load-instructions

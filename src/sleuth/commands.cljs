@@ -1,7 +1,7 @@
 (ns sleuth.commands
   (:use [sleuth.world.rooms :only [get-room-name get-room current-room murder-room get-current-guest]]
         [sleuth.world.items :only [get-item-name get-item-examination]]
-        [sleuth.state.core :only [->State]]
+        [sleuth.ui.core :only [->UI]]
         [sleuth.utils :only [keywordize abs keyword-to-first-name keyword-to-string]]
         [sleuth.world.alibis :only [create-alibi-message get-lose-questioning]]
         [sleuth.entities.player :only [get-player-location]]
@@ -171,13 +171,13 @@
 (defn restart
   "Restarts game and returns to menu."
   [game]
-  (assoc game :states [(->State :menu)]))
+  (assoc game :uis [(->UI :menu)]))
 
 
 (defn quit
   "Exits game"
   [game]
-  (assoc game :states []))
+  (assoc game :uis []))
 
 
 (defn accuse
@@ -218,7 +218,7 @@
 (defn process-command
   "Parse commands entered on commandline.
 
-  Commands that require access to the states take a game, all other commands take a world object."
+  Commands that require access to the UIs take a game, all other commands take a world object."
   [game]
   (let [world (:world game)
         command (:commandline world)

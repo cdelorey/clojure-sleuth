@@ -1,5 +1,5 @@
-(ns sleuth.state.input
-  (:use [sleuth.state.core :only [->State instructions]]
+(ns sleuth.ui.input
+  (:use [sleuth.ui.core :only [->UI instructions]]
         [sleuth.world.core :only [new-world]]
         [sleuth.world.rooms :only [get-room-description]]
         [sleuth.world.text :only [random-opening]]
@@ -13,11 +13,11 @@
 ; Definitions ------------------------------------------------------------
 (defmulti process-input
   (fn [game input]
-    (:name (last (:states game)))))
+    (:kind (last (:uis game)))))
 
 ; Start ------------------------------------------------------------------
 (defmethod process-input :start [game input]
-  (assoc game :states [(->State :menu)]))
+  (assoc game :uis [(->UI :menu)]))
 
 ; Menu ------------------------------------------------------------------
 (defn new-game [game personalized?]
@@ -27,18 +27,18 @@
       (assoc :world world)
       (assoc-in [:world :entities :player] player)
       (assoc-in [:world :message] (random-opening world))
-      (assoc :states [(->State :opening)]))))
+      (assoc :uis [(->UI :opening)]))))
 
 (defmethod process-input :menu [game input]
   (cond
     (= (.c input) (int \a)) (new-game game false)
     (= (.c input) (int \b)) (-> game
-                                (assoc-in [:states] [(->State :personalize)])
+                                (assoc-in [:uis] [(->UI :personalize)])
                                 (assoc-in [:personalize] (new-personalize)))
     (= (.c input) (int \c)) (assoc (assoc-in
                      game [:instructions] instructions)
-                 :states [(->State :instructions)])
-    (= (.c input) (int \q)) (assoc game :states [])
+                 :uis [(->UI :instructions)])
+    (= (.c input) (int \q)) (assoc game :uis [])
     :else game))
 
 ; Instructions ------------------------------------------------------------
@@ -46,11 +46,11 @@
   "Cycle through instructions with each keypress.
   Return to main menu when instructions are empty."
   (if (empty? (next (game :instructions)))
-    (assoc game :states [(->State :menu)])
+    (assoc game :uis [(->UI :menu)])
     (assoc game :instructions (rest (game :instructions)))))
 
 ; Personalize -------------------------------------------------------------
-(defn switch-to-opening-state
+(defn switch-to-opening-ui
   [game]
   (reset! personalized-names (:name-list (:personalize game)))
   (as-> game game
@@ -74,7 +74,7 @@
                              (assoc-in [:personalize :gui :box-two :data] "")
                              (assoc-in [:personalize :suspect-number] (inc (:suspect-number (:personalize game)))))]
         (if (= (:suspect-number (:personalize game)) 8)
-          (switch-to-opening-state game)
+          (switch-to-opening-ui game)
           game)))))
 
 (defmethod process-input :personalize [game input]
@@ -102,7 +102,7 @@
 
 ; Opening -----------------------------------------------------------------
 (defmethod process-input :opening [game input]
-  (assoc game :states [(->State :sleuth)]))
+  (assoc game :uis [(->UI :sleuth)]))
 
 ; Sleuth ------------------------------------------------------------------
 (defn move
@@ -154,7 +154,7 @@
 (defmethod process-input :sleuth [game input])
   ;(cond
    ; return to menu
-   ;(= (.vk input) key-escape) (assoc game :states [(->State :menu)]) ; testing
+   ;(= (.vk input) key-escape) (assoc game :uis [(->UI :menu)]) ; testing
 
    ; commandline keys
    ;(contains? #{key-backspace key-enter key-char key-space} (.vk input))

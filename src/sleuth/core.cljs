@@ -1,8 +1,8 @@
 (ns sleuth.core
-  (:use [sleuth.state.core :only [->State load-instructions]]
-        [sleuth.state.update :only [update]]
-        [sleuth.state.drawing :only [draw-game]]
-        [sleuth.state.input :only [get-input process-input]]
+  (:use [sleuth.ui.core :only [->UI load-instructions]]
+        [sleuth.ui.update :only [update]]
+        [sleuth.ui.drawing :only [draw-game]]
+        [sleuth.ui.input :only [get-input process-input]]
         [sleuth.world.rooms :only [load-rooms]]
         [sleuth.world.items :only [load-items]]
         [sleuth.world.alibis :only [load-alibis]]
@@ -10,12 +10,12 @@
         [sleuth.entities.guests :only [load-guests]]))
 
 ; Data Structures --------------------------------------------------------
-(defrecord Game [world states input])
+(defrecord Game [world uis input])
 
 ; Main -------------------------------------------------------------------
 (defn run-game [game screen]
-  (loop [{:keys [input states] :as game} game]
-    (when (seq states)
+  (loop [{:keys [input uis] :as game} game]
+    (when (seq uis)
       (recur (if input
                (-> game
                    (dissoc :input)
@@ -27,7 +27,7 @@
 
 (defn new-game []
   (map->Game {:world nil
-              :states [(->State :start)]
+              :uis [(->UI :start)]
               :input nil}))
 
 (defn load-text-files

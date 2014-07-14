@@ -1,22 +1,22 @@
-(ns sleuth.state.drawing
+(ns sleuth.ui.drawing
   (:use [sleuth.world.rooms :only [get-current-guest]]))
 
 ; Definitions -------------------------------------------------------------
 (def screen-cols 80)
 (def screen-rows 25)
 
-(defmulti draw-state
-  (fn [state game screen]
-    (:name state)))
+(defmulti draw-ui
+  (fn [ui game screen]
+    (:kind ui)))
 
 ; Start -------------------------------------------------------------------
-(defmethod draw-state :start [state game screen]
+(defmethod draw-ui :start [ui game screen]
   "TODO: read sleuth start screen from file.")
  ;(console-print screen (- (/ screen-cols 2) 5) 5 "S L E U T H")
   ;(console-print screen (- (/ screen-cols 2) 6) 8 "Press any key."))
 
 ; Menu --------------------------------------------------------------------
-(defmethod draw-state :menu [state game screen])
+(defmethod draw-ui :menu [ui game screen])
   ;(console-print screen (- (/ screen-cols 2) 5) 5 "S L E U T H")
   ;(console-print screen (- (/ screen-cols 2) 16) 10 "Select the option of your choice:")
   ;(console-print screen (- (/ screen-cols 2) 10) 12 "(A) Basic Sleuth")
@@ -25,7 +25,7 @@
   ;(console-print screen (- (/ screen-cols 2) 13) 19 "PRESS Q TO EXIT THIS PROGRAM" ))
 
 ; Instructions ------------------------------------------------------------
-(defmethod draw-state :instructions [state game screen])
+(defmethod draw-ui :instructions [ui game screen])
   ;(console-print screen 5 0 (first (game :instructions))))
 
 ; Personalize -------------------------------------------------------------
@@ -41,7 +41,7 @@
   ;      y (:y current-box)]
   ;    (console-set-char screen x y 95)))
 
-(defmethod draw-state :personalize [state game screen])
+(defmethod draw-ui :personalize [ui game screen])
   ;(let [suspect-number (:suspect-number (:personalize game))]
   ;  (console-print screen 20 1 "P E R S O N A L I Z E   S L E U T H")
   ;  (console-print screen 10 8 (str "Suspect #" suspect-number))
@@ -51,7 +51,7 @@
   ;  (draw-cursor screen (:personalize game))))
 
 ; Opening -----------------------------------------------------------------
-(defmethod draw-state :opening [state game screen])
+(defmethod draw-ui :opening [ui game screen])
   ;(console-print screen 10 10 (str "It is a dark and stormy night."
   ;                                 " A murder is being committed ...")))
 
@@ -98,21 +98,21 @@
   ;  (draw-player screen player)
   ;  (draw-guest screen world)))
 
-(defmethod draw-state :sleuth [state game screen]
+(defmethod draw-ui :sleuth [ui game screen]
   (draw-sleuth game screen))
 
 ; Assemble ----------------------------------------------------------------
-(defmethod draw-state :assemble [state game screen]
+(defmethod draw-ui :assemble [ui game screen]
   (draw-sleuth game screen))
 
 ; Game Over ---------------------------------------------------------------
-(defmethod draw-state :game-over [state game screen]
+(defmethod draw-ui :game-over [ui game screen]
   (draw-sleuth game screen))
 
 ; Game --------------------------------------------------------------------
 (defn draw-game [game screen]
   ;(console-clear screen)
-  (doseq [state (:states game)]
-    (draw-state state game screen))
+  (doseq [ui (:uis game)]
+    (draw-ui ui game screen))
   ;(console-flush)
   game)
