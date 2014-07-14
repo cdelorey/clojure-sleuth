@@ -38,10 +38,9 @@
   (seq (.split (.toString (GET filename)) "\n")))
 
 (defn parse-file
-  "Parses a text file and returns a clojure object"
+  "Parses a json5 file and returns a clojure object"
   [filename]
-  ; todo: write function
-  )
+	(js->clj (.parse js/JSON5 (GET filename))))
 
 
   ;(let [reader (clojure.java.io/reader filename)]
