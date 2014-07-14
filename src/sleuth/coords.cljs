@@ -1,25 +1,9 @@
 (ns sleuth.coords
   (:use [sleuth.utils :only [abs]]))
 
-
-(defn radial-distance
-  "Return the radial distance between two points.
-  
-  There might be a better name for this, but in a nutshell:
-
-      3333333
-      3222223
-      3211123
-      321.123
-      3211123
-      3222223
-      3333333
-  
-  "
-  [[x1 y1] [x2 y2]]
-  (max (abs (- x1 x2))
-       (abs (- y1 y2))))
-
+;
+; https://github.com/sjl/caves/blob/master/src/caves/coords.clj
+;
 
 (def directions
   {:w  [-1 0]
@@ -46,7 +30,3 @@
   [origin dir]
   (offset-coords origin (dir-to-offset dir)))
 
-(defn neighbors
-  "Return the coordinates of all neighboring squares of the given coord."
-  [origin]
-  (map offset-coords (vals directions) (repeat origin)))

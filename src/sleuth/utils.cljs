@@ -1,5 +1,6 @@
 (ns sleuth.utils
-	(:require [ajax.core :refer [GET raw-response-format]]))
+	(:require [ajax.core :refer [GET raw-response-format]]
+						[goog.string :as gstring]))
 
 (defn keywordize
   "Turns a string into a valid clojure keyword, replacing any spaces with dashes."
@@ -35,7 +36,7 @@
 (defn get-lines-from-file
   "Returns a sequence of the lines in filename."
   [filename]
-	(GET filename {:handler #(seq (.split (str %) "\n"))}))
+	(GET filename {:handler #(seq (clojure.string/split (str %) "\n"))}))
 
 (defn parse-file
   "Parses a json5 file and returns a clojure object"
