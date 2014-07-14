@@ -8,7 +8,7 @@
 (defn load-opening []
   (let ;[yaml-object (.safeLoad yaml (GET "resources/opening.yaml"))
        ; openings-vector (vector (js->clj yaml-object :keywordize-keys true))]
-       [openings-vector (parse-file "/json5/opening.json5")]
+       [openings-vector (parse-file "/json5/opening.txt")]
     (reset! openings openings-vector)))
 
 (defn load-text []

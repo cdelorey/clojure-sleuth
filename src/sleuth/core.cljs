@@ -35,10 +35,10 @@
 (defn load-text-files
   "Load all game text from files."
   []
-  (load-alibis "/json5/alibis.json5")
-  (load-items "/json5/items.json5")
-  (load-guests "/json5/guests.json5")
-  (load-rooms "/json5/rooms.json5")
+  (load-alibis "/json5/alibis.txt")
+  (load-items "/json5/items.txt")
+  (load-guests "/json5/guests.txt")
+  (load-rooms "/json5/rooms.txt")
   (load-text))
 
 (defn start

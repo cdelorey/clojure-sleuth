@@ -1,5 +1,5 @@
 (ns sleuth.utils
-	(:require [ajax.core :refer [GET]]))
+	(:require [ajax.core :refer [GET raw-response-format]]))
 
 (defn keywordize
   "Turns a string into a valid clojure keyword, replacing any spaces with dashes."
@@ -32,6 +32,7 @@
     (- i)
     i))
 
+; TODO: fix this
 (defn get-lines-from-file
   "Returns a sequence of the lines in filename."
   [filename]
@@ -40,10 +41,5 @@
 (defn parse-file
   "Parses a json5 file and returns a clojure object"
   [filename]
-	(js->clj (.parse js/JSON5 (GET filename))))
-
-
-  ;(let [reader (clojure.java.io/reader filename)]
-  ;  (doall (line-seq reader))
-  ;  (.close reader)))
-
+	(GET filename {:handler
+								 #(.log js/console (js->clj (.parse js/JSON5 %) :keywordize-keys true))}))

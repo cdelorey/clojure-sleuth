@@ -3,7 +3,7 @@
 
 ;Definitions ------------------------------------------------------------------
 (def instructions
-  (parse-file "/json5/instructions.json5"))
+  (parse-file "/json5/instructions.txt"))
 
 ;Data Structures --------------------------------------------------------------
 (defrecord UI [kind])

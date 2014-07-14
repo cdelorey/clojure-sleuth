@@ -1,5 +1,7 @@
 # TODO:
 ---------
+- fix get-lines-from-file
+- add unit test for parse-file function
 - convert yaml files to json
 - rewrite load-house function
 - remove file-loading commented out code
@@ -19,7 +21,7 @@ Text Re-write
 - new accuse text
 - new lose text
 
-- deploy to heroku
+- put on github pages
 
 -------------------------------------------------------------------------------
 
@@ -225,3 +227,7 @@ __DONE__ refactor file loading
 __DONE__ write parse-file function
 __DONE__ add json5
 __DONE__ refactor json5 files
+
+### 07/14/14
+__DONE__ fix parse-file function
+__DONE__ change json5 files to plain text
