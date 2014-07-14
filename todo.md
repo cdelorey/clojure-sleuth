@@ -1,6 +1,5 @@
 # TODO:
 ---------
-- rename ui stuff to state
 - rewrite load-house function
 - convert libtcod code to use javascript library
 - improve test coverage
@@ -239,3 +238,4 @@ __DONE__ replace java string functions with clojurescript equivalents
 __DONE__ make parse-file unit test pass
 __DONE__ refactor file loading
 __DONE__ remove file-loading commented out code
+__DONE__ rename ui stuff to state

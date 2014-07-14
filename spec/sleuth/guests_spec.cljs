@@ -1,4 +1,4 @@
-(ns sleuth.tile-spec
+(ns sleuth.guests-spec
   (:require [specljs.core]
             [sleuth.entities.guests :refer [->Guest get-guest-names]])
 	(:require-macros [specljs.core :refer [before with describe it should=]]))

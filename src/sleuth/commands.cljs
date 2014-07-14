@@ -1,7 +1,7 @@
 (ns sleuth.commands
   (:use [sleuth.world.rooms :only [get-room-name get-room current-room murder-room get-current-guest]]
         [sleuth.world.items :only [get-item-name get-item-examination]]
-        [sleuth.ui.core :only [->UI]]
+        [sleuth.state.core :only [->State]]
         [sleuth.utils :only [keywordize abs keyword-to-first-name keyword-to-string]]
         [sleuth.world.alibis :only [create-alibi-message get-lose-questioning]]
         [sleuth.entities.player :only [get-player-location]]
@@ -171,13 +171,13 @@
 (defn restart
   "Restarts game and returns to menu."
   [game]
-  (assoc game :uis [(->UI :menu)]))
+  (assoc game :states [(->State :menu)]))
 
 
 (defn quit
   "Exits game"
   [game]
-  (assoc game :uis []))
+  (assoc game :states []))
 
 
 (defn accuse
@@ -218,7 +218,7 @@
 (defn process-command
   "Parse commands entered on commandline.
 
-  Commands that require access to the UIs take a game, all other commands take a world object."
+  Commands that require access to the States take a game, all other commands take a world object."
   [game]
   (let [world (:world game)
         command (:commandline world)
@@ -247,7 +247,7 @@
                       "I'm sorry, but I can't seem to make out what you're trying to say."))))
 
 (defn process-game-over-commands
-  "Parse commands entered on the commandline for the lose ui."
+  "Parse commands entered on the commandline for the lose state."
   [game]
   (let [world (:world game)
         command (:commandline world)]
@@ -257,7 +257,7 @@
      :else game)))
 
 (defn process-accuse-commands
-  "Parse commands entered on the commandline for the accuse ui."
+  "Parse commands entered on the commandline for the accuse state."
   [game]
   (let [world (:world game)
         command (:commandline world)
