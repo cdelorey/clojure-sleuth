@@ -1,7 +1,6 @@
 # TODO:
 ---------
 - convert yaml files to json
-- write parse-file function
 - rewrite load-house function
 - remove file-loading commented out code
 - convert libtcod code to use javascript library
@@ -223,3 +222,6 @@ __DONE__ convert file loading functions to use ajax requests
 ### 07/13/14
 __DONE__ remove js-yaml
 __DONE__ refactor file loading
+__DONE__ write parse-file function
+__DONE__ add json5
+__DONE__ refactor json5 files

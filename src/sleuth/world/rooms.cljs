@@ -48,7 +48,7 @@
   [filename]
   (let ;[yaml-object (.safeLoad yaml (GET "resources/rooms.yaml"))
         ;rooms-map (js->clj yaml-object :keywordize-keys true)]
-        [rooms-map (parse-file "resources/rooms.yaml")]
+        [rooms-map (parse-file filename)]
     (reset! room-descriptions (:room-descriptions rooms-map))))
 
 (defn in-rect?

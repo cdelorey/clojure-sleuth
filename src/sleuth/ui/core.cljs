@@ -3,7 +3,7 @@
 
 ;Definitions ------------------------------------------------------------------
 (def instructions
-  (parse-file "/instructions.yaml"))
+  (parse-file "/json5/instructions.json5"))
 
 ;Data Structures --------------------------------------------------------------
 (defrecord UI [kind])

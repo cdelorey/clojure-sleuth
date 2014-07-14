@@ -11,7 +11,7 @@
   [filename]
   (let ;[yaml-object (.safeLoad yaml (GET "/resources/items.yaml"))
         ;items-map (js->clj yaml-object :keywordize-keys true)]
-        [items-map (parse-file "/resources/items.yaml")]
+        [items-map (parse-file filename)]
     (reset! room-items (:room-items items-map))
     (reset! item-descriptions (:item-descriptions items-map))))
 
