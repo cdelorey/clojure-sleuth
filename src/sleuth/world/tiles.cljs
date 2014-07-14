@@ -17,6 +17,8 @@
    :hdoor     (->Tile :hdoor 196 :white)})
 
 ; Querying tiles --------------------------------------------------------------
+; https://github.com/sjl/caves/blob/master/src/caves/world/core.clj
+;
 (defn get-tile-from-tiles [tiles [x y]]
   (get-in tiles [y x] (:bound tiles)))
 

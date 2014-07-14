@@ -190,7 +190,7 @@
   "Returns true if the given coordinates are in a doorway."
   [[x y]]
   (let [room-name (get-room-name [x y])]
-    (if (.startsWith (name room-name) "doorway")
+    (if (gstring/startsWith (name room-name) "doorway")
       true
       false)))
 
