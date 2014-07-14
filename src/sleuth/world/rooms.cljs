@@ -91,9 +91,9 @@
 (defn get-doorway
   "Return the coordinates of the doorway in the current room"
   [room]
-  (if (.contains (name room) "-hall")
+  (if (gstring/contains (name room) "-hall")
     nil
-    (let [doorway (if (.contains (name room) "doorway")
+    (let [doorway (if (gstring/contains (name room) "doorway")
                     room
                     (keyword (str "doorway-" (name room))))
           doorway-rect (doorway room-rects)]
