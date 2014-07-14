@@ -16,14 +16,16 @@
    {:dev
     {:source-paths ["src/sleuth" "spec/sleuth"]
      :compiler
-     {:output-to "resources/sleuth.js"
+     {:output-to "resources/out/sleuth.js"
+			:output-dir "resources/out"
+			:source-map "resources/out/sleuth.js.map"
       :pretty-print true
       :externs ["externs.js"]}
-		 :notify-command ["bin/speclj" "resources/sleuth.js"]}
+		 :notify-command ["bin/speclj" "resources/out/sleuth.js"]}
 		:prod
 		{:source-paths ["src/sleuth"]
 		 :compiler
 		 {:output-to "resources/sleuth.js"
 			:optimizations :simple}}}
-	 :test-commands {"test" ["bin/speclj" "resources/sleuth.js"]}}
+	 :test-commands {"test" ["bin/speclj" "resources/out/sleuth.js"]}}
   )

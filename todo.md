@@ -1,6 +1,5 @@
 # TODO:
 ---------
-- setup source maps
 - replace java string functions with clojurescript equivalents (.contains, .startsWith, clojure.string/..., )
 - make parse-file unit test pass. (should not be returning null. this is probably because
 :opening is called on the object before the callback runs, so nothing is there yet. This
@@ -240,3 +239,4 @@ __DONE__ fix get-lines-from-file
 __DONE__ convert unit tests to specljs
 __DONE__ add unit test for parse-file function
 __DONE__ make rooms unit tests pass
+__DONE__ setup source maps
