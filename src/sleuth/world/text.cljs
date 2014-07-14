@@ -6,10 +6,9 @@
 
 ;; text loading ---------------------------------------------------------------
 (defn load-opening []
-  (let ;[yaml-object (.safeLoad yaml (GET "resources/opening.yaml"))
-       ; openings-vector (vector (js->clj yaml-object :keywordize-keys true))]
-       [openings-vector (parse-file "/json5/opening.txt")]
-    (reset! openings openings-vector)))
+	(parse-file "/json5/opening.txt"
+							(fn [openings-vector]
+								(reset! openings openings-vector))))
 
 (defn load-text []
   (do
@@ -33,7 +32,6 @@
     (if (< (count input-string) 3)
       false
       ())))
-
 
 (defn random-opening [world]
   (parse-text world (str (rand-nth @openings))))

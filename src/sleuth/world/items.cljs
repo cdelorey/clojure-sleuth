@@ -9,11 +9,10 @@
 (defn load-items
   "Loads item text from filename"
   [filename]
-  (let ;[yaml-object (.safeLoad yaml (GET "/resources/items.yaml"))
-        ;items-map (js->clj yaml-object :keywordize-keys true)]
-        [items-map (parse-file filename)]
-    (reset! room-items (:room-items items-map))
-    (reset! item-descriptions (:item-descriptions items-map))))
+	(parse-file filename
+							(fn [items-map]
+								((reset! room-items (:room-items items-map))
+								 (reset! item-descriptions (:item-descriptions items-map))))))
 
 (defn random-items []
   (into {} (for [[k v] @room-items]

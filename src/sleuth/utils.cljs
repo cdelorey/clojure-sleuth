@@ -39,7 +39,9 @@
 	(GET filename {:handler #(seq (clojure.string/split (str %) "\n"))}))
 
 (defn parse-file
-  "Parses a json5 file and returns a clojure object"
-  [filename]
+  "Parses a json5 file and calls a callback function on success."
+  [filename callback-function]
 	(GET filename {:handler
-								 #(js->clj (.parse js/JSON5 %) :keywordize-keys true)}))
+								 (fn
+									 [response]
+									 (callback-function (js->clj (.parse js/JSON5 response) :keywordize-keys true)))}))

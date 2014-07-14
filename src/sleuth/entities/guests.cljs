@@ -17,11 +17,10 @@
 (defn load-guests
   "Loads guest text from filename"
   [filename]
-  (let ;[yaml-object (.safeLoad yaml (.readFileSync fs filename "utf8"))
-        ;items-map (js->clj yaml-object :keywordize-keys true)]
-        [items-map (parse-file filename)]
-    (reset! guest-names (map keyword (:guest-names items-map)))
-    (reset! guest-descriptions (:guest-descriptions items-map))))
+	(parse-file filename
+							(fn [items-map]
+								((reset! guest-names (map keyword (:guest-names items-map)))
+								 (reset! guest-descriptions (:guest-descriptions items-map))))))
 
 (defn random-name
   "Returns a random name from the given names list"

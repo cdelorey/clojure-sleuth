@@ -46,10 +46,9 @@
 (defn load-rooms
   "Load room text from filename"
   [filename]
-  (let ;[yaml-object (.safeLoad yaml (GET "resources/rooms.yaml"))
-        ;rooms-map (js->clj yaml-object :keywordize-keys true)]
-        [rooms-map (parse-file filename)]
-    (reset! room-descriptions (:room-descriptions rooms-map))))
+  (parse-file filename
+							(fn [rooms-map]
+								((reset! room-descriptions (:room-descriptions rooms-map))))))
 
 (defn in-rect?
  "Return true if the given coordinates are contained in the given rect."

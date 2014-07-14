@@ -2,9 +2,13 @@
   (:use [sleuth.utils :only [parse-file]]))
 
 ;Definitions ------------------------------------------------------------------
-(def instructions
-  (parse-file "/json5/instructions.txt"))
+(def instructions (atom nil))
 
 ;Data Structures --------------------------------------------------------------
 (defrecord UI [kind])
+
+;Functions --------------------------------------------------------------------
+(defn load-instructions
+	[filename]
+	(parse-file filename #(reset! instructions %)))
 

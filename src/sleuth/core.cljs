@@ -1,5 +1,5 @@
 (ns sleuth.core
-  (:use [sleuth.ui.core :only [->UI]]
+  (:use [sleuth.ui.core :only [->UI load-instructions]]
         [sleuth.ui.update :only [update]]
         [sleuth.ui.drawing :only [draw-game]]
         [sleuth.ui.input :only [get-input process-input]]
@@ -8,8 +8,6 @@
         [sleuth.world.alibis :only [load-alibis]]
         [sleuth.world.text :only [load-text]]
         [sleuth.entities.guests :only [load-guests]]))
-
-
 
 ; Data Structures --------------------------------------------------------
 (defrecord Game [world uis input])
@@ -35,6 +33,7 @@
 (defn load-text-files
   "Load all game text from files."
   []
+	(load-instructions "/json5/instructions.txt")
   (load-alibis "/json5/alibis.txt")
   (load-items "/json5/items.txt")
   (load-guests "/json5/guests.txt")
