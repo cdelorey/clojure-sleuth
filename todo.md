@@ -242,3 +242,4 @@ __DONE__ rename ui stuff to state
 
 ### 07/15/14
 __DONE__ bug fixes
+__DONE__ setup ROT.js display

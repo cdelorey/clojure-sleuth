@@ -42,12 +42,10 @@
 
 (defn start
   []
-  ;(loadlib libtcod)
-  ;(console-set-custom-font "resources/terminal16x16_gs_ro.png" font-layout-ascii-in-row 16 16)
-  ;(console-init-root 80 25 "Test" false tcod-renderer-sdl)
-	(.write js/document "test")
-  (load-text-files)
-  (run-game (new-game) nil))
+	(let [display (js/ROT.Display.)]
+		(.appendChild (.-body js/document) (.getContainer display))
+  	(load-text-files)
+		(.draw display 10 10 (.fromCharCode js/String 9786))
+  	(run-game (new-game) display)))
 
 (set! (.-onload js/window) start)
-
