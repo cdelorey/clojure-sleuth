@@ -11,8 +11,9 @@
   [filename]
 	(parse-file filename
 							(fn [items-map]
-								((reset! room-items (:room-items items-map))
-								 (reset! item-descriptions (:item-descriptions items-map))))))
+								(do
+									(reset! room-items (:room-items items-map))
+								 	(reset! item-descriptions (:item-descriptions items-map))))))
 
 (defn random-items []
   (into {} (for [[k v] @room-items]

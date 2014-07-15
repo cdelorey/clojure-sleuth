@@ -18,9 +18,10 @@
   "Loads guest text from filename"
   [filename]
 	(parse-file filename
-							(fn [items-map]
-								((reset! guest-names (map keyword (:guest-names items-map)))
-								 (reset! guest-descriptions (:guest-descriptions items-map))))))
+							(fn [guests-map]
+								(do
+									(reset! guest-names (map keyword (:guest-names guests-map)))
+								 	(reset! guest-descriptions (:guest-descriptions guests-map))))))
 
 (defn random-name
   "Returns a random name from the given names list"

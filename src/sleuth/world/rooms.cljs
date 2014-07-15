@@ -48,7 +48,7 @@
   [filename]
   (parse-file filename
 							(fn [rooms-map]
-								((reset! room-descriptions (:room-descriptions rooms-map))))))
+								(reset! room-descriptions (:room-descriptions rooms-map)))))
 
 (defn in-rect?
  "Return true if the given coordinates are contained in the given rect."

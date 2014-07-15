@@ -38,18 +38,19 @@
   [filename]
 	(parse-file filename
 							(fn [alibis-map]
-								((reset! openers (:openers alibis-map))
-								 (reset! repeat-openers (:repeat-openers alibis-map))
-								 (reset! alibis (:alibis alibis-map))
-								 (reset! alone-alibi (:alone-alibi alibis-map))
-								 (reset! additions (:additions alibis-map))
-								 (reset! alone-additions (:alone-additions alibis-map))
-								 (reset! accusations (:accusations alibis-map))
-								 (reset! repeats (:repeats alibis-map))
-								 (reset! refuse (:refuse alibis-map))
-								 (reset! finished (:finished alibis-map))
-								 (reset! lose-questioning (:lose-questioning alibis-map))
-								 (reset! lose-time (:lose-time alibis-map))))))
+								(do
+									(reset! openers (:openers alibis-map))
+								 	(reset! repeat-openers (:repeat-openers alibis-map))
+								 	(reset! alibis (:alibis alibis-map))
+								 	(reset! alone-alibi (:alone-alibi alibis-map))
+								 	(reset! additions (:additions alibis-map))
+								 	(reset! alone-additions (:alone-additions alibis-map))
+								 	(reset! accusations (:accusations alibis-map))
+								 	(reset! repeats (:repeats alibis-map))
+								 	(reset! refuse (:refuse alibis-map))
+								 	(reset! finished (:finished alibis-map))
+								 	(reset! lose-questioning (:lose-questioning alibis-map))
+								 	(reset! lose-time (:lose-time alibis-map))))))
 
 (defn get-lose-questioning
   "Returns the lose-questioning text with the proper values filled in"
