@@ -45,7 +45,6 @@
 	(let [display (js/ROT.Display.)]
 		(.appendChild (.-body js/document) (.getContainer display))
   	(load-text-files)
-		(.draw display 10 10 (.fromCharCode js/String 9786))
   	(run-game (new-game) display)))
 
 (set! (.-onload js/window) start)

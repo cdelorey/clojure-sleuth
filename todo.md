@@ -1,5 +1,6 @@
 # TODO:
 ---------
+- write opening state draw method
 - rewrite load-house function
 - convert libtcod code to use javascript library
 - improve test coverage
@@ -243,3 +244,6 @@ __DONE__ rename ui stuff to state
 ### 07/15/14
 __DONE__ bug fixes
 __DONE__ setup ROT.js display
+
+### 07/16/14
+__DONE__ setup drawing with ROT.js
