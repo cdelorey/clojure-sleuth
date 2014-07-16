@@ -39,7 +39,7 @@
 (defn new-game []
   (map->Game {:world nil
               :states [(->State :start)]
-              :input ()}))
+              :input nil}))
 
 (defn load-text-files
   "Load all game text from files."

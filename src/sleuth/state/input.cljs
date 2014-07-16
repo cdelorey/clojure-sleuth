@@ -19,6 +19,7 @@
 
 ; Start ------------------------------------------------------------------
 (defmethod process-input :start [game input]
+	(.log js/console "processing input")
   (assoc game :states [(->State :menu)]))
 
 ; Menu ------------------------------------------------------------------
@@ -207,7 +208,7 @@
 (defn get-input
   "Gets user's keypress."
   [game screen]
-	(let [keycode nil ];(get-keycode-from-queue)]
+	(let [keycode (get-keycode-from-queue)]
 		(if keycode
 			(assoc game :input keycode)
 			game)))

@@ -250,3 +250,4 @@ __DONE__ setup ROT.js display
 __DONE__ setup drawing with ROT.js
 __DONE__ rewrite main loop to work with javascript
 __DONE__ rewrite input handling to work with javascript
+__DONE__ fix opening bug
