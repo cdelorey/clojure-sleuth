@@ -59,7 +59,7 @@
         victim (keyword-to-first-name (get-in world [:murder-case :victim]))
         room (keyword-to-string (get-in world [:murder-case :room]))
         weapon (keyword-to-string (get-in world [:murder-case :weapon]))]
-    (gstring/gformat (first @lose-questioning) murderer victim room weapon)))
+    (gstring/format (first @lose-questioning) murderer victim room weapon)))
 
 (defn get-lose-time
   "Returns the lose-time text with the proper values filled in"
@@ -69,7 +69,7 @@
         room (keyword-to-string (get-in world [:murder-case :room]))
         weapon (keyword-to-string (get-in world [:murder-case :weapon]))
         current-room (keyword-to-string (current-room world))]
-    (gstring/gformat (first @lose-time) murderer current-room victim room weapon)))
+    (gstring/format (first @lose-time) murderer current-room victim room weapon)))
 
 (defn get-murderer-alibi
   "Returns an alibi for the murderer."
@@ -78,18 +78,19 @@
         guests (dissoc guests murderer)
         guests (dissoc guests alone)
         alibi (rand-nth (keys guests))]
-    (gstring/gformat (rand-nth @alibis) (keyword-to-first-name alibi) (keyword-to-string (random-room)))))
+    (gstring/format (rand-nth @alibis) (keyword-to-first-name alibi) (keyword-to-string (random-room)))))
 
 (defn get-alibi
   "Returns an alibi string given a guest and an alibi keyword."
   [guest guests]
   (let [alibi (get-in guests [guest :alibi])
         room (get-in guests [guest :alibi-room])]
+		(.log js/console (rand-nth @alibis))
     (case alibi
       :murderer (get-murderer-alibi guest guests)
-      :alone (gstring/gformat (first @alone-alibi) (keyword-to-string room))
+      :alone (gstring/format (first @alone-alibi) (keyword-to-string room))
       ;default
-      (gstring/gformat (rand-nth @alibis) (keyword-to-first-name alibi) (keyword-to-string room)))))
+      (gstring/format (rand-nth @alibis) (keyword-to-first-name alibi) (keyword-to-string room)))))
 
 (defn get-alibis
   "Adds an alibi for every guest in guests"
@@ -107,25 +108,25 @@
   [guest alibi-string world]
   (let [victim (keyword-to-first-name (get-in world [:murder-case :victim]))
         alibi (get-in world [:entities :guests guest :alibi])
-        opener (gstring/gformat (rand-nth @openers) (keyword-to-first-name guest))
+        opener (gstring/format (rand-nth @openers) (keyword-to-first-name guest))
         accuse (rand-int 4)
         accused (keyword-to-first-name (rand-nth
                                         (remove #{victim alibi guest}
                                                 (keys (get-in world [:entities :guests])))))]
     (cond
      (= alibi :alone)
-      (str opener alibi-string (gstring/gformat (rand-nth @alone-additions) victim))
+      (str opener alibi-string (gstring/format (rand-nth @alone-additions) victim))
 
      (= accuse 0)
-       (str opener alibi-string (gstring/gformat (rand-nth @accusations) accused victim))
+       (str opener alibi-string (gstring/format (rand-nth @accusations) accused victim))
 
      :else
-       (str opener alibi-string (gstring/gformat (rand-nth @additions) victim)))))
+       (str opener alibi-string (gstring/format (rand-nth @additions) victim)))))
 
 (defn random-response
   "Returns a random response for subsequent times a guest is asked for an alibi."
   [guest alibi-string times]
-  (let [opener (gstring/gformat (rand-nth @repeat-openers) (keyword-to-first-name guest))
+  (let [opener (gstring/format (rand-nth @repeat-openers) (keyword-to-first-name guest))
         repeater (rand-nth @repeats)
         finish (rand-nth @finished)]
     (if (= times 1)
@@ -135,7 +136,7 @@
 (defn random-refuse-response
   "Returns a random response for when a guest refuses to be questioned."
   [guest]
-  (gstring/gformat (rand-nth @refuse) (keyword-to-first-name guest)))
+  (gstring/format (rand-nth @refuse) (keyword-to-first-name guest)))
 
 (defn refuse-questioning?
   "Returns true if a guest refuses to be questioned, based on the number of

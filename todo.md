@@ -2,7 +2,6 @@
 ---------
 - write opening state draw method
 - rewrite load-house function
-- convert libtcod code to use javascript library
 - improve test coverage
 - title screen
 - allow for more item name variations on commandline
@@ -251,3 +250,5 @@ __DONE__ setup drawing with ROT.js
 __DONE__ rewrite main loop to work with javascript
 __DONE__ rewrite input handling to work with javascript
 __DONE__ fix opening bug
+__DONE__ write function to determine if a keycode is a character
+__DONE__ convert libtcod code to use javascript library

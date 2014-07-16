@@ -8,7 +8,8 @@
         [sleuth.commands :only [process-command process-game-over-commands
                                 process-accuse-commands]]
         [sleuth.personalize :only [new-personalize swap-current-box]]
-        [sleuth.utils :only [keywordize]]))
+        [sleuth.utils :only [keywordize is-char-key? char-keys]])
+	(:require [clojure.set :refer [union]]))
 
 ; Definitions ------------------------------------------------------------
 (def input-keycode-queue (js/Array.))
@@ -33,16 +34,16 @@
       (assoc :states [(->State :opening)]))))
 
 (defmethod process-input :menu [game input]
-  (cond
-    (= (.c input) (int \a)) (new-game game false)
-    (= (.c input) (int \b)) (-> game
-                                (assoc-in [:states] [(->State :personalize)])
-                                (assoc-in [:personalize] (new-personalize)))
-    (= (.c input) (int \c)) (assoc (assoc-in
-                     game [:instructions] instructions)
-                 :states [(->State :instructions)])
-    (= (.c input) (int \q)) (assoc game :states [])
-    :else game))
+	(cond
+	 (= input js/ROT.VK_A) (new-game game false)
+	 (= input js/ROT.VK_B) (-> game
+														 (assoc-in [:states] [(->State :personalize)])
+														 (assoc-in [:personalize] (new-personalize)))
+	 (= input js/ROT.VK_C) (assoc (assoc-in
+																 game [:instructions] instructions)
+													 :states [(->State :instructions)])
+	 (= input js/ROT.VK_Q) (assoc game :states [])
+	 :else game))
 
 ; Instructions ------------------------------------------------------------
 (defmethod process-input :instructions [game input]
@@ -81,26 +82,26 @@
           game)))))
 
 (defmethod process-input :personalize [game input]
-  (let [current-box (:current-box (:personalize game))
-        input-box (current-box (:gui (:personalize game)))
-        data (:data input-box)]
-  (cond
-   ;(= (.vk input) key-backspace) (assoc-in game [:personalize :gui current-box :data]
-   ;                                           (subs data 0 (max (- (count data) 1) 0)))
+	(let [current-box (:current-box (:personalize game))
+				input-box (current-box (:gui (:personalize game)))
+				data (:data input-box)]
+		(cond
+		 (= input js/ROT.VK_BACK_SPACE) (assoc-in game [:personalize :gui current-box :data]
+																							(subs data 0 (max (- (count data) 1) 0)))
 
-   ;(= (.vk input) key-enter) (process-personalize-input game)
+		 (= input js/ROT.VK_ENTER) (process-personalize-input game)
 
-   ;(= (.vk input) key-char) (assoc-in game [:personalize :gui current-box :data]
-   ;                                      (str data (char (.c input))))
+		 (is-char-key? input) (assoc-in game [:personalize :gui current-box :data]
+																	(str data (char (.c input))))
 
-   ;(= (.vk input) key-space) (assoc-in game [:personalize :gui current-box :data]
-   ;                                       (str data " "))
+		 (= input js/ROT.VK_SPACE) (assoc-in game [:personalize :gui current-box :data]
+																				 (str data " "))
 
-   ;(= (.vk input) key-escape) (-> game
-   ;                             (dissoc :personalize)
-   ;                             (assoc :states [(->State :menu)]))
+		 (= input js/ROT.VK_ESCAPE) (-> game
+																		(dissoc :personalize)
+																		(assoc :states [(->State :menu)]))
 
-   :else game)))
+		 :else game)))
 
 
 ; Opening -----------------------------------------------------------------
@@ -122,48 +123,48 @@
   Takes a move function so different states can process movement differently."
   [game input move-function]
   (cond
-   ;(= (.vk input) key-left) (move-function :w game)
-   ;(= (.vk input) key-down) (move-function :s game)
-   ;(= (.vk input) key-up) (move-function :n game)
-   ;(= (.vk input) key-right) (move-function :e game)
+   (= input js/ROT.VK_LEFT) (move-function :w game)
+   (= input js/ROT.VK_DOWN) (move-function :s game)
+   (= input js/ROT.VK_UP) (move-function :n game)
+   (= input js/ROT.VK_RIGHT) (move-function :e game)
    :else game))
 
 (defn process-commandline-input
-  [game input command-function])
-  "Process commandline input.
+	[game input command-function]
+	"Process commandline input.
 
-  Takes a command function so different states can process commands differently."
-  ;(cond
-   ;(= (.vk input) key-backspace) (let [world (:world game)
-   ;                                     {:keys [commandline]} world]
-   ;                                 (assoc-in game [:world :commandline]
-   ;                                           (subs commandline 0
-   ;                                                 (max (- (count commandline) 1) 0))))
+	Takes a command function so different states can process commands differently."
+	(cond
+	 (= input js/ROT.VK_BACK_SPACE) (let [world (:world game)
+																				{:keys [commandline]} world]
+																		(assoc-in game [:world :commandline]
+																							(subs commandline 0
+																										(max (- (count commandline) 1) 0))))
 
-   ;(= (.vk input) key-enter) (let [new-game (command-function game)]
-   ;                             (assoc-in new-game [:world :commandline] ""))
+	 (= input js/ROT.VK_ENTER) (let [new-game (command-function game)]
+															 (assoc-in new-game [:world :commandline] ""))
 
-   ;(= (.vk input) key-char) (let [world (:world game)
-   ;                                {:keys [commandline]} world]
-   ;                            (assoc-in game [:world :commandline]
-   ;                                      (str commandline (char (.c input)))))
+	 (= is-char-key? input) (let [world (:world game)
+																{:keys [commandline]} world]
+														(assoc-in game [:world :commandline]
+																			(str commandline (char (.c input)))))
 
-   ;(= (.vk input) key-space) (let [world (:world game)
-   ;                                 {:keys [commandline]} world]
-   ;                             (assoc-in game [:world :commandline]
-   ;                                       (str commandline " ")))
-   ;:else game))
+	 (= input js/ROT.VK_SPACE) (let [world (:world game)
+																	 {:keys [commandline]} world]
+															 (assoc-in game [:world :commandline]
+																				 (str commandline " ")))
+	 :else game))
 
-(defmethod process-input :sleuth [game input])
-  ;(cond
-   ; return to menu
-   ;(= (.vk input) key-escape) (assoc game :states [(->State :menu)]) ; testing
+(defmethod process-input :sleuth [game input]
+(cond
+ ;return to menu
+ (= input js/ROT.VK_ESCAPE) (assoc game :states [(->State :menu)]) ; testing
 
-   ; commandline keys
-   ;(contains? #{key-backspace key-enter key-char key-space} (.vk input))
-   ;(process-commandline-input game input process-command)
+ ;commandline keys
+ (contains? (union #{js/ROT.VK_BACK_SPACE js/ROT.VK_ENTER js/ROT.VK_SPACE} char-keys) input)
+ (process-commandline-input game input process-command)
 
-   ;:else (process-movement-keys game input move)))
+ :else (process-movement-keys game input move)))
 
 ; Assemble ----------------------------------------------------------------
 (defn assemble-move
@@ -172,19 +173,19 @@
   (update-in game [:world] move-player direction))
 
 
-(defmethod process-input :assemble [game input])
-    ;(cond
-    ; (contains? #{key-backspace key-enter key-char key-space} (.vk input))
-    ; (process-commandline-input game input process-accuse-commands)
+(defmethod process-input :assemble [game input]
+    (cond
+     (contains? (union #{js/ROT.VK_BACK_SPACE js/ROT.VK_ENTER js/ROT.VK_SPACE} char-keys) input)
+     (process-commandline-input game input process-accuse-commands)
 
-     ;:else (process-movement-keys game input assemble-move)))
+     :else (process-movement-keys game input assemble-move)))
 
 ; Game Over ---------------------------------------------------------------
 (defmethod process-input :game-over [game input]
   (let [game (assoc-in game [:world :message] "Quit or Restart?")]
     (cond
-     ;(contains? #{key-backspace key-enter key-char key-space} (.vk input))
-     ;(process-commandline-input game input process-game-over-commands)
+     (contains? (union #{js/ROT.VK_BACK_SPACE js/ROT.VK_ENTER js/ROT.VK_SPACE} char-keys) input)
+     (process-commandline-input game input process-game-over-commands)
 
      :else game)))
 

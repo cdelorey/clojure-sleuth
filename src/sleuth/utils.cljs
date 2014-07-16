@@ -2,6 +2,16 @@
 	(:require [ajax.core :refer [GET raw-response-format]]
 						[goog.string :as gstring]))
 
+; definitions -----------------------------------------------------------------
+(def char-keys
+	#{js/ROT.VK_A js/ROT.VK_E js/ROT.VK_I js/ROT.VK_M js/ROT.VK_Q js/ROT.VK_U
+		 js/ROT.VK_B js/ROT.VK_F js/ROT.VK_J js/ROT.VK_N js/ROT.VK_R js/ROT.VK_V
+		 js/ROT.VK_C js/ROT.VK_G js/ROT.VK_K js/ROT.VK_O js/ROT.VK_S js/ROT.VK_W
+		 js/ROT.VK_D js/ROT.VK_H js/ROT.VK_L js/ROT.VK_P js/ROT.VK_T js/ROT.VK_X
+		 js/ROT.VK_Y js/ROT.VK_Z})
+
+; functions -------------------------------------------------------------------
+
 (defn keywordize
   "Turns a string into a valid clojure keyword, replacing any spaces with dashes."
   [input]
@@ -45,3 +55,7 @@
 								 (fn
 									 [response]
 									 (callback-function (js->clj (.parse js/JSON5 response) :keywordize-keys true)))}))
+
+(defn is-char-key?
+	[keycode]
+	(contains? char-keys keycode))
