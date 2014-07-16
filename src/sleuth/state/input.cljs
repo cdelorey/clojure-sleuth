@@ -11,6 +11,8 @@
         [sleuth.utils :only [keywordize]]))
 
 ; Definitions ------------------------------------------------------------
+(def input-keycode-queue (js/Array.))
+
 (defmulti process-input
   (fn [game input]
     (:name (last (:states game)))))
@@ -185,8 +187,27 @@
 
      :else game)))
 
-; Input processing -------------------------------------------------------
+; Input processing ------------------------------------------------------
+(defn add-keycode-to-queue
+	[keycode]
+	(.unshift input-keycode-queue keycode))
+
+(defn get-keycode-from-queue
+	[]
+	(if (< (.-length input-keycode-queue) 1)
+		nil
+		(.pop input-keycode-queue)))
+
+(defn key-listener
+	[event]
+	(.log js/console event)
+	(if (= (.-type event) "keydown") ; is this necessary?
+		(add-keycode-to-queue (.-keyCode event))))
+
 (defn get-input
   "Gets user's keypress."
-  [game screen])
-  ;(assoc game :input (console-wait-for-keypress true)))
+  [game screen]
+	(let [keycode nil ];(get-keycode-from-queue)]
+		(if keycode
+			(assoc game :input keycode)
+			game)))

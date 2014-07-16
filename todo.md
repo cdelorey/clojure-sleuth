@@ -1,6 +1,5 @@
 # TODO:
 ---------
-- rewrite input handling to work with javascript
 - write opening state draw method
 - rewrite load-house function
 - convert libtcod code to use javascript library
@@ -249,3 +248,5 @@ __DONE__ setup ROT.js display
 
 ### 07/16/14
 __DONE__ setup drawing with ROT.js
+__DONE__ rewrite main loop to work with javascript
+__DONE__ rewrite input handling to work with javascript
