@@ -43,8 +43,11 @@
 (defn start
   []
 	(let [display (js/ROT.Display.)]
-		(.appendChild (.-body js/document) (.getContainer display))
-  	(load-text-files)
-  	(run-game (new-game) display)))
+		(if (not (.isSupported js/ROT))
+			(js/alert "Whoops! The rot.js library is not supported by your browser.")
+			(do
+				(.appendChild (.-body js/document) (.getContainer display))
+				(load-text-files)
+				(run-game (new-game) display)))))
 
 (set! (.-onload js/window) start)

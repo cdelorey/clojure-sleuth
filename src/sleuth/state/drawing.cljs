@@ -113,7 +113,7 @@
 
 ; Game --------------------------------------------------------------------
 (defn draw-game [game screen]
-  ;(console-clear screen)
+  (.clear screen)
   (doseq [state (:states game)]
     (draw-state state game screen))
   ;(console-flush)

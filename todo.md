@@ -1,9 +1,11 @@
 # TODO:
 ---------
+- rewrite input handling to work with javascript
 - write opening state draw method
 - rewrite load-house function
 - convert libtcod code to use javascript library
 - improve test coverage
+- title screen
 - allow for more item name variations on commandline
 - add random house colors
 
