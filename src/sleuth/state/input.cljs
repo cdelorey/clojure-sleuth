@@ -20,7 +20,6 @@
 
 ; Start ------------------------------------------------------------------
 (defmethod process-input :start [game input]
-	(.log js/console "processing input")
   (assoc game :states [(->State :menu)]))
 
 ; Menu ------------------------------------------------------------------
@@ -202,7 +201,6 @@
 
 (defn key-listener
 	[event]
-	(.log js/console event)
 	(if (= (.-type event) "keydown") ; is this necessary?
 		(add-keycode-to-queue (.-keyCode event))))
 

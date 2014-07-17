@@ -85,7 +85,8 @@
   [guest guests]
   (let [alibi (get-in guests [guest :alibi])
         room (get-in guests [guest :alibi-room])]
-		(.log js/console (rand-nth @alibis))
+		;(.log js/console alibi)
+		;(.log js/console (type @alone-alibi))
     (case alibi
       :murderer (get-murderer-alibi guest guests)
       :alone (gstring/format (first @alone-alibi) (keyword-to-string room))

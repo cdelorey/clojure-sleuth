@@ -8,7 +8,7 @@
 (defn load-opening []
 	(parse-file "/json5/opening.txt"
 							(fn [openings-vector]
-								(reset! openings openings-vector))))
+								(reset! openings (:opening openings-vector)))))
 
 (defn load-text []
   (do
