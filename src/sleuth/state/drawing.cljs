@@ -66,7 +66,7 @@
       (.draw screen x y glyph))))
 
 (defn draw-message [screen message]
-  (.drawText screen message 0 19 screen-cols))
+  (.drawText screen 0 19 message screen-cols))
 
 (defn draw-commandline [screen commandline]
   (.drawText screen 0 24 (str ">" commandline))
