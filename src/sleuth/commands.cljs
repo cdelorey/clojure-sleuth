@@ -221,7 +221,7 @@
   Commands that require access to the States take a game, all other commands take a world object."
   [game]
   (let [world (:world game)
-        command (:commandline world)
+        command (clojure.string/lower-case (:commandline world))
         first-command (first (clojure.string/split command #" "))
         rest-command (clojure.string/replace-first command (str first-command " ") "")]
     (cond

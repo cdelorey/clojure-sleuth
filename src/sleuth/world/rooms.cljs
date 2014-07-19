@@ -139,7 +139,7 @@
       (if (get-in world [:entities :guests guest-name :is-staring-at-floor])
         (str  (keyword-to-name guest-name) " is staring at the floor.")
         (let [n (get-in world [:entities :guests guest-name :name])]
-          (gstring/gformat description n))))))
+          (gstring/format description n))))))
 
 (defn get-room-description
   "Return a room description for the coordinates [x y]"

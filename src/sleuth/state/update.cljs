@@ -18,7 +18,6 @@
 									 js/ROT.VK_RIGHT js/ROT.VK_RETURN} input)
 		(let [new-world (update-in world [:murder-case :turn-count] inc)
 					turn-count (get-in new-world [:murder-case :turn-count])]
-			(.log js/console turn-count)
 			(cond
 			 (= turn-count 200)
 			 (assoc-in new-world [:flags :murderer-is-suspicious] true)

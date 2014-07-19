@@ -1,8 +1,5 @@
 # TODO:
 ---------
-- fix text entry bug
-- fix conservatory gformat bug
-- write opening state draw method
 - improve test coverage
 - title screen
 - allow for more item name variations on commandline
@@ -258,4 +255,6 @@ __DONE__ convert libtcod code to use javascript library
 __DONE__ rewrite load-house function
 __DONE__ fix tile display
 __DONE__ fix turn count bug
+__DONE__ fix text entry bug
+__DONE__ fix conservatory gformat bug
 

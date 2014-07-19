@@ -143,7 +143,7 @@
 	 (= input js/ROT.VK_RETURN) (let [new-game (command-function game)]
 															 (assoc-in new-game [:world :commandline] ""))
 
-	 (= is-char-key? input) (let [world (:world game)
+	 (is-char-key? input) (let [world (:world game)
 																{:keys [commandline]} world]
 														(assoc-in game [:world :commandline]
 																			(str commandline (char input))))
