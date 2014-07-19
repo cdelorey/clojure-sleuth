@@ -1,5 +1,7 @@
 # TODO:
 ---------
+- fix text entry bug
+- fix conservatory gformat bug
 - write opening state draw method
 - improve test coverage
 - title screen

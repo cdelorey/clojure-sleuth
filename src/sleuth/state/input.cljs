@@ -91,7 +91,7 @@
 		 (= input js/ROT.VK_ENTER) (process-personalize-input game)
 
 		 (is-char-key? input) (assoc-in game [:personalize :gui current-box :data]
-																	(str data (char (.c input))))
+																	(str data (char input)))
 
 		 (= input js/ROT.VK_SPACE) (assoc-in game [:personalize :gui current-box :data]
 																				 (str data " "))
@@ -146,7 +146,7 @@
 	 (= is-char-key? input) (let [world (:world game)
 																{:keys [commandline]} world]
 														(assoc-in game [:world :commandline]
-																			(str commandline (char (.c input)))))
+																			(str commandline (char input))))
 
 	 (= input js/ROT.VK_SPACE) (let [world (:world game)
 																	 {:keys [commandline]} world]

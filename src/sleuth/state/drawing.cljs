@@ -5,7 +5,7 @@
 (def screen-cols 80)
 (def screen-rows 25)
 
-(def char-smilie (.fromCharCode js/String 9786))
+(def char-smilie "☻")
 
 (defmulti draw-state
   (fn [state game screen]
@@ -41,7 +41,7 @@
         data (:data current-box)
         x (+ (:x current-box) (count data))
         y (:y current-box)]
- 	    (.draw screen x y 95)))
+ 	    (.draw screen x y "_")))
 
 (defmethod draw-state :personalize [state game screen]
   (let [suspect-number (:suspect-number (:personalize game))]
@@ -53,9 +53,9 @@
     (draw-cursor screen (:personalize game))))
 
 ; Opening -----------------------------------------------------------------
-(defmethod draw-state :opening [state game screen])
-  ;(.drawText screen 10 10 (str "It is a dark and stormy night."
-  ;                                 " A murder is being committed ...")))
+(defmethod draw-state :opening [state game screen]
+  (.drawText screen 10 10 (str "It is a dark and stormy night."
+                                   " A murder is being committed ...")))
 
 ; Sleuth ------------------------------------------------------------------
 (defn draw-house [screen tiles]
@@ -70,7 +70,7 @@
 
 (defn draw-commandline [screen commandline]
   (.drawText screen 0 24 (str ">" commandline))
-  (.draw screen (+ (count commandline) 1) 24 95))
+  (.draw screen (+ (count commandline) 1) 24 "_"))
 
 (defn draw-player [screen player]
   (let [[x y] (:location player)]

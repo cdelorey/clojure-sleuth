@@ -57,6 +57,9 @@
 		(if (not (.isSupported js/ROT))
 			(js/alert "Whoops! The rot.js library is not supported by your browser.")
 			(do
+				(.setOptions display (clj->js {:fontFamily "consolas"
+																			 ;:fontStyle "bold"
+																			 :fontSize 20}))
 				(.appendChild (.-body js/document) (.getContainer display))
 				(load-text-files)
 				(.addEventListener js/window "keydown" key-listener)
