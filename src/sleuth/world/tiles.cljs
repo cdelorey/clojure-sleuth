@@ -8,13 +8,13 @@
 (defrecord Tile [kind glyph color])
 
 (def tiles
-  {:hwall     (->Tile :hwall 220 :white)
-   :vwall     (->Tile :vwall 219 :white) ;231
-   :fwall     (->Tile :fwall 219 :white)
-   :stairs    (->Tile :stairs 196 :white)
-   :floor     (->Tile :floor 0 :blue)
-   :door      (->Tile :door 179 :white)
-   :hdoor     (->Tile :hdoor 196 :white)})
+  {:hwall     (->Tile :hwall "▄" :white)
+   :vwall     (->Tile :vwall "█" :white) ;231
+   :fwall     (->Tile :fwall "█" :white)
+   :stairs    (->Tile :stairs "─" :white)
+   :floor     (->Tile :floor " " :blue)
+   :door      (->Tile :door "│" :white)
+   :hdoor     (->Tile :hdoor "─" :white)})
 
 ; Querying tiles --------------------------------------------------------------
 ; https://github.com/sjl/caves/blob/master/src/caves/world/core.clj

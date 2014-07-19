@@ -63,7 +63,7 @@
           :let [rowtiles (tiles y)]]
     (doseq [x (range 0 (count (tiles 0)))
             :let [{:keys [glyph color]} (rowtiles x)]]
-      (.draw screen x y (int glyph)))))
+      (.draw screen x y glyph))))
 
 (defn draw-message [screen message]
   (.drawText screen message 0 19 screen-cols))
