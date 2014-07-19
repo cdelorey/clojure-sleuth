@@ -1,7 +1,6 @@
 # TODO:
 ---------
 - write opening state draw method
-- rewrite load-house function
 - improve test coverage
 - title screen
 - allow for more item name variations on commandline
@@ -252,3 +251,7 @@ __DONE__ rewrite input handling to work with javascript
 __DONE__ fix opening bug
 __DONE__ write function to determine if a keycode is a character
 __DONE__ convert libtcod code to use javascript library
+
+### 07/18/14
+__DONE__ rewrite load-house function
+

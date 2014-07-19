@@ -1,6 +1,6 @@
 (ns sleuth.world.core
   (:use [sleuth.world.rooms :only [random-room load-rooms]]
-        [sleuth.world.tiles :only [load-house]]
+        [sleuth.world.tiles :only [create-house]]
         [sleuth.world.items :only [random-items random-item place-magnifying-glass load-items]]
         [sleuth.world.portals :only [random-passages]]
         [sleuth.entities.guests :only [create-guests]]))
@@ -14,8 +14,7 @@
 ; World Functions ------------------------------------------------------------
 (defn new-world [personalized?]
   "Create a new random world."
-  (let [new-house (rand-nth ["resources/house22.txt"])
-        world (->World (load-house new-house) "" "" {} {}
+  (let [world (->World (create-house) "" "" {} {}
                        {:found-magnifying-glass false
                         :found-murder-weapon false
                         :murderer-is-suspicious false

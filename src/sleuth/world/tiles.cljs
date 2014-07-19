@@ -61,19 +61,20 @@
 
 
 ; House -----------------------------------------------------------------------
-(defn load-house [filename])
-;  (let [file-descriptor (.openSync fs filename "r")
-;        [cols rows] house-size]
-;    (letfn [(read-tile []
-;                       (let [tile (char (.readSync fs file-descriptor (js/Buffer. 1) 0 1))]
-;                         (case tile
-;                           \# (tiles :vwall)
-;                           \* (tiles :fwall)
-;                           \_ (tiles :hwall)
-;                           \- (tiles :stairs)
-;                           \space (tiles :floor)
-;                           (println tile))))
-;            (read-row []
-;                      (vec (repeatedly cols read-tile)))]
-;      (vec (repeatedly rows read-row)))
-;    (.closeSync fs file-descriptor)))
+(def house "****************_______**************** ***************************************#              #       #              # #              #       #              ##              #       #              # #                      #              ##                      #              # #              #       #              ##              #                      # #              #                      ##              #       #              # #______________#       #              ##              #       #______   _____# #              #       #              ##______________#       #              # #              #       #              ##              #       #              # #                      #______________##______________#       #              # #              #       #              ##              #       #______________# #              #                      ##                      #              # #______________#       #              ##              #       #              # #              #       #              ##              #---#                  # #              #   #---#              ##              #---#   #              # #                  #---#              ##              #---#   #              # #              #   #---#              ##*******************   ***************# #*************************************# ")
+
+(defn create-tile
+	[ch]
+	(case ch
+		\# (tiles :vwall)
+		\* (tiles :fwall)
+		\_ (tiles :hwall)
+		\- (tiles :stairs)
+		\space (tiles :floor)
+		(println ch)))
+
+(defn create-house []
+	(let [house-string (vec (partition (first house-size) house))]
+		(vec (map #(vec (map (fn[ch](create-tile ch)) %)) house-string))))
+
+
