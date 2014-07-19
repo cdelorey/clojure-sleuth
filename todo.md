@@ -257,4 +257,5 @@ __DONE__ convert libtcod code to use javascript library
 ### 07/18/14
 __DONE__ rewrite load-house function
 __DONE__ fix tile display
+__DONE__ fix turn count bug
 

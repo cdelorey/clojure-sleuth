@@ -74,7 +74,7 @@
 
 (defn draw-player [screen player]
   (let [[x y] (:location player)]
-    (.draw screen x y char-smilie)));(:glyph player))))
+    (.draw screen x y char-smilie)))
 
 (defn draw-guests [screen guests]
   (doall (map

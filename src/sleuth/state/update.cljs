@@ -12,18 +12,22 @@
 
 ; Sleuth -----------------------------------------------------------------
 (defn new-turn
-  "Updates turn count and checks for events."
-  [world]
-  (let [new-world (update-in world [:murder-case :turn-count] inc)
-        turn-count (get-in new-world [:murder-case :turn-count])]
-    (cond
-     (= turn-count 200)
-     (assoc-in new-world [:flags :murderer-is-suspicious] true)
+	"Updates turn count and checks for events."
+	[world input]
+	(if (contains? #{js/ROT.VK_UP js/ROT.VK_DOWN js/ROT.VK_LEFT
+									 js/ROT.VK_RIGHT js/ROT.VK_RETURN} input)
+		(let [new-world (update-in world [:murder-case :turn-count] inc)
+					turn-count (get-in new-world [:murder-case :turn-count])]
+			(.log js/console turn-count)
+			(cond
+			 (= turn-count 200)
+			 (assoc-in new-world [:flags :murderer-is-suspicious] true)
 
-     (= turn-count 300)
-     (assoc-in new-world [:flags :murderer-is-stalking] true)
+			 (= turn-count 300)
+			 (assoc-in new-world [:flags :murderer-is-stalking] true)
 
-     :else new-world)))
+			 :else new-world))
+		world))
 
 
 (defn assemble-guests
@@ -57,7 +61,7 @@
      game-lost    (lose-game game)
      assemble     (assemble-guests game)
      ; update
-     :else        (assoc-in game [:world] (new-turn (:world game))))))
+     :else        (assoc-in game [:world] (new-turn (:world game) (:input game))))))
 
 ; Assemble --------------------------------------------------------------
 (defn game-over

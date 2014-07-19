@@ -28,10 +28,10 @@
 			(frame #(game-loop
 							 (if input
 								 (-> game
-										 (dissoc :input)
-										 (process-input input))
-								 (-> game
+										 (process-input input)
 										 (update)
+										 (dissoc :input))
+								 (-> game
 										 (draw-game screen)
 										 (get-input screen)))
 							 screen)))))

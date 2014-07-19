@@ -140,7 +140,7 @@
 																							(subs commandline 0
 																										(max (- (count commandline) 1) 0))))
 
-	 (= input js/ROT.VK_ENTER) (let [new-game (command-function game)]
+	 (= input js/ROT.VK_RETURN) (let [new-game (command-function game)]
 															 (assoc-in new-game [:world :commandline] ""))
 
 	 (= is-char-key? input) (let [world (:world game)
@@ -160,7 +160,7 @@
  (= input js/ROT.VK_ESCAPE) (assoc game :states [(->State :menu)]) ; testing
 
  ;commandline keys
- (contains? (union #{js/ROT.VK_BACK_SPACE js/ROT.VK_ENTER js/ROT.VK_SPACE} char-keys) input)
+ (contains? (union #{js/ROT.VK_BACK_SPACE js/ROT.VK_RETURN js/ROT.VK_SPACE} char-keys) input)
  (process-commandline-input game input process-command)
 
  :else (process-movement-keys game input move)))
@@ -174,7 +174,7 @@
 
 (defmethod process-input :assemble [game input]
     (cond
-     (contains? (union #{js/ROT.VK_BACK_SPACE js/ROT.VK_ENTER js/ROT.VK_SPACE} char-keys) input)
+     (contains? (union #{js/ROT.VK_BACK_SPACE js/ROT.VK_RETURN js/ROT.VK_SPACE} char-keys) input)
      (process-commandline-input game input process-accuse-commands)
 
      :else (process-movement-keys game input assemble-move)))
@@ -183,7 +183,7 @@
 (defmethod process-input :game-over [game input]
   (let [game (assoc-in game [:world :message] "Quit or Restart?")]
     (cond
-     (contains? (union #{js/ROT.VK_BACK_SPACE js/ROT.VK_ENTER js/ROT.VK_SPACE} char-keys) input)
+     (contains? (union #{js/ROT.VK_BACK_SPACE js/ROT.VK_RETURN js/ROT.VK_SPACE} char-keys) input)
      (process-commandline-input game input process-game-over-commands)
 
      :else game)))
