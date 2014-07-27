@@ -177,7 +177,7 @@
 (defn quit
   "Exits game"
   [game]
-  (assoc game :states []))
+  (assoc game :states [(->State :start)]))
 
 
 (defn accuse

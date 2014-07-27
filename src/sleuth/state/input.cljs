@@ -41,7 +41,7 @@
 	 (= input js/ROT.VK_C) (assoc (assoc-in
 																 game [:instructions] instructions)
 													 :states [(->State :instructions)])
-	 (= input js/ROT.VK_Q) (assoc game :states [])
+	 (= input js/ROT.VK_Q) (assoc game :states [(->State :start)])
 	 :else game))
 
 ; Instructions ------------------------------------------------------------
@@ -88,7 +88,7 @@
 		 (= input js/ROT.VK_BACK_SPACE) (assoc-in game [:personalize :gui current-box :data]
 																							(subs data 0 (max (- (count data) 1) 0)))
 
-		 (= input js/ROT.VK_ENTER) (process-personalize-input game)
+		 (= input js/ROT.VK_RETURN) (process-personalize-input game)
 
 		 (is-char-key? input) (assoc-in game [:personalize :gui current-box :data]
 																	(str data (char input)))
