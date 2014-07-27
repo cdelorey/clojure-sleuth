@@ -2,10 +2,10 @@
 ---------
 - fix "can't find variable ROT" bug
 - fix instructions
-- improve test coverage
-- title screen
+- new title screen
 - allow for more item name variations on commandline
 - add random house colors
+- add sounds
 
 Text Re-write
 - add randomized guest names
@@ -262,4 +262,4 @@ __DONE__ fix conservatory gformat bug
 
 ### 07/27/14
 __DONE__ remove quitting options
-
+__DONE__ center canvas in page

@@ -7,7 +7,8 @@
         [sleuth.world.items :only [load-items]]
         [sleuth.world.alibis :only [load-alibis]]
         [sleuth.world.text :only [load-text]]
-        [sleuth.entities.guests :only [load-guests]]))
+        [sleuth.entities.guests :only [load-guests]]
+        [domina :only [set-styles!]]))
 
 ; Data Structures --------------------------------------------------------
 (defrecord Game [world states input])
@@ -60,6 +61,11 @@
 				(.setOptions display (clj->js {:fontFamily "consolas"
 																			 ;:fontStyle "bold"
 																			 :fontSize 20}))
+        (set-styles! (.getContainer display) {:margin-left "auto"
+                                              :margin-right "auto"
+                                              :display "block"
+                                              :padding-left "0"
+                                              :padding-right "0" })
 				(.appendChild (.-body js/document) (.getContainer display))
 				(load-text-files)
 				(.addEventListener js/window "keydown" key-listener)
