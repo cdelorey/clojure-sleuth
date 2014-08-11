@@ -1,7 +1,6 @@
 # TODO:
 ---------
 - fix "can't find variable ROT" bug
-- fix instructions
 - new title screen
 - allow for more item name variations on commandline
 - add random house colors
@@ -263,3 +262,5 @@ __DONE__ fix conservatory gformat bug
 ### 07/27/14
 __DONE__ remove quitting options
 __DONE__ center canvas in page
+__DONE__ fix instructions
+

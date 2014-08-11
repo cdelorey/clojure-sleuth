@@ -28,7 +28,9 @@
 
 ; Instructions ------------------------------------------------------------
 (defmethod draw-state :instructions [state game screen]
-  (.drawText screen 5 0 (first (game :instructions))))
+  (do
+    (.drawText screen 35 5 "INSTRUCTIONS")
+    (.drawText screen 10 9 (:instructions game) 60)))
 
 ; Personalize -------------------------------------------------------------
 (defn draw-boxes [screen gui]

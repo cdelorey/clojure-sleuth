@@ -1,5 +1,5 @@
 (ns sleuth.core
-  (:use [sleuth.state.core :only [->State load-instructions]]
+  (:use [sleuth.state.core :only [->State]]
         [sleuth.state.update :only [update]]
         [sleuth.state.drawing :only [draw-game]]
         [sleuth.state.input :only [get-input process-input key-listener]]
@@ -45,7 +45,6 @@
 (defn load-text-files
   "Load all game text from files."
   []
-	(load-instructions "/json5/instructions.txt")
   (load-alibis "/json5/alibis.txt")
   (load-items "/json5/items.txt")
   (load-guests "/json5/guests.txt")

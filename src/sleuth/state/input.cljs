@@ -46,11 +46,7 @@
 
 ; Instructions ------------------------------------------------------------
 (defmethod process-input :instructions [game input]
-  "Cycle through instructions with each keypress.
-  Return to main menu when instructions are empty."
-  (if (empty? (next (game :instructions)))
-    (assoc game :states [(->State :menu)])
-    (assoc game :instructions (rest (game :instructions)))))
+  (assoc game :states [(->State :menu)]))
 
 ; Personalize -------------------------------------------------------------
 (defn switch-to-opening-state
