@@ -80,12 +80,12 @@
 
 "guest-names":
   [
-  "gerald-brisbane",
-  "esther-brisbane",
-  "edward-brisbane",
-  "david-malone",
-  "maude-crompton",
-  "earl-crompton",
-  "victoria-crompton"
+  "alejandro-mullins",
+  "francine-mullins",
+  "alfonso-mullins",
+  "omar-guzman",
+  "hilda-swanson",
+  "ervin-swanson",
+  "cordelia-swanson"
   ]
 }

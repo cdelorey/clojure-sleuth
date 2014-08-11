@@ -264,3 +264,5 @@ __DONE__ remove quitting options
 __DONE__ center canvas in page
 __DONE__ fix instructions
 
+### 08/11/14
+__DONE__ replace guest names
