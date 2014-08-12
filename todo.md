@@ -4,13 +4,13 @@
 - new title screen
 - allow for more item name variations on commandline
 - add random house colors
+- add randomized guest names
 - add sounds
+- edit writing
 
 Text Re-write
-- add randomized guest names
 - new opening text
 - new items/item descriptions
-- new room descriptions
 - new guest descriptions
 - new alibis
 - change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
@@ -266,3 +266,6 @@ __DONE__ fix instructions
 
 ### 08/11/14
 __DONE__ replace guest names
+
+### 08/12/14
+__DONE__ new room descriptions
