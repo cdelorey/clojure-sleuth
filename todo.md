@@ -10,7 +10,6 @@
 - change room descriptions to use text parsing function
 
 Text Re-write
-- new opening text
 - new items/item descriptions
 - new alibis
 - change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
@@ -270,3 +269,4 @@ __DONE__ replace guest names
 __DONE__ new room descriptions
 __DONE__ new guest descriptions
 __DONE__ new accuse text
+__DONE__ new opening text
