@@ -55,9 +55,9 @@
         (let [player-location (get-player-location world)
               guest-location (get-in world [:entities :guests guest :location])]
           (if (not (close-enough? player-location guest-location))
-            (assoc-in world [:message] (str "I can't see what " (keyword-to-first-name guest) " is looking at from all the way over here."))
+            (assoc-in world [:message] (str  "You'll need to get closer to see what " (keyword-to-first-name guest) " is looking at."))
             (if (= (current-room world) (murder-room world))
-            (assoc-in world [:message] "There seem to be blood stains on the floor! This must be the scene of the murder!!")
+            (assoc-in world [:message] "There are blood stains on the floor! You've found the scene of the murder!!")
             (assoc-in world [:message] "There's nothing unusual about the floor."))))
         ;else
         (assoc-in world [:message] "I can't see anything unusual about the floor. But then I am rather nearsighted.")))
@@ -71,7 +71,7 @@
      (and (= found-magnifying-glass true)
           (murder-weapon? item-name world)
           (is-match? object item-name)) (-> world
-                                            (assoc-in [:message] "There are traces of blood on it! This must be the murder weapon!")
+                                            (assoc-in [:message] "There are traces of blood on it! You've found the murder weapon!")
                                             (update-in [:items room-name] conj :examined))
      ; examine room item
      (and (= found-magnifying-glass true)
@@ -193,22 +193,21 @@
         message (if (contains? (set (get-guest-names world)) accused)
                   (cond
                    (and (= murderer accused) (= murder-room current-room))
-                   (str murderer " turns to you in a state of shock. 'How did you come to suspect me! sure I killed "
-                        victim ", and right here in this room. Though how you managed to figure it out, I'll never know'")
+                   (str murderer " turns to you and slowly claps. 'Congratulations inspector, you've found me out. This time.")
 
                    (and (= murderer accused) (not= murder-room current-room))
-                   (str murderer " stands up and exclaims, 'You fool! Yes, I used the "
-                        weapon " to get rid of " victim ". But I did it in the "
-                        murder-room " not here in the " current-room)
+                   (str murderer " stands up and lets out a long, menacing laugh. 'I may have used the " weapon 
+                        " to rid the world of that foul " victim ", but I did it in the " murder-room " not here in the"
+                        current-room "!")
 
                    (and (not= murderer accused) (= murder-room current-room))
-                   (str murderer " rises and declares angrily, 'You're wrong!! You've got the right room, but I was the one who used the "
-                        weapon " to kill " victim "'")
+                   (str murderer " rises and declares triumphantly,  'Incorrect! It was I who used the " weapon
+                        " to end " victim ". Who has the last laugh now, inspector?")
 
                    (and (not= murderer accused) (not= murder-room current-room))
-                   (str "Very slipshod of you inspector. " murderer " murdered "
-                        victim  " and the murder was commited in the "
-                        murder-room " not the " current-room "."))
+                   (str "How embarassing, inspector. " murderer " murdered " victim " and the murder was committed in the "
+                        murder-room " not the " current-room "! It appears you've made a fool of yourself. Better luck next time.")
+                   
                   (str accused " is not a guest."))]
     (as-> world world
         (assoc-in world [:message] message)

@@ -14,7 +14,6 @@ Text Re-write
 - new items/item descriptions
 - new alibis
 - change alibi components to have victim and guest tags to be replaced with names. fixes alibi bug.
-- new accuse text
 - new lose text
 - new instructions
 
@@ -270,3 +269,4 @@ __DONE__ replace guest names
 ### 08/12/14
 __DONE__ new room descriptions
 __DONE__ new guest descriptions
+__DONE__ new accuse text
