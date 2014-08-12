@@ -3,77 +3,94 @@
   {
   "kitchen":
     [
-    "%s is looking through the contents of the refrigerator.",
-    "%s is making a sandwich.",
-    "%s is studying a calorie chart hanging on the wall.",
-    "%s is preparing a meal."
+    "%s is preparing a bologna sandwich. But no bread.",
+    "%s is drinking milk straight from the carton.",
+    "%s is staring into the open refrigerator.",
+    "%s is eating a light lunch.",
+    "%s is reading the back of a cereal box."
     ],
   "study":
     [
-    "%s is sitting at the desk reading some papers.",
-    "%s sits at the desk, apparently preoccupied.",
-    "%s is searching through the papers on the desk.",
-    "%s is reading some legal papers at the desk."
+    "%s is frantically searching through a stack of documents.",
+    "%s is pouring a drink.",
+    "%s is lighting a cigarette.",
+    "%s sits at the desk, writing a letter to the catalog store."
+    "%s sits at the desk, reading some papers.",
+    "%s is staring at a whiskey decanter, holding an empty glass.",
+    "%s is puffing on a cigarette, looking bored."
     ],
   "conservatory":
     [
-    "%s sits at the piano playing a funeral march.",
-    "%s sits at the piano playing a somber concerto.",
-    "%s sits at the piano playing a lively sonata.",
-    "%s sits at the piano playing a lilting melody.",
-    "%s sits at the piano playing a deadly dirge."
+    "%s is reading some sheet music.",
+    "%s sits at the piano, practicing scales.",
+    "%s is playing a didgeridoo.",
+    "%s is playing the spoons.",
+    "%s is playing a fluba.",
+    "%s is playing a kazoo.",
+    "%s is playing a laser harp.",
+    "%s is playing an omnichord."
     ],
   "dining-room":
     [
-    "%s sits at the dining room table having a snack.",
-    "%s is supping at the dining room table.",
-    "%s is examining the silver serving set."
+    "%s is pocketing the silverware.",
+    "%s is sitting at the table, waiting to be served.",
+    "%s is admiring the fine place setting.",
+    "%s is bringing in a ham.",
     ],
   "guest-room":
     [
-    "%s is hiding under the bed.",
-    "%s is pacing back and forth.",
-    "%s is lying on the bed.",
-    "%s is hiding behind the door."
+    "%s is folding linens.",
+    "%s is lying on the bed, staring at the ceiling.",
+    "%s is searching for something.",
+    "%s is reading on the bed.",
+    "%s is peeling the wallpaper.",
+    "%s is pacing and muttering.",
+    "%s is packing a suitcase."
     ],
   "master-bedroom":
     [
-    "%s is searching under the covers of the bed.",
-    "%s is looking underneath the bed.",
-    "%s is admiring the craftsmanship of the dresser."
+    "%s is hiding under the bed covers.",
+    "%s is looking out the window, humming a sad tune.",
+    "%s is making the bed.",
+    "%s is attempting to climb out the window.",
+    "%s is peering out from under the bed."
     ],
   "secret-passage":
     [
-    "%s is hiding in a corner of the passageway.",
-    "%s is poking around in one corner of the corridor.",
-    "%s is moving furtively through the passage."
+    "%s is hiding behind a cardboard box.",
+    "%s is reading by the candlelight.",
+    "%s is watching you.",
+    "%s is following you through the passage."
     ],
   "master-bathroom":
     [
-    "%s is looking intently into the mirror.",
-    "%s is gazing raptly at the mirror.",
-    "%s turns from the vanity to greet you.",
-    "%s turns from the vanity, shocked to see you."
+    "%s is reading a reader's digest.",
+    "%s is drawing a bath.",
+    "%s is taking a bubble bath, sipping a glass of wine.",
+    "%s is admiring the reflection in the mirror."
     ],
   "library":
     [
-    "%s is sitting in a chair reading 'Catch-22'.",
-    "%s is sitting in a chair reading 'The Mousetrap'",
-    "%s sits in a chair reading 'A Streetcar Named Desire'",
-    "%s is sitting in a chair reading 'Valley of the Dolls'"
+    "%s is leaning out the window.",
+    "%s is doodling in a book.",
+    "%s is reading a romance novel.",
+    "%s is reading a teen magazine.",
+    "%s is reading an academic journal.",
+    "%s is reading a pamphlet."
     ],
   "pantry":
     [
-    "%s is searching through the tins.",
-    "%s is rummaging through the foodstuffs.",
-    "%s is snacking from the tins."
+    "%s is rummaging through the scullery sink.",
+    "%s is snacking on a tin of anchovies.",
+    "%s is pickling beets.",
+    "%s is hiding under the sink."
     ],
   "living-room":
     [
-    "%s is lounging on the sofa, reading a newspaper.",
-    "%s is lounging on the divan, reading a newspaper.",
-    "%s is lying on the divan.",
-    "%s is standing next to the divan."
+    "%s is pacing back and forth.",
+    "%s is dusting.",
+    "%s is covering something with a tarp.",
+    "%s is fixing the drapes."
     ]
   },
 

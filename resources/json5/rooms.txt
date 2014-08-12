@@ -1,8 +1,8 @@
 {
 "room-descriptions":
   {
-  "upstairs-hall": "Portraits of long-deceased *estate-name* family members line the walls of the upstairs hall, eyeing your every movement.",
-  "upstairs-hall2": "Portraits of long-deceased *estate-name* family members line the walls of the upstairs hall, eyeing your every movement.",
+  "upstairs-hall": "Portraits of long-deceased *victim-last* family members line the walls of the upstairs hall, eyeing your every movement.",
+  "upstairs-hall2": "Portraits of long-deceased *victim-last* family members line the walls of the upstairs hall, eyeing your every movement.",
   "doorway-dining-room": "This doorway leads into the dining room.",
   "kitchen": "The kitchen is dominated by a colonial cooking fireplace. A collection of brass pots and pans hang above a butcher block table in the center of the room.",
   "main-hall" : "A musty persian wool rug runs the length of the main hall, which is dimly lit by a number of antique candelabras in need of a good dusting.",
